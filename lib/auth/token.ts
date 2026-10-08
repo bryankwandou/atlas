@@ -21,10 +21,10 @@ export async function getSessionSecret(): Promise<string> {
   if (cachedSecret) return cachedSecret;
   const fromEnv = process.env.SESSION_SECRET;
   if (fromEnv && fromEnv.length >= 32) return (cachedSecret = fromEnv);
-  if (process.env.VERCEL || process.env.CI) {
-    throw new Error("SESSION_SECRET (>=32 chars) is required in production deployment");
-  }
-  const file = path.join(process.cwd(), ".data", "session-secret");
+  const baseDir = process.env.VERCEL
+    ? path.join("/tmp", "atlas")
+    : path.join(process.cwd(), ".data");
+  const file = path.join(baseDir, "session-secret");
   try {
     cachedSecret = (await fs.readFile(file, "utf8")).trim();
   } catch {

@@ -155,8 +155,22 @@ export class JsonStore {
         const result = await fn(db);
         await fs.mkdir(path.dirname(this.file), { recursive: true });
         const tmp = `${this.file}.${randomUUID()}.tmp`;
-        await fs.writeFile(tmp, JSON.stringify(db), "utf8");
-        await fs.rename(tmp, this.file);
+        const payload = JSON.stringify(db);
+        await fs.writeFile(tmp, payload, "utf8");
+        let renamed = false;
+        for (let attempt = 0; attempt < 5; attempt++) {
+          try {
+            await fs.rename(tmp, this.file);
+            renamed = true;
+            break;
+          } catch {
+            await new Promise((r) => setTimeout(r, 20 * (attempt + 1)));
+          }
+        }
+        if (!renamed) {
+          await fs.writeFile(this.file, payload, "utf8");
+          try { await fs.unlink(tmp); } catch { /* ignore */ }
+        }
         return result;
       } catch (err) {
         this.cache = snapshot;
@@ -172,7 +186,10 @@ const globalForStore = globalThis as unknown as { atlasStore?: JsonStore };
 
 export function getStore(): JsonStore {
   if (!globalForStore.atlasStore) {
-    const file = process.env.ATLAS_DATA_FILE || path.join(process.cwd(), ".data", "db.json");
+    const defaultPath = process.env.VERCEL
+      ? path.join("/tmp", "atlas-db.json")
+      : path.join(process.cwd(), ".data", "db.json");
+    const file = process.env.ATLAS_DATA_FILE || defaultPath;
     globalForStore.atlasStore = new JsonStore(file);
   }
   return globalForStore.atlasStore;
