@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, ArrowRight, Coins, ShieldCheck, Sparkles } from "lucide-react";
 import { getLocale, getDict } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Paket & Harga Jasa Implementasi Automasi Alur Kerja | Atlas",
+    description:
+      "Transparansi biaya implementasi alur kerja AI: 5-Day Implementation Sprint Rp7.500.000 flat dan sesi Workflow Discovery Audit 30 menit gratis.",
+    alternates: {
+      canonical: "https://atlas-automation.vercel.app/pricing",
+    },
+  };
+}
 
 export default async function PricingPage() {
   const locale = await getLocale();
@@ -70,8 +82,8 @@ export default async function PricingPage() {
                 </ul>
               </div>
 
-              <Link href="/signup" className="btn btn-secondary" style={{ width: "100%" }}>
-                <span>Mulai audit</span>
+              <Link href="/services/automation-audit" className="btn btn-secondary" style={{ width: "100%" }}>
+                <span>Jadwalkan Audit Gratis</span>
               </Link>
             </div>
 
@@ -90,8 +102,8 @@ export default async function PricingPage() {
             >
               <div style={{ display: "grid", gap: "var(--space-3)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className="eyebrow">Paling Populer</span>
-                  <span className="badge badge-accent">Done-for-you</span>
+                  <span className="eyebrow">Layanan Utama</span>
+                  <span className="badge badge-accent">5-Day Turnaround</span>
                 </div>
                 <h2 style={{ fontSize: "var(--text-20)" }}>{t.pricing.sprintName}</h2>
                 <div style={{ fontSize: "var(--text-28)", fontWeight: 700 }}>{t.pricing.sprintPrice}</div>
@@ -112,13 +124,13 @@ export default async function PricingPage() {
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pelatihan tim 1 sesi &amp; garansi revisi</span>
+                    <span>Pelatihan tim 1 sesi &amp; 14 hari SLA monitoring</span>
                   </li>
                 </ul>
               </div>
 
-              <Link href="/signup" className="btn btn-primary" style={{ width: "100%" }}>
-                <span>Daftar Sprint</span>
+              <Link href="/services/implementation-sprint" className="btn btn-primary" style={{ width: "100%" }}>
+                <span>Detail &amp; Daftar Sprint</span>
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
@@ -155,8 +167,8 @@ export default async function PricingPage() {
                 </ul>
               </div>
 
-              <Link href="/signup" className="btn btn-secondary" style={{ width: "100%" }}>
-                <span>Konsultasi perawatan</span>
+              <Link href="/services/automation-audit" className="btn btn-secondary" style={{ width: "100%" }}>
+                <span>Konsultasi Retainer</span>
               </Link>
             </div>
           </div>

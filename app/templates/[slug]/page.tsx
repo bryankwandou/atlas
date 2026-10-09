@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Check, ShieldAlert, Cpu, Inbox, Send, Sliders } from "lucide-react";
@@ -10,6 +11,20 @@ import { Footer } from "@/components/Footer";
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const template = getTemplate(slug);
+  if (!template) return { title: "Template Tidak Ditemukan | Atlas" };
+
+  return {
+    title: `${template.name.id} — Template Alur Kerja AI | Atlas`,
+    description: template.summary.id,
+    alternates: {
+      canonical: `https://atlas-automation.vercel.app/templates/${template.slug}`,
+    },
+  };
 }
 
 export default async function TemplateDetailPage({ params }: Props) {
