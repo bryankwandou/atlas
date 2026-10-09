@@ -45,7 +45,7 @@ export const nodeSchema = z.discriminatedUnion("type", [
   }),
   baseNode.extend({
     type: z.literal("action"),
-    integration: z.enum(["mock_email", "mock_crm", "mock_sheet", "mock_chat"]),
+    integration: z.enum(["mock_email", "mock_whatsapp", "mock_crm", "mock_sheet", "mock_chat"]),
     sideEffect: z.enum(["internal", "external"]),
     requiresApproval: z.boolean(),
   }),

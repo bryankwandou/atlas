@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1] - 2026-10-09
+### Added
+- Integrated `@neondatabase/serverless` with concrete `NeonPostgresStore` implementation supporting durable cross-container serverless state.
+- Hardened health endpoint `/api/health` with active store `ping()` verification, strictly reporting `durablePersistence: true` only when connected to live PostgreSQL and accurately falling back to `json_local`.
+- Aligned Hero Workflow `inbound-lead-qualification` with agency WhatsApp marketing scenario: added `mock_whatsapp` integration, optional phone & budget fields, and aligned canvas demo.
+- Added comprehensive store unit test suite (`tests/unit/store.test.ts`).
+
 ## [0.2.0] - 2026-10-09
 ### Added
 - Expanded template catalog to 120 production-grade business workflow specifications across 12 distinct industries (Sales, Marketing, Support, Property, Dealer, Education, Travel, Agency, Recruiting, Finance, E-Commerce, Services).

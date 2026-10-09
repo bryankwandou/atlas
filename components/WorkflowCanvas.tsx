@@ -172,7 +172,7 @@ export function WorkflowCanvas({ dict }: Props) {
           <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{dict.canvas.approval}</div>
           <div style={{ fontSize: "var(--text-12)" }}>
             {approved ? (
-              <span className="badge badge-success">Disetujui manusia</span>
+              <span className="badge badge-success">{dict.canvas.approvedBadge}</span>
             ) : currentStep === "approval" ? (
               <button
                 type="button"
@@ -183,7 +183,7 @@ export function WorkflowCanvas({ dict }: Props) {
                 Setujui sekarang
               </button>
             ) : (
-              <span className="muted">Menunggu antrean</span>
+              <span className="muted">{dict.canvas.awaitingQueue}</span>
             )}
           </div>
         </div>
@@ -206,7 +206,7 @@ export function WorkflowCanvas({ dict }: Props) {
           </div>
           <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{dict.canvas.action}</div>
           <div className="muted" style={{ fontSize: "var(--text-12)" }}>
-            {approved ? "Email simulasi dikirim &amp; dicatat" : "Terkunci persetujuan"}
+            {approved ? dict.canvas.actionDone : dict.canvas.actionLocked}
           </div>
         </div>
       </div>

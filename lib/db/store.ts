@@ -124,10 +124,13 @@ const empty = (): DbShape => ({
  * so the backing store can be replaced with PostgreSQL without touching callers.
  * Writes are serialized in-process and written atomically via rename.
  */
+import { NeonPostgresStore } from "./neon";
+
 export interface IAtlasStore {
   read<T>(fn: (db: DbShape) => T | Promise<T>): Promise<T>;
   mutate<T>(fn: (db: DbShape) => T | Promise<T>): Promise<T>;
   getStorageType(): "postgres" | "json_local";
+  ping?(): Promise<boolean>;
 }
 
 export class JsonStore implements IAtlasStore {
@@ -136,8 +139,17 @@ export class JsonStore implements IAtlasStore {
 
   constructor(private file: string) {}
 
-  getStorageType(): "postgres" | "json_local" {
-    return process.env.DATABASE_URL ? "postgres" : "json_local";
+  getStorageType(): "json_local" {
+    return "json_local";
+  }
+
+  async ping(): Promise<boolean> {
+    try {
+      await this.load();
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   private async load(): Promise<DbShape> {
@@ -196,11 +208,15 @@ const globalForStore = globalThis as unknown as { atlasStore?: IAtlasStore };
 
 export function getStore(): IAtlasStore {
   if (!globalForStore.atlasStore) {
-    const defaultPath = process.env.VERCEL
-      ? path.join("/tmp", "atlas-db.json")
-      : path.join(process.cwd(), ".data", "db.json");
-    const file = process.env.ATLAS_DATA_FILE || defaultPath;
-    globalForStore.atlasStore = new JsonStore(file);
+    if (process.env.DATABASE_URL) {
+      globalForStore.atlasStore = new NeonPostgresStore(process.env.DATABASE_URL);
+    } else {
+      const defaultPath = process.env.VERCEL
+        ? path.join("/tmp", "atlas-db.json")
+        : path.join(process.cwd(), ".data", "db.json");
+      const file = process.env.ATLAS_DATA_FILE || defaultPath;
+      globalForStore.atlasStore = new JsonStore(file);
+    }
   }
   return globalForStore.atlasStore;
 }
