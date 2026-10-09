@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { AIProvider } from "@/lib/ai/types";
 import { ProviderError } from "@/lib/ai/types";
 import type { WorkflowNode, WorkflowTemplate } from "@/lib/templates/schema";
-import { newId, now, type JsonStore, type Run, type RunEvent, type Workflow, type Workspace } from "@/lib/db/store";
+import { newId, now, type IAtlasStore, type Run, type RunEvent, type Workflow, type Workspace } from "@/lib/db/store";
 
 export class RuntimeError extends Error {
   constructor(
@@ -60,7 +60,7 @@ export function monthlySpend(usage: { workspaceId: string; costUsd: number; at: 
 
 export class WorkflowRuntime {
   constructor(
-    private store: JsonStore,
+    private store: IAtlasStore,
     private provider: AIProvider,
   ) {}
 

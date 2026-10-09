@@ -70,7 +70,7 @@ export default async function LoginPage() {
       </main>
 
       <footer style={{ textAlign: "center", padding: "var(--space-4)", fontSize: "var(--text-12)", color: "var(--color-muted)" }}>
-        Atlas &bull; Nama kode internal MVP
+        Atlas &bull; Supervised AI Workflows
       </footer>
     </div>
   );
