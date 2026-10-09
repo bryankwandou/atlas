@@ -60,50 +60,50 @@ export default async function HomePage() {
         {/* Hero Section: Client Acquisition Showcase */}
         <section
           style={{
-            padding: "var(--space-8) 0 var(--space-7) 0",
+            padding: "var(--space-6) 0 var(--space-6) 0",
             borderBottom: "1px solid var(--color-border)",
             background: "radial-gradient(ellipse at top, var(--color-surface-2), var(--color-bg))",
           }}
         >
-          <div className="container" style={{ display: "grid", gap: "var(--space-7)" }}>
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div className="hero-grid">
               {/* Left Column: Commercial Outcome Pitch */}
-              <div style={{ display: "grid", gap: "var(--space-4)" }}>
+              <div style={{ display: "grid", gap: "var(--space-3)" }}>
                 <div style={{ display: "inline-flex" }}>
                   <span className="badge badge-accent">
                     <Sparkles size={12} aria-hidden="true" />
                     <span>
                       {isEn
                         ? "5-DAY AUTOMATION SPRINT • 120 PRODUCTION TEMPLATES"
-                        : "5-DAY SPRINT IMPLEMENTASI • 120 TEMPLATE TERVALIDASI"}
+                        : "5-DAY SPRINT IMPLEMENTASI • 120 BLUEPRINT TERUJI"}
                     </span>
                   </span>
                 </div>
 
                 <h1
                   style={{
-                    fontSize: "clamp(2.3rem, 4.8vw, 3.6rem)",
-                    lineHeight: 1.12,
+                    fontSize: "clamp(2rem, 3.4vw, 2.85rem)",
+                    lineHeight: 1.15,
                     letterSpacing: "-0.025em",
                     fontWeight: 750,
                   }}
                 >
                   {isEn
-                    ? "Deploy Supervised AI Workflows for Your Agency in 5 Days."
-                    : "Otomasi Lead Masuk & Follow-up Agensi Anda dalam 5 Hari Kerja."}
+                    ? "Automate Business Workflows with AI, Keeping Humans in Full Control."
+                    : "Automasi Proses Bisnis dengan AI, Tetap dalam Kendali Tim Anda."}
                 </h1>
 
                 <p
                   className="muted"
                   style={{
-                    fontSize: "var(--text-18)",
+                    fontSize: "var(--text-16)",
                     lineHeight: 1.6,
-                    maxWidth: "620px",
+                    maxWidth: "580px",
                   }}
                 >
                   {isEn
-                    ? "Stop losing high-intent leads to delayed follow-ups and manual copy-paste. We audit, architect, and deploy production workflows with mandatory human approval gates."
-                    : "Berhenti kehilangan klien potensial karena respon manual yang lambat. Kami mengaudit, merancang, dan meluncurkan alur kerja terverifikasi dengan izin manusia dalam 5 hari kerja."}
+                    ? "Design and deploy production workflows for inbound lead qualification, sales operations, and customer support—with human approval gates for every consequential action."
+                    : "Rancang dan implementasikan workflow untuk kualifikasi lead masuk, operasional penjualan, dan customer support—dengan persetujuan manusia pada setiap tindakan yang memerlukan kontrol."}
                 </p>
 
                 <div
@@ -116,12 +116,12 @@ export default async function HomePage() {
                   }}
                 >
                   <a href="#audit-form" className="btn btn-primary">
-                    <span>{isEn ? "Book a 30-Min Workflow Audit" : "Jadwalkan Workflow Audit (30 Menit)"}</span>
+                    <span>{isEn ? "Book Free 30-Min Audit" : "Jadwalkan Audit Gratis (30 Menit)"}</span>
                     <ArrowRight size={16} aria-hidden="true" />
                   </a>
 
                   <a href="#demo" className="btn btn-secondary">
-                    <span>{isEn ? "View Interactive Canvas Demo" : "Coba Demo Kanvas Interaktif"}</span>
+                    <span>{isEn ? "View Workflow Demo" : "Lihat Demo Alur Kerja"}</span>
                   </a>
                 </div>
 
@@ -134,7 +134,7 @@ export default async function HomePage() {
                     gap: "var(--space-4)",
                     fontSize: "var(--text-12)",
                     color: "var(--color-muted)",
-                    paddingTop: "var(--space-1)",
+                    paddingTop: "var(--space-2)",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
@@ -143,11 +143,11 @@ export default async function HomePage() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <Database size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
-                    <span>{isEn ? "PostgreSQL durable state" : "Penyimpanan PostgreSQL"}</span>
+                    <span>{isEn ? "PostgreSQL durable state" : "Database PostgreSQL persisten"}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <Lock size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Zero model training on client data" : "Data klien tidak melatih model"}</span>
+                    <span>{isEn ? "Zero AI training on client data" : "Data klien tidak melatih model"}</span>
                   </div>
                 </div>
               </div>
