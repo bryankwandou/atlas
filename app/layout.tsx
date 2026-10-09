@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { getLocale, getDict } from "@/lib/i18n";
 import { ThemeScript } from "@/components/ThemeScript";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jetbrains",
+});
 
 export const viewport = {
   width: "device-width",
@@ -22,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { t } = await getDict();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
