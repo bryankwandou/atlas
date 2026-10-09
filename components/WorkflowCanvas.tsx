@@ -384,14 +384,14 @@ export function WorkflowCanvas({ dict }: Props) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-            <Coins size={13} aria-hidden="true" style={{ color: "var(--color-muted)" }} />
-            <span className="muted">Biaya AI:</span>
-            <strong>~$0.00045 (~Rp 8)</strong>
+            <Clock size={13} aria-hidden="true" style={{ color: "var(--color-muted)" }} />
+            <span className="muted">Waktu Respon:</span>
+            <strong>&lt; 60 Detik</strong>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             <ShieldCheck size={13} aria-hidden="true" style={{ color: "var(--color-success)" }} />
             <span className="muted">Kontrol:</span>
-            <span>Human-in-the-Loop</span>
+            <span>Verifikasi Tim Wajib</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             {approved ? (
@@ -416,14 +416,14 @@ export function WorkflowCanvas({ dict }: Props) {
                 ? "Selesai & Dicatat di Log"
                 : rejected
                 ? "Dibatalkan & Diarsipkan"
-                : "Menunggu Keputusan Manusia"}
+                : "Menunggu Keputusan Tim"}
             </span>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-          <span className="badge" style={{ fontSize: "10px" }}>
-            Idempotency: run_lead_qual_085
+          <span className="badge badge-accent" style={{ fontSize: "10px" }}>
+            Proteksi Anti-Duplikasi Aktif
           </span>
         </div>
       </div>

@@ -36,19 +36,19 @@ export default async function ImplementationSprintPage() {
     {
       day: "Hari 01",
       dayEn: "Day 01",
-      title: "Discovery & Audit Alur Kerja",
-      titleEn: "Process Discovery & Workflow Audit",
-      desc: "Wawancara mendalam dengan tim operasional untuk memetakan form intake, kriteria kualifikasi lead, dan peran persetujuan tim.",
-      descEn: "In-depth interview with your operations team to map lead intake forms, qualification criteria, and approval roles.",
+      title: "Penandatanganan NDA & Audit Alur Kerja",
+      titleEn: "Mutual NDA & Workflow Discovery Audit",
+      desc: "Penandatanganan NDA resmi untuk melindungi kerahasiaan bisnis Anda, dilanjutkan audit form intake, kriteria kualifikasi, dan peran review tim.",
+      descEn: "Execution of a mutual NDA to protect your proprietary data, followed by an operational audit of intake forms, criteria, and approval roles.",
       icon: Calendar,
     },
     {
       day: "Hari 02",
       dayEn: "Day 02",
-      title: "Pemilihan Template & Desain Skema Zod",
-      titleEn: "Template Adaptation & Zod Schema Architecture",
-      desc: "Menyesuaikan dari 120 template terverifikasi Atlas, menyusun validasi skema data, dan merumuskan prompt evaluasi AI terstruktur.",
-      descEn: "Adapting from our 120 validated templates, defining strict Zod schemas, and configuring structured AI scoring rubrics.",
+      title: "Perumusan Kriteria & Standar Respon",
+      titleEn: "Qualification Rubrics & Brand Voice Calibration",
+      desc: "Menyesuaikan arsitektur alur kerja, menyusun standar validasi data, dan mengkalibrasi persona respon resmi perusahaan Anda.",
+      descEn: "Customizing workflow architecture, establishing strict data validation standards, and calibrating official brand response personas.",
       icon: FileText,
     },
     {
@@ -63,10 +63,10 @@ export default async function ImplementationSprintPage() {
     {
       day: "Hari 04",
       dayEn: "Day 04",
-      title: "Pengujian Sandbox & Tuning Gerbang Persetujuan",
-      titleEn: "Sandbox Verification & Human Gate Tuning",
-      desc: "Menjalankan 20+ simulasi skenario batas (edge-case), memastikan laci persetujuan manusia bekerja mulus, dan validasi idempotensi.",
-      descEn: "Running 20+ synthetic edge cases, fine-tuning the review drawer thresholds, and verifying duplicate prevention.",
+      title: "Pengujian Skenario & Simulasi Verifikasi",
+      titleEn: "Scenario Verification & Human Gate Simulation",
+      desc: "Menjalankan 20+ simulasi skenario batas (edge-case), memastikan laci persetujuan tim bekerja mulus, dan pengujian anti-duplikasi.",
+      descEn: "Running 20+ synthetic edge cases, fine-tuning team review drawer thresholds, and verifying duplicate prevention.",
       icon: ShieldCheck,
     },
     {
@@ -136,8 +136,8 @@ export default async function ImplementationSprintPage() {
               </h2>
               <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
                 {isEn
-                  ? "Every sprint follows a battle-tested milestone framework backed by 120 validated DAG templates."
-                  : "Setiap sprint mengikuti metodologi teruji yang didukung oleh 120 template alur kerja yang sudah divalidasi."}
+                  ? "Every sprint follows a battle-tested milestone framework backed by 120 validated workflow blueprints."
+                  : "Setiap sprint mengikuti metodologi teruji yang didukung oleh 120 blueprint alur kerja yang sudah divalidasi."}
               </p>
             </div>
 
@@ -188,8 +188,8 @@ export default async function ImplementationSprintPage() {
                     isEn ? "1 Primary end-to-end workflow (e.g. Inbound Lead Qualification to WhatsApp)" : "1 Alur kerja utama end-to-end (misal: Kualifikasi Lead ke WhatsApp)",
                     isEn ? "Up to 3 integration endpoints (Form intake, CRM, Messaging)" : "Hingga 3 titik integrasi kanal (Form web, CRM, Pesan)",
                     isEn ? "Interactive human review & approval drawer console" : "Laci konsol persetujuan manusia untuk tinjauan pesan",
-                    isEn ? "Type-safe Zod payload validation & error fallback" : "Validasi skema data Zod type-safe & penanganan error",
-                    isEn ? "Durable PostgreSQL state & immutable audit trail logging" : "Penyimpanan durable PostgreSQL & catatan jejak audit",
+                    isEn ? "Multi-tier data payload verification & automated error fallback" : "Validasi skema data berlapis anti-kerusakan payload & penanganan error otomatis",
+                    isEn ? "Encrypted high-availability data storage & immutable audit trail logging" : "Penyimpanan data terenkripsi berkeandalan tinggi & catatan jejak audit permanen",
                     isEn ? "Live handover session & 14 days of post-launch monitoring" : "Sesi pelatihan tim & pemantauan aktif 14 hari pasca-peluncuran",
                   ].map((item, idx) => (
                     <li key={idx} style={{ display: "flex", gap: "var(--space-2)", alignItems: "flex-start" }}>

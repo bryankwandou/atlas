@@ -7,9 +7,9 @@ import { Footer } from "@/components/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Keamanan, Tata Kelola Data & Human-in-the-Loop | Atlas",
+    title: "Keamanan, Kerahasiaan & Perlindungan Data Enterprise | Atlas",
     description:
-      "Standar keamanan Atlas: isolasi tenant server-side, hashing sandi scrypt, gerbang persetujuan manusia wajib, dan penyimpanan database PostgreSQL terisolasi.",
+      "Standar keamanan dan kepatuhan Atlas: Perjanjian Kerahasiaan (NDA) resmi, isolasi data server-side, gerbang persetujuan tim, dan enkripsi data bisnis.",
     alternates: {
       canonical: "https://atlas-automation.vercel.app/security",
     },
@@ -64,7 +64,7 @@ export default async function SecurityPage() {
             <div style={{ display: "inline-flex" }}>
               <span className="badge badge-accent">
                 <ShieldCheck size={12} aria-hidden="true" />
-                <span>Prinsip Keamanan Tanpa Klaim Palsu</span>
+                <span>Kerahasiaan &amp; Kepatuhan Data Korporasi</span>
               </span>
             </div>
             <h1 style={{ fontSize: "var(--text-32)" }}>{t.security.title}</h1>

@@ -74,8 +74,8 @@ export default async function HomePage() {
                     <Sparkles size={12} aria-hidden="true" />
                     <span>
                       {isEn
-                        ? "5-DAY AUTOMATION SPRINT • 120 PRODUCTION TEMPLATES"
-                        : "5-DAY SPRINT IMPLEMENTASI • 120 BLUEPRINT TERUJI"}
+                        ? "ENTERPRISE AUTOMATION SERVICES • 5-DAY TURNKEY SPRINT"
+                        : "JASA KONSULTASI & IMPLEMENTASI AUTOMASI ENTERPRISE"}
                     </span>
                   </span>
                 </div>
@@ -89,8 +89,8 @@ export default async function HomePage() {
                   }}
                 >
                   {isEn
-                    ? "Automate Business Workflows with AI, Keeping Humans in Full Control."
-                    : "Automasi Proses Bisnis dengan AI, Tetap dalam Kendali Tim Anda."}
+                    ? "Turnkey Business Automation Services Built with Supervised AI."
+                    : "Jasa Implementasi Automasi Alur Kerja AI untuk Operasional Bisnis Anda."}
                 </h1>
 
                 <p
@@ -102,8 +102,8 @@ export default async function HomePage() {
                   }}
                 >
                   {isEn
-                    ? "Design and deploy production workflows for inbound lead qualification, sales operations, and customer support—with human approval gates for every consequential action."
-                    : "Rancang dan implementasikan workflow untuk kualifikasi lead masuk, operasional penjualan, dan customer support—dengan persetujuan manusia pada setiap tindakan yang memerlukan kontrol."}
+                    ? "We design, integrate, and maintain custom automated workflows for inbound lead qualification, sales operations, and customer support—with mandatory human review gates, strict NDAs, and live handover in 5 days."
+                    : "Kami merancang, mengintegrasikan, dan memelihara sistem automasi bisnis siap pakai—mempercepat kualifikasi lead masuk, merampingkan operasi penjualan, dan mengeliminasi beban manual tanpa risiko salah kirim atau kebocoran data."}
                 </p>
 
                 <div
@@ -116,12 +116,12 @@ export default async function HomePage() {
                   }}
                 >
                   <a href="#audit-form" className="btn btn-primary">
-                    <span>{isEn ? "Book Free 30-Min Audit" : "Jadwalkan Audit Gratis (30 Menit)"}</span>
+                    <span>{isEn ? "Book Free 30-Min Audit" : "Konsultasi & Audit Gratis (30 Menit)"}</span>
                     <ArrowRight size={16} aria-hidden="true" />
                   </a>
 
                   <a href="#demo" className="btn btn-secondary">
-                    <span>{isEn ? "View Workflow Demo" : "Lihat Demo Alur Kerja"}</span>
+                    <span>{isEn ? "View Workflow Simulation" : "Lihat Simulasi Alur Kerja"}</span>
                   </a>
                 </div>
 
@@ -139,15 +139,15 @@ export default async function HomePage() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <ShieldCheck size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Human-in-the-loop approval" : "Persetujuan manusia wajib"}</span>
+                    <span>{isEn ? "Mandatory team sign-off" : "Verifikasi tim sebelum eksekusi"}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                    <Database size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
-                    <span>{isEn ? "PostgreSQL durable state" : "Database PostgreSQL persisten"}</span>
+                    <Lock size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
+                    <span>{isEn ? "Protected under enterprise NDA" : "Kerahasiaan terikat NDA resmi"}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                    <Lock size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Zero AI training on client data" : "Data klien tidak melatih model"}</span>
+                    <Database size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                    <span>{isEn ? "Zero AI training on client data" : "Data bisnis tidak melatih model"}</span>
                   </div>
                 </div>
               </div>
@@ -161,34 +161,34 @@ export default async function HomePage() {
             {/* Proof Strip */}
             <div className="trust-strip">
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "TEMPLATES" : "KATALOG ALUR KERJA"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>120 Template Tervalidasi</span>
+                <span className="eyebrow">{isEn ? "GUARANTEE" : "GARANSI TURNKEY"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>5 Hari Kerja Live</span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Cross 12 commercial industries" : "Meliputi 12 industri komersial"}
+                  {isEn ? "Ready-to-use production handover" : "Sistem selesai-pakai terintegrasi"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "PERSISTENCE" : "KEANDALAN DATA"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>PostgreSQL Durable</span>
+                <span className="eyebrow">{isEn ? "CONFIDENTIALITY" : "KERAHASIAAN DATA"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>Perjanjian NDA Mengikat</span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Neon serverless cross-instance" : "Neon serverless aktif produksi"}
+                  {isEn ? "100% client data ownership" : "Hak kepemilikan data penuh pada klien"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "GOVERNANCE" : "KEAMANAN BRAND"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>Zero Hallucination Outbound</span>
+                <span className="eyebrow">{isEn ? "BRAND SAFETY" : "KENDALI PENUH"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>Verifikasi Sebelum Kirim</span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Human signoff required before dispatch" : "Persetujuan manusia sebelum kirim"}
+                  {isEn ? "Zero unapproved outbound actions" : "Nol pesan keluar tanpa persetujuan tim"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "DELIVERY" : "KECEPATAN IMPLEMENTASI"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>5-Day Turnaround</span>
+                <span className="eyebrow">{isEn ? "DEDICATED SUPPORT" : "DUKUNGAN KHUSUS"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>SLA &amp; Monitoring 14 Hari</span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Fixed fee: Rp7.500.000" : "Biaya pasti: Rp7.500.000"}
+                  {isEn ? "Dedicated automation engineer" : "Pendampingan konsultan khusus"}
                 </span>
               </div>
             </div>
@@ -266,11 +266,11 @@ export default async function HomePage() {
 
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)", fontSize: "var(--text-14)" }}>
                   {[
-                    isEn ? "Instant lead fit evaluation & personalized draft prepared in <60 seconds" : "Evaluasi kualifikasi & draf pesan terpersonalisasi siap dalam <60 detik",
-                    isEn ? "Strict Zod payload validation rejects malformed data at the gateway" : "Validasi skema data Zod ketat menolak data rusak sebelum dieksekusi",
-                    isEn ? "Mandatory human review drawer ensures 100% brand voice safety" : "Laci persetujuan manusia memastikan 100% keamanan nada bicara brand",
-                    isEn ? "Durable PostgreSQL state persists execution across serverless restarts" : "State PostgreSQL durable menjamin tidak ada data hilang saat server restart",
-                    isEn ? "Complete immutable event trace with idempotency keys and token cost" : "Catatan jejak audit lengkap dengan idempotency key dan rincian biaya token",
+                    isEn ? "Instant lead fit evaluation & personalized draft prepared in <60 seconds" : "Evaluasi kualifikasi & draf respon terpersonalisasi siap dalam <60 detik",
+                    isEn ? "Multi-tier data verification rejects corrupt payloads & form spam" : "Validasi data berlapis menolak form spam dan data rusak sebelum masuk ke alur kerja",
+                    isEn ? "Mandatory human review gatekeeper ensures 100% brand voice safety" : "Gerbang review tim internal memastikan 100% keamanan komunikasi brand Anda",
+                    isEn ? "Encrypted enterprise state storage preserves full business continuity" : "Penyimpanan data terisolasi & andal menjamin kelangsungan data operasional bisnis",
+                    isEn ? "Immutable event audit trail for compliance and performance reporting" : "Catatan jejak audit komprehensif untuk pelaporan kepatuhan dan evaluasi bisnis",
                   ].map((pt, idx) => (
                     <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start" }}>
                       <CheckCircle2 size={18} aria-hidden="true" style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px" }} />
@@ -328,19 +328,19 @@ export default async function HomePage() {
               <div className="sprint-day">
                 <span className="sprint-day-num">{isEn ? "Day 02" : "Hari 02"}</span>
                 <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Schema & Prompts" : "Skema & Prompt AI"}
+                  {isEn ? "Rules & Calibration" : "Kriteria & Standar Respon"}
                 </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
                   {isEn
-                    ? "Define Zod schemas, customize template DAG nodes, and tune scoring logic."
-                    : "Menyusun skema Zod type-safe, konfigurasi DAG node, dan tuning skor kualifikasi."}
+                    ? "Define qualification rubrics, customize operational workflow logic, and calibrate response persona."
+                    : "Merumuskan kriteria kualifikasi prospek, penyusunan persona respon resmi, dan kalibrasi akurasi alur."}
                 </p>
               </div>
 
               <div className="sprint-day">
                 <span className="sprint-day-num">{isEn ? "Day 03" : "Hari 03"}</span>
                 <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Channel Wiring" : "Integrasi Kanal"}
+                  {isEn ? "Channel Wiring" : "Integrasi Kanal Operasional"}
                 </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
                   {isEn
@@ -352,12 +352,12 @@ export default async function HomePage() {
               <div className="sprint-day">
                 <span className="sprint-day-num">{isEn ? "Day 04" : "Hari 04"}</span>
                 <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Sandbox Verification" : "Uji Sandbox & Laci Review"}
+                  {isEn ? "Scenario Simulation" : "Simulasi & Verifikasi Tim"}
                 </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
                   {isEn
-                    ? "Run 20+ synthetic scenarios, verify human approval drawer, test idempotency."
-                    : "Uji 20+ skenario batas, optimasi laci persetujuan, dan verifikasi anti-duplikasi."}
+                    ? "Run 20+ test scenarios, verify human approval flow, and test duplicate prevention."
+                    : "Simulasi 20+ skenario batas, pengujian laci persetujuan tim, dan verifikasi anti-duplikasi."}
                 </p>
               </div>
 
@@ -395,8 +395,8 @@ export default async function HomePage() {
                 </h2>
                 <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "620px", marginTop: "var(--space-2)" }}>
                   {isEn
-                    ? "Every template is verified by static DAG cycle checkers and tested end-to-end with schema validation and approval gates."
-                    : "Setiap template diverifikasi dengan DAG cycle checker dan teruji end-to-end lengkap dengan validasi skema dan izin manusia."}
+                    ? "Every blueprint is built on deterministic enterprise logic, strictly verified with automated schema validation and mandatory team approval gates."
+                    : "Setiap blueprint dibangun dengan logika otomasi terarah, diverifikasi ketat dengan validasi data dan gerbang persetujuan tim resmi."}
                 </p>
               </div>
 
@@ -520,13 +520,13 @@ export default async function HomePage() {
                 <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
                   <Database size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
                   <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
-                    {isEn ? "Durable PostgreSQL State" : "Penyimpanan PostgreSQL Durable"}
+                    {isEn ? "Encrypted Isolated Architecture" : "Arsitektur Data Terenkripsi & Terisolasi"}
                   </h3>
                 </div>
                 <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
                   {isEn
-                    ? "Runs on Neon Serverless PostgreSQL with connection pooling. Your workflows, approvals, and logs survive serverless lambda cold starts."
-                    : "Berjalan di atas Neon Serverless PostgreSQL dengan connection pooling. State alur kerja, antrean izin, dan log tetap aman melintasi kontainer serverless."}
+                    ? "Workflows, team approval queues, and operational logs reside in isolated private storage. Your proprietary client data is strictly protected and never shared or used for third-party model training."
+                    : "Seluruh alur kerja, antrean izin tim, dan log operasional disimpan dalam lingkungan privat terenkripsi. Data bisnis Anda dilindungi penuh dan tidak pernah digunakan untuk melatih AI publik."}
                 </p>
               </div>
 
@@ -591,8 +591,8 @@ export default async function HomePage() {
                 </summary>
                 <div className="faq-content">
                   {isEn
-                    ? "Exactly 5 business days for our standard Done-For-You Sprint (Rp7.500.000). Because we adapt from 120 pre-validated DAG templates rather than building from scratch, your workflow is verified in sandbox by Day 4 and deployed by Day 5."
-                    : "Tepat 5 hari kerja untuk paket standard Done-For-You Sprint (Rp7.500.000). Karena kami berangkat dari 120 template DAG yang sudah divalidasi, alur kerja Anda sudah diuji di sandbox pada Hari 4 dan go-live pada Hari 5."}
+                    ? "Exactly 5 business days for our standard Done-For-You Sprint (Rp7.500.000). Because we adapt from 120 pre-validated workflow blueprints rather than building from scratch, your workflow is verified in sandbox by Day 4 and deployed by Day 5."
+                    : "Tepat 5 hari kerja untuk paket standard Done-For-You Sprint (Rp7.500.000). Karena kami berangkat dari 120 blueprint alur kerja yang sudah divalidasi, alur kerja Anda sudah diuji di sandbox pada Hari 4 dan go-live pada Hari 5."}
                 </div>
               </details>
 
@@ -615,8 +615,8 @@ export default async function HomePage() {
                 </summary>
                 <div className="faq-content">
                   {isEn
-                    ? "Yes. Your data is never used to train public AI models. All workspace records reside in private PostgreSQL storage with tenant isolation, scrypt password hashing, and signed session cookies."
-                    : "Ya, 100% aman. Data Anda tidak pernah digunakan untuk melatih model AI publik. Semua data tersimpan di PostgreSQL privat dengan isolasi tenant, hashing scrypt, dan cookie sesi terenkripsi HMAC."}
+                    ? "Yes, 100% confidential and secure. We execute a mutual Non-Disclosure Agreement (NDA) before any client sprint begins. Your operational data belongs entirely to your business, remains housed in private encrypted infrastructure, and is never exposed or used to train third-party AI models."
+                    : "Ya, 100% aman dan terikat kerahasiaan. Kami menandatangani Perjanjian Kerahasiaan (NDA) resmi sebelum proyek implementasi dimulai. Seluruh data operasional Anda sepenuhnya milik bisnis Anda, tersimpan dalam infrastruktur privat berenkripsi, dan tidak pernah dibagikan atau digunakan untuk melatih model AI pihak ketiga."}
                 </div>
               </details>
 
