@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
 import { getLocale, getDict, pick } from "@/lib/i18n";
@@ -5,6 +6,17 @@ import { getSession } from "@/lib/auth/session";
 import { templates } from "@/lib/templates/catalog";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Katalog 120+ Blueprint Workflow AI Teruji | Atlas",
+    description:
+      "Jelajahi 120 template alur kerja AI teruji di 12 kategori industri: penjualan, pemasaran, agensi, properti, dealer, support, dan rekrutmen.",
+    alternates: {
+      canonical: "https://atlas-automation.vercel.app/templates",
+    },
+  };
+}
 
 interface Props {
   searchParams: Promise<{ category?: string; q?: string }>;

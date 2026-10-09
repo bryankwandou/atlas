@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import { ShieldCheck, Lock, KeyRound, EyeOff, Layers, CheckCircle2 } from "lucide-react";
 import { getLocale, getDict } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Keamanan, Tata Kelola Data & Human-in-the-Loop | Atlas",
+    description:
+      "Standar keamanan Atlas: isolasi tenant server-side, hashing sandi scrypt, gerbang persetujuan manusia wajib, dan penyimpanan database PostgreSQL terisolasi.",
+    alternates: {
+      canonical: "https://atlas-automation.vercel.app/security",
+    },
+  };
+}
 
 export default async function SecurityPage() {
   const locale = await getLocale();
