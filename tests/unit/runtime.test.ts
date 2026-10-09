@@ -178,4 +178,47 @@ describe("workflow runtime", () => {
       expect(["succeeded", "awaiting_approval"]).toContain(run.status);
     }
   });
+
+  it(
+    "all 120 seeded templates execute end-to-end without errors using their sample inputs",
+    async () => {
+      class MemoryStore {
+        state: any = { users: [], workspaces: [], memberships: [], workflows: [], runs: [], events: [], approvals: [], usage: [], sideEffects: [] };
+        getStorageType() { return "json_local" as const; }
+        async ping() { return true; }
+        async read<T>(fn: (db: any) => T | Promise<T>): Promise<T> { return fn(this.state); }
+        async mutate<T>(fn: (db: any) => T | Promise<T>): Promise<T> {
+          const copy = structuredClone(this.state);
+          const res = await fn(copy);
+          this.state = copy;
+          return res;
+        }
+      }
+      const memStore = new MemoryStore();
+      await memStore.mutate((db) => {
+        db.workspaces.push({ id: "ws_all_120", name: "All 120", monthlyBudgetUsd: 500, privacyMode: "FULL", createdAt: now() });
+      });
+      const rt = new WorkflowRuntime(memStore as any, new MockProvider());
+      expect(templates.length).toBe(120);
+      for (const t of templates) {
+        const wf = await installTemplate(memStore as any, "ws_all_120", t.slug);
+        const run = await rt.start({ workspaceId: "ws_all_120", workflowId: wf.id, input: t.sampleInput });
+        expect(["succeeded", "awaiting_approval"]).toContain(run.status);
+        expect(run.error).toBeNull();
+        if (run.status === "awaiting_approval") {
+          const approval = await memStore.read((db) => db.approvals.find((a: any) => a.runId === run.id)!);
+          const resolved = await rt.decide({
+            workspaceId: "ws_all_120",
+            approvalId: approval.id,
+            userId: "admin_u",
+            decision: "approved",
+          });
+          expect(resolved.status).toBe("succeeded");
+        }
+      }
+    },
+    60_000
+  );
 });
+
+

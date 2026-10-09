@@ -129,7 +129,7 @@ export class WorkflowRuntime {
     let { run } = loaded;
     const { workflow, workspace } = loaded;
     const def = workflow.definition;
-    const deadline = Date.parse(run.createdAt) + def.limits.timeoutMs;
+    const deadline = Date.now() + def.limits.timeoutMs;
     let spent = loaded.spent;
 
     while (run.cursor && run.status === "running") {
