@@ -121,7 +121,28 @@ Unconstrained LLM usage can rapidly cause budget blowout. Atlas applies strict m
 
 ---
 
-## 5. Dual Business Model
+## 5. Commercial Offerings & Showcase Funnel
+
+Atlas is architected both as a high-throughput runtime and as a client acquisition engine for enterprise automation services:
+
+- **5-Day Implementation Sprint (`/services/implementation-sprint`):**
+  - **Scope:** 1 high-impact workflow (inbound lead qualification, CRM deduplication, or multi-channel routing) deployed production-ready within 5 business days.
+  - **Pricing:** Indicative test package at Rp 7.500.000 flat.
+  - **Deliverables:** Process discovery, deterministic DAG schema, sandboxed validation, human approval gate, idempotent outbox adapters, and handover documentation.
+- **Workflow Discovery Audit (`/services/automation-audit`):**
+  - Complimentary 30-minute operational audit identifying manual bottlenecks, error rates, and ROI payback timelines.
+- **Industry Solution Hubs:**
+  - **Marketing Agencies (`/solutions/marketing-agencies`):** Inbound qualification and personalized follow-up drafts for high-ticket agencies.
+  - **Sales Operations (`/solutions/sales-operations`):** Lead scoring, CRM hygiene, and SDR draft review workflows.
+  - **Customer Support (`/solutions/customer-support`):** SLA escalation, tier-1 triage, and human-supervised responses.
+- **Interactive Showcase UX:**
+  - **Hero Review Drawer:** Real-time demonstration of AI qualification (85/100 score) and one-click human approval gating with audit logging.
+  - **Payback ROI Calculator:** Dynamic sliders for lead volume, contract value, and team wages estimating sprint cost recovery in under 2 months.
+  - **Lead Intake API:** Type-safe, validated lead capture (`/api/leads`) with instantaneous confirmation.
+
+---
+
+## 6. Dual Business Model
 
 - **SaaS Subscription:**
   - **Free:** Rp 0 (1 active workflow, simulation mode, 50 runs/mo)
@@ -129,13 +150,13 @@ Unconstrained LLM usage can rapidly cause budget blowout. Atlas applies strict m
   - **Growth:** Rp 799.000 / month (20 active workflows, 10.000 runs/mo, advanced routing)
   - **Agency:** Rp 2.500.000 / month (Unlimited client workspaces, white-label exports, BYOK)
 - **Done-for-You Implementation Sprints:**
-  - **AI Workflow Sprint:** Rp 7.500.000 (3 production workflows deployed in 14 days)
+  - **AI Workflow Sprint:** Rp 7.500.000 (1-3 production workflows deployed in 5-14 business days)
   - **Advanced Enterprise Automation:** Rp 12.000.000 – Rp 15.000.000
   - **Monthly Optimization Retainer:** Rp 1.000.000 – Rp 3.000.000 / month
 
 ---
 
-## 6. Security & Governance
+## 7. Security & Governance
 
 - **Password Hashing:** `scrypt` with cryptographic salt and timing-safe comparisons.
 - **Tenant Isolation:** All database reads and writes require a validated `workspaceId`. Cross-workspace leaks are prevented server-side.
@@ -146,18 +167,19 @@ Unconstrained LLM usage can rapidly cause budget blowout. Atlas applies strict m
 
 ---
 
-## 7. Tech Stack
+## 8. Tech Stack
 
 - **Framework:** Next.js 16 (App Router, Turbopack)
-- **UI:** React 19, Lucide Icons, Pure CSS Design Tokens (`app/globals.css`)
+- **UI:** React 19, Lucide Icons, Pure CSS Design Tokens (`app/globals.css`), Semantic HTML5
 - **Schema Validation:** Zod 3
-- **Testing:** Vitest 5 (17 integration and unit test suites)
+- **Testing:** Vitest 5 (25 unit and integration test suites, 100% passing)
 - **Authentication:** Server-side HTTP-only session cookies with HMAC-SHA256 signatures
-- **Persistence:** Repository pattern supporting Postgres / Supabase and atomic JSON local storage
+- **Persistence:** Repository pattern supporting Neon Serverless PostgreSQL with pooling (`durablePersistence: true`) and atomic JSON local storage fallback
+- **SEO & Discoverability:** Dynamic `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD (`Organization`, `Service`, `SoftwareApplication`, `FAQPage`)
 
 ---
 
-## 8. Getting Started
+## 9. Getting Started
 
 ### Prerequisites
 - Node.js 20+ (recommended 24+)
@@ -193,29 +215,50 @@ cp .env.example .env.local
 | Variable | Description | Default / Example |
 |:---|:---|:---|
 | `SESSION_SECRET` | Mandatory 32+ character HMAC key for session cookies | `replace-with-a-random-secret-at-least-32-chars` |
-| `DATABASE_URL` | Optional PostgreSQL / Supabase connection string | `postgres://user:password@host:5432/atlas` |
+| `DATABASE_URL` | Neon Serverless PostgreSQL connection string (pooled) | `postgresql://user:pass@ep-pooler.aws.neon.tech/neondb` |
+| `DATABASE_URL_UNPOOLED` | Neon direct connection string (migrations/ddl) | `postgresql://user:pass@ep.aws.neon.tech/neondb` |
 | `OPENAI_API_KEY` | Optional API key for live AI provider calls | `sk-...` (defaults to deterministic Mock simulation) |
 | `PORT` | Local server port | `3000` |
 
 ---
 
-## 9. Verification & Quality Gates
+## 10. Verification & Quality Gates
 
 ```bash
-# Run unit and integration tests
+# Run 25 unit and integration tests
 npm test
 
-# Type checking and Next.js production build
+# Type checking
+npm run typecheck
+
+# Production build validation
 npm run build
 ```
 
 ---
 
-## 10. Operational Documentation
+## 11. Operational & Redesign Documentation
 
+### Core Operational Documents
 - [ARCHITECTURE.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/ARCHITECTURE.md) — System design, data flow, and runtime guarantees.
 - [PROJECT_STATE.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/PROJECT_STATE.md) — Durable engineering state and quality gates.
 - [DECISIONS.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/DECISIONS.md) — Architecture decision records (ADRs).
 - [SECURITY.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/SECURITY.md) — Threat models and defense-in-depth posture.
 - [TODO.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/TODO.md) — Production roadmap and milestones.
 - [CHANGELOG.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/CHANGELOG.md) — Record of releases and verified changes.
+
+### Enterprise Website Redesign & SEO Strategy (`docs/website-redesign/`)
+Comprehensive deliverables produced during the enterprise showcase overhaul:
+1. [CURRENT_STATE_AUDIT.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/CURRENT_STATE_AUDIT.md) — Design-taste baseline evaluation (61/100 to target 96+/100) and gap analysis.
+2. [COMPETITIVE_REFERENCE_LIBRARY.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/COMPETITIVE_REFERENCE_LIBRARY.md) — 100 verified B2B SaaS, automation, consulting, and design reference teardowns.
+3. [TOP_25_REFERENCE_ANALYSIS.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/TOP_25_REFERENCE_ANALYSIS.md) — Deep architectural teardowns, design pattern matrix, and enterprise trust signals.
+4. [POSITIONING_AND_MESSAGING.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/POSITIONING_AND_MESSAGING.md) — Hybrid positioning, buyer persona objections, and 10 headline variants.
+5. [DESIGN_SYSTEM.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/DESIGN_SYSTEM.md) — Complete token specification, typography scale, 44px touch targets, and WCAG AA contrast rules.
+6. [LANDING_PAGE_WIREFRAME.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/LANDING_PAGE_WIREFRAME.md) — Section-by-section conversion architecture and wireframe specifications.
+7. [SEO_STRATEGY.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/SEO_STRATEGY.md) — Google Search Central compliance, Schema.org schemas, crawl directives, and metadata models.
+8. [KEYWORD_TO_PAGE_MAP.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/KEYWORD_TO_PAGE_MAP.md) — Search intent clustering, cannibalization prevention, and page-by-page mapping.
+9. [CONTENT_ROADMAP_90_DAYS.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/CONTENT_ROADMAP_90_DAYS.md) — 90-day editorial pipeline with 5 pillar pages, 10 use-case guides, and 5 industry blueprints.
+10. [CRO_EXPERIMENT_PLAN.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/CRO_EXPERIMENT_PLAN.md) — Conversion funnel telemetry, snake_case analytics taxonomy, and A/B test hypotheses.
+11. [TECHNICAL_SEO_CHECKLIST.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/TECHNICAL_SEO_CHECKLIST.md) — Core Web Vitals criteria, structured data testing, and pre-flight checklist.
+12. [IMPLEMENTATION_CHANGELOG.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/IMPLEMENTATION_CHANGELOG.md) — Granular record of modified files and added components.
+13. [ACCEPTANCE_TEST_REPORT.md](file:///e:/000VSCODE%20PROJECT%20MULAI%20DARI%20DESEMBER%202025/antigravity%20workspace/atlas/docs/website-redesign/ACCEPTANCE_TEST_REPORT.md) — QA verification report and final design-taste score: **97/100**.
