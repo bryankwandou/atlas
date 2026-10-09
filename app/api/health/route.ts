@@ -10,19 +10,28 @@ export async function GET() {
   let workspaceCount = 0;
   let runCount = 0;
 
+  const store = getStore();
+  const storageType = store.getStorageType();
+
   try {
-    const stats = await getStore().read((db) => ({
-      workspaces: db.workspaces.length,
-      runs: db.runs.length,
-    }));
-    dbOk = true;
-    workspaceCount = stats.workspaces;
-    runCount = stats.runs;
+    const isPingOk = store.ping ? await store.ping() : true;
+    if (isPingOk) {
+      const stats = await store.read((db) => ({
+        workspaces: db.workspaces.length,
+        runs: db.runs.length,
+      }));
+      dbOk = true;
+      workspaceCount = stats.workspaces;
+      runCount = stats.runs;
+    } else {
+      dbOk = false;
+    }
   } catch (err) {
     dbOk = false;
   }
 
   const liveProvider = !!process.env.OPENAI_API_KEY;
+  const durablePersistence = dbOk && storageType === "postgres";
 
   const payload = {
     status: dbOk ? "healthy" : "degraded",
@@ -30,8 +39,8 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     checks: {
       database: dbOk ? "ok" : "fail",
-      storageType: getStore().getStorageType(),
-      durablePersistence: getStore().getStorageType() === "postgres",
+      storageType,
+      durablePersistence,
       templatesSeeded: templates.length,
       aiProvider: liveProvider ? "openai" : "mock_simulation",
       simulationMode: !liveProvider,

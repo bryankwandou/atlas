@@ -15,10 +15,10 @@ export interface Spec {
   agentLabel: L;
   instruction: string;
   threshold: number;
-  integration: "mock_email" | "mock_crm" | "mock_sheet" | "mock_chat";
+  integration: "mock_email" | "mock_whatsapp" | "mock_crm" | "mock_sheet" | "mock_chat";
   actionLabel: L;
   lowPathLabel: L;
-  lowIntegration: "mock_email" | "mock_crm" | "mock_sheet" | "mock_chat";
+  lowIntegration: "mock_email" | "mock_whatsapp" | "mock_crm" | "mock_sheet" | "mock_chat";
   kpis: string[];
   sampleInput: Record<string, string>;
 }
@@ -35,6 +35,14 @@ const leadInputs = [
   field("name", "Nama kontak", "Contact name", "text"),
   field("email", "Email", "Email", "email"),
   field("message", "Pesan masuk", "Inbound message", "longtext"),
+];
+
+const agencyLeadInputs = [
+  field("name", "Nama kontak", "Contact name", "text", true),
+  field("email", "Email kerja", "Work email", "email", true),
+  field("phone", "Nomor WhatsApp", "WhatsApp phone", "text", false),
+  field("budget", "Estimasi anggaran", "Estimated budget", "text", false),
+  field("message", "Kebutuhan layanan / kendala", "Service needs / challenge", "longtext", true),
 ];
 
 const ticketInputs = [
@@ -61,28 +69,30 @@ export const allSpecs: Spec[] = [
     category: "sales",
     name: { id: "Kualifikasi Lead Masuk", en: "Inbound Lead Qualification" },
     summary: {
-      id: "Menilai lead baru, menyiapkan draf balasan, dan menunggu persetujuan sebelum dikirim.",
-      en: "Scores new leads, drafts a reply, and waits for approval before sending.",
+      id: "Menilai lead baru, menyusun draf balasan WhatsApp, dan menunggu persetujuan sebelum dikirim.",
+      en: "Scores new leads, drafts a WhatsApp reply, and waits for approval before sending.",
     },
     ownerExplanation: {
-      id: "Setiap pesan formulir dinilai kesiapan belinya. Lead potensial mendapat draf balasan untuk Anda setujui. Lead lain dicatat ke CRM.",
-      en: "Every inbound inquiry is scored for intent. High-intent leads receive a drafted reply for approval. Others are logged to CRM.",
+      id: "Setiap pesan formulir dinilai kesiapan belinya. Lead potensial mendapat draf balasan WhatsApp untuk Anda setujui. Lead lain dicatat ke CRM.",
+      en: "Every inbound inquiry is scored for intent. High-intent leads receive a drafted WhatsApp reply for approval. Others are logged to CRM.",
     },
-    tags: ["lead", "crm", "email", "sales"],
-    inputs: leadInputs,
+    tags: ["lead", "crm", "whatsapp", "sales"],
+    inputs: agencyLeadInputs,
     agent: "qualification",
     agentLabel: { id: "Agen kualifikasi", en: "Qualification agent" },
     instruction: "Score buying intent 0-100 from budget, timeline, and specificity. Draft a short reply in the lead's language.",
-    threshold: 60,
-    integration: "mock_email",
-    actionLabel: { id: "Kirim balasan email", en: "Send email reply" },
+    threshold: 70,
+    integration: "mock_whatsapp",
+    actionLabel: { id: "Kirim balasan WhatsApp", en: "Send WhatsApp reply" },
     lowPathLabel: { id: "Catat ke CRM", en: "Log to CRM" },
     lowIntegration: "mock_crm",
     kpis: ["qualified_rate", "time_to_first_reply", "approval_rate"],
     sampleInput: {
-      name: "Rina (data demo)",
-      email: "rina.demo@example.com",
-      message: "Halo, kami butuh 3 unit untuk kantor baru bulan depan. Budget sekitar 150 juta. Bisa kirim penawaran minggu ini?",
+      name: "Rina Kartika",
+      email: "rina@brandnusantara.com",
+      phone: "081234567890",
+      budget: "Rp 150.000.000",
+      message: "Halo, kami butuh sistem automasi untuk scaling campaign e-commerce bulan depan. Budget sekitar 150 juta. Bisa kirim penawaran minggu ini?",
     },
   },
   {

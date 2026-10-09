@@ -106,7 +106,7 @@ describe("End-to-End MVP Integration Flow", () => {
     );
     expect(sideEffects).toHaveLength(1);
     expect(sideEffects[0].idempotencyKey).toBe(`${initialRun.id}:act`);
-    expect(sideEffects[0].integration).toBe("mock_email");
+    expect(sideEffects[0].integration).toBe("mock_whatsapp");
 
     // 8. Verify Usage Accounting
     const usage = await store.read((db) =>
