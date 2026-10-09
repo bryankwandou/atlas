@@ -22,12 +22,15 @@
 - [x] **Gate L: Hero Workflow Precision Alignment**: `inbound-lead-qualification` aligned across specs, schema, canvas, and tests to agency WhatsApp marketing workflow with score threshold 70, WhatsApp draft, human approval, and idempotent side effects.
 - [x] **Gate M: Exhaustive 120-Template End-to-End Validation**: All 120 seeded templates verified end-to-end from trigger through agent, condition, and approval to successful completion with synthetic sample inputs.
 - [x] **Gate N: Human Approval Execution Deadline Bugfix**: Fixed execution deadline computation in `WorkflowRuntime` so resumed human approvals are evaluated against active step execution duration rather than human review wait time.
+- [x] **Gate O: Enterprise Client Acquisition Showcase & SEO Engine**: Homepage redesigned into high-converting B2B showcase (Hero Lead Qualification demo, proof bar, 5-Day Sprint package @ Rp7.5M, 120-template preview, ROI calculator, and lead intake form). High-intent SEO pages (`/services/implementation-sprint`, `/services/automation-audit`, `/solutions/marketing-agencies`, `/solutions/sales-operations`, `/solutions/customer-support`), dynamic sitemap/robots, Schema.org JSON-LD, 13 strategic documents, 25/25 passing tests, and clean production build.
 
 ## Test Results
 - Auth tests (password hash verification, session tamper rejection, token expiration): **PASS**
 - Runtime tests (DAG cycle detection across all 120 templates, side effect approval enforcement, budget halts, retryable error backoff, tenant isolation): **PASS**
 - Store durability tests (JsonStore honest reporting, NeonPostgresStore dynamic instantiation and ping resilience): **PASS**
 - Exhaustive 120-template runtime execution test: **PASS**
+- SEO & sitemap crawlability unit tests: **PASS**
 - Live Neon PostgreSQL cross-instance persistence and idempotency: **PASS**
-- Overall test suite: **23/23 tests passing** (1 skipped for offline isolation).
+- Overall test suite: **25/25 tests passing** (1 skipped for offline isolation).
+- Production Build: **22 static pages prerendered, 0 TypeScript errors (Turbopack compilation PASS)**.
 

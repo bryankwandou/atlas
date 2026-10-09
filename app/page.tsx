@@ -10,7 +10,12 @@ import {
   TrendingUp,
   XCircle,
   CheckCircle2,
-  ExternalLink,
+  Database,
+  Lock,
+  ChevronDown,
+  Calendar,
+  Clock,
+  Zap,
 } from "lucide-react";
 import { getLocale, getDict, pick } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
@@ -18,35 +23,41 @@ import { templates } from "@/lib/templates/catalog";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WorkflowCanvas } from "@/components/WorkflowCanvas";
+import { RoiCalculator } from "@/components/RoiCalculator";
+import { LeadCaptureForm } from "@/components/LeadCaptureForm";
+import { SchemaOrgJsonLd } from "@/components/SchemaOrgJsonLd";
 
 export default async function HomePage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
+  const isEn = locale === "en";
 
   const featuredTemplates = templates.slice(0, 6);
 
   const industryList = [
-    { id: "sales", label: t.templates.sales },
-    { id: "marketing", label: t.templates.marketing },
-    { id: "support", label: t.templates.support },
-    { id: "property", label: t.templates.property },
-    { id: "dealer", label: t.templates.dealer },
-    { id: "education", label: t.templates.education },
-    { id: "travel", label: t.templates.travel },
-    { id: "agency", label: t.templates.agency },
-    { id: "recruiting", label: t.templates.recruiting },
-    { id: "finance", label: t.templates.finance },
-    { id: "ecommerce", label: t.templates.ecommerce },
-    { id: "services", label: t.templates.services },
+    { id: "agency", label: isEn ? "Marketing Agencies" : "Agensi Pemasaran" },
+    { id: "sales", label: isEn ? "Inbound Sales" : "Penjualan Inbound" },
+    { id: "support", label: isEn ? "Customer Support" : "Customer Support" },
+    { id: "property", label: isEn ? "Real Estate" : "Properti & Real Estate" },
+    { id: "dealer", label: isEn ? "Automotive" : "Dealer Otomotif" },
+    { id: "finance", label: isEn ? "Financial Services" : "Layanan Keuangan" },
+    { id: "ecommerce", label: isEn ? "E-Commerce" : "E-Commerce" },
+    { id: "recruiting", label: isEn ? "Recruitment" : "Rekrutmen & HR" },
+    { id: "education", label: isEn ? "Education" : "Pendidikan" },
+    { id: "travel", label: isEn ? "Travel & Tours" : "Travel & Wisata" },
+    { id: "services", label: isEn ? "Professional Services" : "Jasa Profesional" },
+    { id: "marketing", label: isEn ? "Brand Operations" : "Operasi Brand" },
   ];
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <SchemaOrgJsonLd type="organization" />
+      <SchemaOrgJsonLd type="service" />
       <Navbar locale={locale} dict={t} isAuthenticated={!!session} />
 
       <main id="main-content" style={{ flex: 1 }}>
-        {/* Hero Section */}
+        {/* Hero Section: Client Acquisition Showcase */}
         <section
           style={{
             padding: "var(--space-8) 0 var(--space-7) 0",
@@ -54,113 +65,155 @@ export default async function HomePage() {
             background: "radial-gradient(ellipse at top, var(--color-surface-2), var(--color-bg))",
           }}
         >
-          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div style={{ maxWidth: "860px", display: "grid", gap: "var(--space-4)" }}>
-              <div style={{ display: "inline-flex" }}>
-                <span className="badge badge-accent">
-                  <Sparkles size={12} aria-hidden="true" />
-                  <span>{t.home.eyebrow}</span>
-                </span>
+          <div className="container" style={{ display: "grid", gap: "var(--space-7)" }}>
+            <div className="hero-grid">
+              {/* Left Column: Commercial Outcome Pitch */}
+              <div style={{ display: "grid", gap: "var(--space-4)" }}>
+                <div style={{ display: "inline-flex" }}>
+                  <span className="badge badge-accent">
+                    <Sparkles size={12} aria-hidden="true" />
+                    <span>
+                      {isEn
+                        ? "5-DAY AUTOMATION SPRINT • 120 PRODUCTION TEMPLATES"
+                        : "5-DAY SPRINT IMPLEMENTASI • 120 TEMPLATE TERVALIDASI"}
+                    </span>
+                  </span>
+                </div>
+
+                <h1
+                  style={{
+                    fontSize: "clamp(2.3rem, 4.8vw, 3.6rem)",
+                    lineHeight: 1.12,
+                    letterSpacing: "-0.025em",
+                    fontWeight: 750,
+                  }}
+                >
+                  {isEn
+                    ? "Deploy Supervised AI Workflows for Your Agency in 5 Days."
+                    : "Otomasi Lead Masuk & Follow-up Agensi Anda dalam 5 Hari Kerja."}
+                </h1>
+
+                <p
+                  className="muted"
+                  style={{
+                    fontSize: "var(--text-18)",
+                    lineHeight: 1.6,
+                    maxWidth: "620px",
+                  }}
+                >
+                  {isEn
+                    ? "Stop losing high-intent leads to delayed follow-ups and manual copy-paste. We audit, architect, and deploy production workflows with mandatory human approval gates."
+                    : "Berhenti kehilangan klien potensial karena respon manual yang lambat. Kami mengaudit, merancang, dan meluncurkan alur kerja terverifikasi dengan izin manusia dalam 5 hari kerja."}
+                </p>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    gap: "var(--space-3)",
+                    paddingTop: "var(--space-2)",
+                  }}
+                >
+                  <a href="#audit-form" className="btn btn-primary">
+                    <span>{isEn ? "Book a 30-Min Workflow Audit" : "Jadwalkan Workflow Audit (30 Menit)"}</span>
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </a>
+
+                  <a href="#demo" className="btn btn-secondary">
+                    <span>{isEn ? "View Interactive Canvas Demo" : "Coba Demo Kanvas Interaktif"}</span>
+                  </a>
+                </div>
+
+                {/* Trust Micro-Copy */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    gap: "var(--space-4)",
+                    fontSize: "var(--text-12)",
+                    color: "var(--color-muted)",
+                    paddingTop: "var(--space-1)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                    <ShieldCheck size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                    <span>{isEn ? "Human-in-the-loop approval" : "Persetujuan manusia wajib"}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                    <Database size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
+                    <span>{isEn ? "PostgreSQL durable state" : "Penyimpanan PostgreSQL"}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                    <Lock size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                    <span>{isEn ? "Zero model training on client data" : "Data klien tidak melatih model"}</span>
+                  </div>
+                </div>
               </div>
 
-              <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.4rem)", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
-                {t.home.title}
-              </h1>
-
-              <p className="muted" style={{ fontSize: "var(--text-18)", maxWidth: "720px", lineHeight: 1.6 }}>
-                {t.home.lead}
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  gap: "var(--space-3)",
-                  paddingTop: "var(--space-2)",
-                }}
-              >
-                <Link href="/templates" className="btn btn-primary">
-                  <span>{t.home.ctaPrimary}</span>
-                  <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-
-                <a href="#demo" className="btn btn-secondary">
-                  <span>{t.home.ctaSecondary}</span>
-                </a>
+              {/* Right Column: Interactive Workflow Demo */}
+              <div id="demo">
+                <WorkflowCanvas dict={t} />
               </div>
-            </div>
-
-            {/* Interactive Canvas Demo */}
-            <div id="demo" style={{ marginTop: "var(--space-2)" }}>
-              <WorkflowCanvas dict={t} />
             </div>
 
             {/* Proof Strip */}
-            <div
-              className="panel"
-              style={{
-                background: "var(--color-surface)",
-                borderColor: "var(--color-border-strong)",
-                padding: "var(--space-3) var(--space-4)",
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "var(--space-3)",
-                fontSize: "var(--text-12)",
-                fontWeight: 600,
-                letterSpacing: "0.04em",
-              }}
-            >
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", alignItems: "center" }}>
-                <span style={{ color: "var(--color-accent)", textTransform: "uppercase" }}>
-                  {t.home.proofPillars}
+            <div className="trust-strip">
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                <span className="eyebrow">{isEn ? "TEMPLATES" : "KATALOG ALUR KERJA"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>120 Template Tervalidasi</span>
+                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
+                  {isEn ? "Cross 12 commercial industries" : "Meliputi 12 industri komersial"}
                 </span>
               </div>
-              <span className="badge">v1.2 Production Specs</span>
-            </div>
 
-            {/* Works-with rail */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                gap: "var(--space-3)",
-                fontSize: "var(--text-12)",
-              }}
-            >
-              <span className="muted">Integrasi siap pakai (simulasi MVP sandbox):</span>
-              <span className="badge">WhatsApp Business</span>
-              <span className="badge">Google Sheets</span>
-              <span className="badge">Gmail</span>
-              <span className="badge">HubSpot / CRM</span>
-              <span className="badge">Slack / Chat</span>
-              <span className="badge">Webhooks &amp; HTTP API</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                <span className="eyebrow">{isEn ? "PERSISTENCE" : "KEANDALAN DATA"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>PostgreSQL Durable</span>
+                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
+                  {isEn ? "Neon serverless cross-instance" : "Neon serverless aktif produksi"}
+                </span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                <span className="eyebrow">{isEn ? "GOVERNANCE" : "KEAMANAN BRAND"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>Zero Hallucination Outbound</span>
+                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
+                  {isEn ? "Human signoff required before dispatch" : "Persetujuan manusia sebelum kirim"}
+                </span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                <span className="eyebrow">{isEn ? "DELIVERY" : "KECEPATAN IMPLEMENTASI"}</span>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>5-Day Turnaround</span>
+                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
+                  {isEn ? "Fixed fee: Rp7.500.000" : "Biaya pasti: Rp7.500.000"}
+                </span>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Comparison: AI Chat vs Supervised Workflows */}
+        {/* The Problem & Cost of Inaction */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>DETERMINISME VS HALUSINASI</div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.comparisonTitle}</h2>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>BIAYA KELAMBATAN MANUAL</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>
+                {isEn
+                  ? "Why Manual Processes and Fragile Scripts Leak Client Revenue"
+                  : "Mengapa Proses Manual & Webhook Rentan Membuat Klien Lari"}
+              </h2>
               <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
-                {t.home.comparisonSubtitle}
+                {isEn
+                  ? "When high-intent leads arrive from paid ad campaigns, every minute of delay reduces qualification rates. Unsupervised chatbots risk your brand reputation, while fragile DIY scripts break silently."
+                  : "Ketika prospek bernilai tinggi masuk dari iklan, setiap menit keterlambatan menurunkan peluang closing. Chatbot tanpa pengawasan membahayakan reputasi agensi, sedangkan webhook DIY sering mati mendadak."}
               </p>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "var(--space-5)",
-              }}
-            >
-              {/* Conventional AI Chat */}
+            <div className="bento-grid">
+              {/* Status Quo Card */}
               <div
                 className="panel"
                 style={{
@@ -171,21 +224,21 @@ export default async function HomePage() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-muted)" }}>{t.home.chatTitle}</h3>
-                  <span className="badge" style={{ color: "var(--color-danger)", borderColor: "var(--color-danger)" }}>
-                    {t.home.chatBadge}
-                  </span>
+                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-muted)", fontWeight: 700 }}>
+                    {isEn ? "Status Quo: Manual & Fragile Tools" : "Proses Manual & Script Rentan"}
+                  </h3>
+                  <span className="badge badge-danger">High Risk &amp; Slow</span>
                 </div>
 
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)", fontSize: "var(--text-14)" }}>
                   {[
-                    t.home.chatPoint1,
-                    t.home.chatPoint2,
-                    t.home.chatPoint3,
-                    t.home.chatPoint4,
-                    t.home.chatPoint5,
+                    isEn ? "Leads sit idle in spreadsheets or email inboxes for 4+ hours" : "Lead iklan menumpuk di spreadsheet atau email tanpa respon hingga 4+ jam",
+                    isEn ? "Zapier/Make flows fail silently whenever a form field schema shifts" : "Alur Zapier/Make mati mendadak saat format data form sedikit berubah",
+                    isEn ? "Unsupervised AI chatbots hallucinate wrong pricing and alienate buyers" : "Chatbot AI generik berhalusinasi memberikan harga salah ke klien",
+                    isEn ? "Operations staff burned out from manual WhatsApp copy-paste routines" : "Staf operasional kelelahan menyalin data prospek manual ke WhatsApp & CRM",
+                    isEn ? "Zero replayable audit trail when a critical deal slip through the cracks" : "Nol riwayat jejak audit saat prospek bernilai puluhan juta rupiah hilang",
                   ].map((pt, idx) => (
-                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start", fontSize: "var(--text-14)" }}>
+                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start" }}>
                       <XCircle size={18} aria-hidden="true" style={{ color: "var(--color-danger)", flexShrink: 0, marginTop: "2px" }} />
                       <span className="muted">{pt}</span>
                     </li>
@@ -205,25 +258,23 @@ export default async function HomePage() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-text)", fontWeight: 700 }}>
-                    {t.home.wfTitle}
+                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-text)", fontWeight: 750 }}>
+                    {isEn ? "Atlas Supervised Workflows" : "Atlas: Alur Kerja Terverifikasi"}
                   </h3>
-                  <span className="badge badge-accent">
-                    {t.home.wfBadge}
-                  </span>
+                  <span className="badge badge-accent">Reliable &amp; Fast</span>
                 </div>
 
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)", fontSize: "var(--text-14)" }}>
                   {[
-                    t.home.wfPoint1,
-                    t.home.wfPoint2,
-                    t.home.wfPoint3,
-                    t.home.wfPoint4,
-                    t.home.wfPoint5,
+                    isEn ? "Instant lead fit evaluation & personalized draft prepared in <60 seconds" : "Evaluasi kualifikasi & draf pesan terpersonalisasi siap dalam <60 detik",
+                    isEn ? "Strict Zod payload validation rejects malformed data at the gateway" : "Validasi skema data Zod ketat menolak data rusak sebelum dieksekusi",
+                    isEn ? "Mandatory human review drawer ensures 100% brand voice safety" : "Laci persetujuan manusia memastikan 100% keamanan nada bicara brand",
+                    isEn ? "Durable PostgreSQL state persists execution across serverless restarts" : "State PostgreSQL durable menjamin tidak ada data hilang saat server restart",
+                    isEn ? "Complete immutable event trace with idempotency keys and token cost" : "Catatan jejak audit lengkap dengan idempotency key dan rincian biaya token",
                   ].map((pt, idx) => (
-                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start", fontSize: "var(--text-14)" }}>
+                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start" }}>
                       <CheckCircle2 size={18} aria-hidden="true" style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px" }} />
-                      <span style={{ fontWeight: 500 }}>{pt}</span>
+                      <span style={{ fontWeight: 550 }}>{pt}</span>
                     </li>
                   ))}
                 </ul>
@@ -232,8 +283,9 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Agency Multiplier Section */}
+        {/* 5-Day Done-For-You Implementation Sprint Section */}
         <section
+          id="services"
           style={{
             padding: "var(--space-8) 0",
             borderBottom: "1px solid var(--color-border)",
@@ -241,56 +293,91 @@ export default async function HomePage() {
           }}
         >
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>THE AGENCY LEVERAGE ENGINE</div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.agencyTitle}</h2>
-              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
-                {t.home.agencySubtitle}
-              </p>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "var(--space-4)" }}>
+              <div>
+                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>LAYANAN TURNKEY</div>
+                <h2 style={{ fontSize: "var(--text-28)" }}>
+                  {isEn ? "5-Day Done-For-You Implementation Sprint" : "Sprint Implementasi Otomasi 5 Hari (Rp7.500.000)"}
+                </h2>
+                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "680px", marginTop: "var(--space-2)" }}>
+                  {isEn
+                    ? "We don't just sell you access to software. We audit your lead process, configure custom nodes, test edge cases, and hand over a live, working system in 5 business days."
+                    : "Kami tidak hanya menjual akses software. Kami mengaudit alur kualifikasi lead Anda, menyambungkan kanal pesan, menguji skenario batas, dan menyerahkan sistem yang sudah berjalan dalam 5 hari kerja."}
+                </p>
+              </div>
+
+              <Link href="/services/implementation-sprint" className="btn btn-secondary btn-sm">
+                <span>{isEn ? "View Complete Sprint Specs" : "Lihat Spesifikasi Lengkap Sprint"}</span>
+                <ArrowRight size={14} aria-hidden="true" />
+              </Link>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "var(--space-5)",
-              }}
-            >
-              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <Building2 size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint1Title}</h3>
-                </div>
+            <div className="sprint-timeline">
+              <div className="sprint-day">
+                <span className="sprint-day-num">{isEn ? "Day 01" : "Hari 01"}</span>
+                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
+                  {isEn ? "Discovery & Audit" : "Discovery & Audit"}
+                </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
-                  {t.home.agencyPoint1Body}
+                  {isEn
+                    ? "Map current lead forms, qualification rules, and team approval roles."
+                    : "Memetakan form intake, kriteria kualifikasi lead, dan peran persetujuan tim."}
                 </p>
               </div>
 
-              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <TrendingUp size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint2Title}</h3>
-                </div>
+              <div className="sprint-day">
+                <span className="sprint-day-num">{isEn ? "Day 02" : "Hari 02"}</span>
+                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
+                  {isEn ? "Schema & Prompts" : "Skema & Prompt AI"}
+                </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
-                  {t.home.agencyPoint2Body}
+                  {isEn
+                    ? "Define Zod schemas, customize template DAG nodes, and tune scoring logic."
+                    : "Menyusun skema Zod type-safe, konfigurasi DAG node, dan tuning skor kualifikasi."}
                 </p>
               </div>
 
-              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <Layers size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint3Title}</h3>
-                </div>
+              <div className="sprint-day">
+                <span className="sprint-day-num">{isEn ? "Day 03" : "Hari 03"}</span>
+                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
+                  {isEn ? "Channel Wiring" : "Integrasi Kanal"}
+                </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>
-                  {t.home.agencyPoint3Body}
+                  {isEn
+                    ? "Connect inbound form webhooks, CRM stages, and WhatsApp/Email draft actions."
+                    : "Menghubungkan webhook form lead, pipeline CRM, dan draf pesan WhatsApp/Email."}
+                </p>
+              </div>
+
+              <div className="sprint-day">
+                <span className="sprint-day-num">{isEn ? "Day 04" : "Hari 04"}</span>
+                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
+                  {isEn ? "Sandbox Verification" : "Uji Sandbox & Laci Review"}
+                </h3>
+                <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                  {isEn
+                    ? "Run 20+ synthetic scenarios, verify human approval drawer, test idempotency."
+                    : "Uji 20+ skenario batas, optimasi laci persetujuan, dan verifikasi anti-duplikasi."}
+                </p>
+              </div>
+
+              <div className="sprint-day">
+                <span className="sprint-day-num">{isEn ? "Day 05" : "Hari 05"}</span>
+                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
+                  {isEn ? "Go-Live & Handover" : "Peluncuran & Handover"}
+                </h3>
+                <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                  {isEn
+                    ? "Deploy live to production, train operations team, start 14-day SLA monitoring."
+                    : "Peluncuran live, pelatihan tim operasional Anda, dan pemantauan aktif 14 hari."}
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 12 Industries & 120+ Templates */}
-        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+        {/* 12 Industries & 120 Validated Templates */}
+        <section id="templates" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div
               style={{
@@ -302,20 +389,24 @@ export default async function HomePage() {
               }}
             >
               <div>
-                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>KATALOG MULTI-INDUSTRI</div>
-                <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.industriesTitle}</h2>
-                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "600px", marginTop: "var(--space-2)" }}>
-                  {t.home.industriesSubtitle}
+                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>KATALOG 12 INDUSTRI</div>
+                <h2 style={{ fontSize: "var(--text-28)" }}>
+                  {isEn ? "120 Validated Business Workflow Templates" : "120 Template Alur Kerja Bisnis Siap Pakai"}
+                </h2>
+                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "620px", marginTop: "var(--space-2)" }}>
+                  {isEn
+                    ? "Every template is verified by static DAG cycle checkers and tested end-to-end with schema validation and approval gates."
+                    : "Setiap template diverifikasi dengan DAG cycle checker dan teruji end-to-end lengkap dengan validasi skema dan izin manusia."}
                 </p>
               </div>
 
               <Link href="/templates" className="btn btn-secondary btn-sm">
-                <span>{t.home.catalogLink}</span>
+                <span>{isEn ? "Browse All 120 Templates" : "Jelajahi Seluruh 120 Template"}</span>
                 <ArrowRight size={14} aria-hidden="true" />
               </Link>
             </div>
 
-            {/* 12 Industry Pills */}
+            {/* Industry Pills */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
               {industryList.map((ind) => (
                 <Link
@@ -343,13 +434,7 @@ export default async function HomePage() {
               {featuredTemplates.map((template) => (
                 <div
                   key={template.id}
-                  className="panel"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    gap: "var(--space-4)",
-                  }}
+                  className="bento-card"
                 >
                   <div style={{ display: "grid", gap: "var(--space-2)" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -359,7 +444,7 @@ export default async function HomePage() {
                       <span className="badge">v{template.version}</span>
                     </div>
 
-                    <h3 style={{ fontSize: "var(--text-18)" }}>
+                    <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
                       <Link
                         href={`/templates/${template.slug}`}
                         style={{ textDecoration: "none" }}
@@ -368,7 +453,7 @@ export default async function HomePage() {
                       </Link>
                     </h3>
 
-                    <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                    <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
                       {pick(template.summary, locale)}
                     </p>
                   </div>
@@ -401,196 +486,159 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 4 Steps Section */}
-        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+        {/* Interactive Agency Capacity & ROI Calculator */}
+        <section id="roi-calculator" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>Alur Kerja</div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.stepsTitle}</h2>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>KALKULASI PENGHEMATAN</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>
+                {isEn ? "Quantify Your Operational Time & Cost Savings" : "Hitung Nilai Penghematan Waktu & Biaya Tim Anda"}
+              </h2>
+              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
+                {isEn
+                  ? "Adjust lead volumes and staff wage parameters to project how quickly an Atlas implementation sprint pays for itself."
+                  : "Geser parameter volume lead dan beban gaji tim untuk melihat seberapa cepat investasi implementasi Atlas balik modal."}
+              </p>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: "var(--space-4)",
-              }}
-            >
-              <div className="panel" style={{ display: "grid", gap: "var(--space-2)" }}>
-                <span className="eyebrow">Langkah 01</span>
-                <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.step1t}</h3>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.step1d}</p>
-              </div>
-
-              <div className="panel" style={{ display: "grid", gap: "var(--space-2)" }}>
-                <span className="eyebrow">Langkah 02</span>
-                <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.step2t}</h3>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.step2d}</p>
-              </div>
-
-              <div className="panel" style={{ display: "grid", gap: "var(--space-2)" }}>
-                <span className="eyebrow">Langkah 03</span>
-                <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.step3t}</h3>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.step3d}</p>
-              </div>
-
-              <div className="panel" style={{ display: "grid", gap: "var(--space-2)" }}>
-                <span className="eyebrow">Langkah 04</span>
-                <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.step4t}</h3>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.step4d}</p>
-              </div>
-            </div>
+            <RoiCalculator dict={{}} locale={locale} />
           </div>
         </section>
 
-        {/* 3 Pillars: Human Control, Cost Awareness, Replayability */}
+        {/* Enterprise Governance, Durability & Trust */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>Fondasi Kepercayaan</div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>Dirancang untuk Operasi Bisnis Nyata</h2>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>KEAMANAN &amp; INTEGRITAS DATA</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>
+                {isEn ? "Built for Real Business Operations: Verifiable Facts" : "Fondasi Operasi Bisnis Nyata: Fakta Terverifikasi"}
+              </h2>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: "var(--space-5)",
-              }}
-            >
+            <div className="bento-grid">
               <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <ShieldCheck size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.controlTitle}</h3>
+                  <Database size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "Durable PostgreSQL State" : "Penyimpanan PostgreSQL Durable"}
+                  </h3>
                 </div>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.controlBody}</p>
-              </div>
-
-              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <Coins size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.costTitle}</h3>
-                </div>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.costBody}</p>
-              </div>
-
-              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                  <History size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.traceTitle}</h3>
-                </div>
-                <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.home.traceBody}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Dual Pricing Preview Section */}
-        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
-          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "flex-end",
-                justifyContent: "space-between",
-                gap: "var(--space-4)",
-              }}
-            >
-              <div>
-                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>INVESTASI &amp; SKALA BISNIS</div>
-                <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.pricingTitle}</h2>
-                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "600px", marginTop: "var(--space-2)" }}>
-                  {t.home.pricingSubtitle}
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "Runs on Neon Serverless PostgreSQL with connection pooling. Your workflows, approvals, and logs survive serverless lambda cold starts."
+                    : "Berjalan di atas Neon Serverless PostgreSQL dengan connection pooling. State alur kerja, antrean izin, dan log tetap aman melintasi kontainer serverless."}
                 </p>
               </div>
 
-              <Link href="/pricing" className="btn btn-secondary btn-sm">
-                <span>{t.home.viewPricingDetails}</span>
-                <ArrowRight size={14} aria-hidden="true" />
-              </Link>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "var(--space-5)",
-              }}
-            >
-              {/* SaaS Subscription Tiers */}
-              <div
-                className="panel"
-                style={{
-                  display: "grid",
-                  gap: "var(--space-4)",
-                  background: "var(--color-surface)",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>{t.home.saasHeading}</h3>
-                  <span className="badge">Self-Serve</span>
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <ShieldCheck size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "Strict Human Gatekeeper" : "Persetujuan Manusia Wajib"}
+                  </h3>
                 </div>
-
-                <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planFree}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planFreeDesc}</div>
-                  </div>
-                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planStarter}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planStarterDesc}</div>
-                  </div>
-                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planGrowth}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planGrowthDesc}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planAgency}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planAgencyDesc}</div>
-                  </div>
-                </div>
-
-                <Link href="/signup" className="btn btn-primary btn-sm" style={{ justifySelf: "start" }}>
-                  <span>Daftar workspace</span>
-                </Link>
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "Outbound messages to customers or CRM pipeline updates remain paused until an authorized team member clicks Approve in the console."
+                    : "Pesan WhatsApp keluar atau update status CRM tetap tertahan di antrean sampai anggota tim Anda mengklik Setujui di konsol review."}
+                </p>
               </div>
 
-              {/* Done-For-You Sprints */}
-              <div
-                className="panel"
-                style={{
-                  display: "grid",
-                  gap: "var(--space-4)",
-                  background: "var(--color-surface-2)",
-                  borderColor: "var(--color-accent)",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>{t.home.dfyHeading}</h3>
-                  <span className="badge badge-accent">Turnkey Execution</span>
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <History size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "Replayable Audit Trails" : "Catatan Jejak Audit Permanen"}
+                  </h3>
                 </div>
-
-                <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfyAudit}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfyAuditDesc}</div>
-                  </div>
-                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfySprint}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfySprintDesc}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfyRetainer}</div>
-                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfyRetainerDesc}</div>
-                  </div>
-                </div>
-
-                <Link href="/pricing" className="btn btn-secondary btn-sm" style={{ justifySelf: "start" }}>
-                  <span>Pesan jadwal sprint</span>
-                </Link>
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "Every input payload, AI evaluation score, latency metric, and approval timestamp is saved immutably for compliance and dispute resolution."
+                    : "Setiap payload input, skor evaluasi AI, latensi, dan stempel waktu persetujuan dicatat secara permanen untuk audit kepatuhan."}
+                </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Enterprise FAQ Accordion */}
+        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
+            <div style={{ textAlign: "center" }}>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>PERTANYAAN UMUM</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>
+                {isEn ? "Frequently Asked Questions" : "Pertanyaan yang Sering Diajukan"}
+              </h2>
+            </div>
+
+            <div className="faq-accordion">
+              <details className="faq-item" open>
+                <summary className="faq-summary">
+                  <span>{isEn ? "Can AI send messages without our team's permission?" : "Apakah AI bisa mengirim pesan tanpa persetujuan tim kami?"}</span>
+                  <ChevronDown size={18} aria-hidden="true" />
+                </summary>
+                <div className="faq-content">
+                  {isEn
+                    ? "Never. Atlas enforces mandatory human-in-the-loop gates for all outbound customer communications. The AI engine evaluates lead fit and drafts response text, but no message leaves the building until an authorized operator clicks Approve."
+                    : "Sama sekali tidak. Atlas memberlakukan gerbang persetujuan manusia wajib untuk semua komunikasi keluar. AI hanya menilai kriteria lead dan menyusun draf pesan, tetapi tidak ada pesan yang terkirim sebelum operator resmi Anda mengklik Setujui."}
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-summary">
+                  <span>{isEn ? "How long does the implementation take?" : "Berapa lama proses implementasi sampai sistem aktif?"}</span>
+                  <ChevronDown size={18} aria-hidden="true" />
+                </summary>
+                <div className="faq-content">
+                  {isEn
+                    ? "Exactly 5 business days for our standard Done-For-You Sprint (Rp7.500.000). Because we adapt from 120 pre-validated DAG templates rather than building from scratch, your workflow is verified in sandbox by Day 4 and deployed by Day 5."
+                    : "Tepat 5 hari kerja untuk paket standard Done-For-You Sprint (Rp7.500.000). Karena kami berangkat dari 120 template DAG yang sudah divalidasi, alur kerja Anda sudah diuji di sandbox pada Hari 4 dan go-live pada Hari 5."}
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-summary">
+                  <span>{isEn ? "Do we need to migrate or replace our existing CRM?" : "Apakah kami harus mengganti CRM atau spreadsheet yang sudah ada?"}</span>
+                  <ChevronDown size={18} aria-hidden="true" />
+                </summary>
+                <div className="faq-content">
+                  {isEn
+                    ? "No. Atlas works alongside your existing stack. We connect to your current landing page forms (Meta Lead Ads, Webflow, Typeform) and sync approved results back into your existing CRM (HubSpot, Pipedrive, Google Sheets)."
+                    : "Tidak perlu. Atlas bekerja berdampingan dengan tools yang sudah Anda gunakan. Kami menghubungkan form iklan Anda (Meta Lead Ads, Webflow, Typeform) dan menyinkronkan hasil yang disetujui kembali ke CRM Anda (HubSpot, Pipedrive, Google Sheets)."}
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-summary">
+                  <span>{isEn ? "Is our customer lead data secure and confidential?" : "Apakah data prospek dan klien kami aman dan rahasia?"}</span>
+                  <ChevronDown size={18} aria-hidden="true" />
+                </summary>
+                <div className="faq-content">
+                  {isEn
+                    ? "Yes. Your data is never used to train public AI models. All workspace records reside in private PostgreSQL storage with tenant isolation, scrypt password hashing, and signed session cookies."
+                    : "Ya, 100% aman. Data Anda tidak pernah digunakan untuk melatih model AI publik. Semua data tersimpan di PostgreSQL privat dengan isolasi tenant, hashing scrypt, dan cookie sesi terenkripsi HMAC."}
+                </div>
+              </details>
+
+              <details className="faq-item">
+                <summary className="faq-summary">
+                  <span>{isEn ? "What happens after the 5-day sprint ends?" : "Bagaimana dukungan setelah 5-day sprint selesai?"}</span>
+                  <ChevronDown size={18} aria-hidden="true" />
+                </summary>
+                <div className="faq-content">
+                  {isEn
+                    ? "Every sprint includes 14 days of dedicated post-launch SLA monitoring and team training. After that, you can continue on our self-serve SaaS workspace or opt for our ongoing maintenance retainer."
+                    : "Setiap sprint sudah mencakup 14 hari pemantauan aktif pasca-peluncuran dan sesi pelatihan tim Anda. Setelahnya, Anda dapat melanjutkan dengan paket langganan SaaS mandiri atau opsi pemeliharaan berkala."}
+                </div>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        {/* Embedded High-Converting Lead Capture Form */}
+        <section id="audit-form" style={{ padding: "var(--space-8) 0", background: "var(--color-surface-2)" }}>
+          <div className="container" style={{ maxWidth: "680px" }}>
+            <LeadCaptureForm locale={locale} source="homepage_main" />
           </div>
         </section>
 
@@ -600,7 +648,7 @@ export default async function HomePage() {
             <div
               className="panel"
               style={{
-                background: "var(--color-surface-2)",
+                background: "var(--color-surface)",
                 border: "1px solid var(--color-border-strong)",
                 display: "grid",
                 gap: "var(--space-3)",
@@ -610,17 +658,19 @@ export default async function HomePage() {
               <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
                 <ShieldCheck size={18} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
                 <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  Komitmen Transparansi &amp; Realitas MVP
+                  {isEn ? "Transparency & Sandbox Reality Commitment" : "Komitmen Transparansi & Realitas Sandbox"}
                 </h3>
               </div>
-              <p className="muted" style={{ fontSize: "var(--text-14)", maxWidth: "800px" }}>
-                {t.home.honesty}
+              <p className="muted" style={{ fontSize: "var(--text-14)", maxWidth: "840px", lineHeight: 1.6 }}>
+                {isEn
+                  ? "Atlas adheres to absolute engineering truthfulness: our public interactive demo operates in a secure sandbox simulation to prevent unauthorized outbound messages. In client production sprints, live adapters (WhatsApp Cloud API, HubSpot, Google Sheets) are wired with your authorized credentials after sandbox verification."
+                  : "Atlas memegang teguh kejujuran teknis: demo kanvas interaktif di halaman ini beroperasi dalam simulasi sandbox tertutup agar tidak mengirim pesan keluar sembarangan. Pada implementasi klien nyata, adapter live (WhatsApp Cloud API, HubSpot, Google Sheets) dihubungkan menggunakan kredensial resmi Anda setelah verifikasi sandbox selesai."}
               </p>
             </div>
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Final CTA Banner */}
         <section
           style={{
             padding: "var(--space-8) 0 var(--space-9) 0",
@@ -629,19 +679,23 @@ export default async function HomePage() {
           }}
         >
           <div className="container" style={{ textAlign: "center", display: "grid", gap: "var(--space-4)", justifyItems: "center" }}>
-            <h2 style={{ fontSize: "var(--text-32)", maxWidth: "600px" }}>
-              {t.home.finalTitle}
+            <h2 style={{ fontSize: "var(--text-32)", maxWidth: "640px" }}>
+              {isEn
+                ? "Ready to Automate Your Business Workflows with Confidence?"
+                : "Siap Mengotomatisasi Alur Kerja Bisnis Anda dengan Aman?"}
             </h2>
-            <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "540px" }}>
-              {t.home.finalBody}
+            <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "560px" }}>
+              {isEn
+                ? "Claim a free 30-minute discovery audit or lock in your 5-day implementation sprint today."
+                : "Dapatkan sesi audit proses bisnis 30 menit tanpa biaya atau jadwalkan 5-day implementation sprint Anda sekarang."}
             </p>
-            <div style={{ display: "flex", gap: "var(--space-3)", marginTop: "var(--space-2)" }}>
-              <Link href="/signup" className="btn btn-primary">
-                <span>Mulai sekarang gratis</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", marginTop: "var(--space-2)", justifyContent: "center" }}>
+              <a href="#audit-form" className="btn btn-primary">
+                <span>{isEn ? "Book Your Workflow Audit" : "Jadwalkan Audit Gratis"}</span>
                 <ArrowRight size={16} aria-hidden="true" />
-              </Link>
+              </a>
               <Link href="/templates" className="btn btn-secondary">
-                <span>Jelajahi 120 template</span>
+                <span>{isEn ? "Browse 120 Templates" : "Jelajahi 120 Template"}</span>
               </Link>
             </div>
           </div>
