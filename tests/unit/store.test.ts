@@ -53,4 +53,13 @@ describe("store durability and storage detection", () => {
     const pingResult = await store.ping();
     expect(pingResult).toBe(false);
   });
+
+  it("getStore() instantiates NeonPostgresStore when DATABASE_URL is set", () => {
+    process.env.DATABASE_URL = "postgres://dummy:dummy@localhost:5432/dummydb";
+    (globalThis as any).atlasStore = undefined;
+    const store = getStore();
+    expect(store.getStorageType()).toBe("postgres");
+    (globalThis as any).atlasStore = undefined;
+  });
 });
+

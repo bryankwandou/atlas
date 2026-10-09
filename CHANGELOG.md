@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.2] - 2026-10-09
+### Added
+- Exhaustive end-to-end execution test for all 120 seeded templates (`tests/unit/runtime.test.ts`).
+- Cross-container live Neon PostgreSQL durability test suite (`tests/integration/live-neon.test.ts`).
+- Production environment configured on Vercel with pooled `DATABASE_URL` and `DATABASE_URL_UNPOOLED`.
+### Fixed
+- Fixed workflow execution deadline bug where human approval wait time was incorrectly counted against active compute limits.
+- Ensured test suite passes cleanly with zero TypeScript errors.
+
 ## [0.2.1] - 2026-10-09
 ### Added
 - Integrated `@neondatabase/serverless` with concrete `NeonPostgresStore` implementation supporting durable cross-container serverless state.
