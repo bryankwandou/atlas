@@ -30,8 +30,11 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     checks: {
       database: dbOk ? "ok" : "fail",
+      storageType: getStore().getStorageType(),
+      durablePersistence: getStore().getStorageType() === "postgres",
       templatesSeeded: templates.length,
       aiProvider: liveProvider ? "openai" : "mock_simulation",
+      simulationMode: !liveProvider,
     },
     metrics: {
       workspaces: workspaceCount,

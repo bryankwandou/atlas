@@ -30,10 +30,18 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const categories = [
     { id: "all", label: t.templates.all },
     { id: "sales", label: t.templates.sales },
-    { id: "support", label: t.templates.support },
     { id: "marketing", label: t.templates.marketing },
-    { id: "operations", label: t.templates.operations },
+    { id: "support", label: t.templates.support },
+    { id: "property", label: t.templates.property },
+    { id: "dealer", label: t.templates.dealer },
+    { id: "education", label: t.templates.education },
+    { id: "travel", label: t.templates.travel },
     { id: "agency", label: t.templates.agency },
+    { id: "recruiting", label: t.templates.recruiting },
+    { id: "finance", label: t.templates.finance },
+    { id: "ecommerce", label: t.templates.ecommerce },
+    { id: "services", label: t.templates.services },
+    { id: "operations", label: t.templates.operations },
   ];
 
   return (

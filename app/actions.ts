@@ -27,6 +27,20 @@ async function clientKey(prefix: string) {
   return `${prefix}:${ip}`;
 }
 
+async function verifyOrigin() {
+  const h = await headers();
+  const origin = h.get("origin");
+  const host = h.get("host");
+  if (origin && host) {
+    try {
+      const originHost = new URL(origin).host;
+      if (originHost !== host) throw new Error("Invalid request origin");
+    } catch {
+      throw new Error("Invalid request origin");
+    }
+  }
+}
+
 const signupSchema = z.object({
   name: z.string().trim().min(2).max(80),
   email: emailSchema,
@@ -35,6 +49,7 @@ const signupSchema = z.object({
 });
 
 export async function signupAction(_prev: FormState, form: FormData): Promise<FormState> {
+  await verifyOrigin();
   if (!allowAttempt(await clientKey("signup"), 10, 15 * 60_000)) return { error: "rateLimited" };
   const parsed = signupSchema.safeParse(Object.fromEntries(form));
   if (!parsed.success) {
@@ -59,6 +74,7 @@ export async function signupAction(_prev: FormState, form: FormData): Promise<Fo
 const loginSchema = z.object({ email: emailSchema, password: z.string().min(1).max(200) });
 
 export async function loginAction(_prev: FormState, form: FormData): Promise<FormState> {
+  await verifyOrigin();
   if (!allowAttempt(await clientKey("login"), 10, 15 * 60_000)) return { error: "rateLimited" };
   const parsed = loginSchema.safeParse(Object.fromEntries(form));
   if (!parsed.success) return { error: "invalid" };
@@ -96,6 +112,8 @@ export async function toggleWorkflowAction(form: FormData) {
 }
 
 export async function runTestAction(_prev: FormState, form: FormData): Promise<FormState> {
+  await verifyOrigin();
+  if (!allowAttempt(await clientKey("run_test"), 30, 60_000)) return { error: "rateLimited" };
   const session = await requireSession();
   const workflowId = String(form.get("workflowId") ?? "");
   const input: Record<string, string> = {};
@@ -121,6 +139,7 @@ export async function runTestAction(_prev: FormState, form: FormData): Promise<F
 }
 
 export async function decideApprovalAction(form: FormData) {
+  await verifyOrigin();
   const session = await requireSession();
   const approvalId = z.string().min(1).max(64).parse(form.get("approvalId"));
   const decision = z.enum(["approved", "rejected"]).parse(form.get("decision"));

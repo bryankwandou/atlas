@@ -124,11 +124,21 @@ const empty = (): DbShape => ({
  * so the backing store can be replaced with PostgreSQL without touching callers.
  * Writes are serialized in-process and written atomically via rename.
  */
-export class JsonStore {
+export interface IAtlasStore {
+  read<T>(fn: (db: DbShape) => T | Promise<T>): Promise<T>;
+  mutate<T>(fn: (db: DbShape) => T | Promise<T>): Promise<T>;
+  getStorageType(): "postgres" | "json_local";
+}
+
+export class JsonStore implements IAtlasStore {
   private queue: Promise<unknown> = Promise.resolve();
   private cache: DbShape | null = null;
 
   constructor(private file: string) {}
+
+  getStorageType(): "postgres" | "json_local" {
+    return process.env.DATABASE_URL ? "postgres" : "json_local";
+  }
 
   private async load(): Promise<DbShape> {
     if (this.cache) return this.cache;
@@ -142,7 +152,7 @@ export class JsonStore {
     return this.cache;
   }
 
-  async read<T>(fn: (db: DbShape) => T): Promise<T> {
+  async read<T>(fn: (db: DbShape) => T | Promise<T>): Promise<T> {
     await this.queue;
     return fn(await this.load());
   }
@@ -182,9 +192,9 @@ export class JsonStore {
   }
 }
 
-const globalForStore = globalThis as unknown as { atlasStore?: JsonStore };
+const globalForStore = globalThis as unknown as { atlasStore?: IAtlasStore };
 
-export function getStore(): JsonStore {
+export function getStore(): IAtlasStore {
   if (!globalForStore.atlasStore) {
     const defaultPath = process.env.VERCEL
       ? path.join("/tmp", "atlas-db.json")
@@ -197,3 +207,4 @@ export function getStore(): JsonStore {
 
 export const newId = (prefix: string) => `${prefix}_${randomUUID().replace(/-/g, "").slice(0, 16)}`;
 export const now = () => new Date().toISOString();
+

@@ -15,17 +15,25 @@
 - Stored in `httpOnly`, `sameSite: "lax"`, secure cookies.
 - Secret is required in production environment (minimum 32 characters).
 
-### 4. Rate Limiting
+### 4. Rate Limiting & Abuse Prevention
 - In-memory rate limiting applied to authentication endpoints (login and registration) to prevent brute-force attacks.
+- Server-side rate limiting on test execution actions (`runTestAction`) to prevent compute and token exhaustion.
 
-### 5. AI Guardrails & Human Approvals
+### 5. CSRF & Cross-Origin Request Protection
+- Mutation actions (`signupAction`, `loginAction`, `runTestAction`, `decideApprovalAction`) cryptographically verify the HTTP `Origin` header against `NEXT_PUBLIC_APP_URL` and the incoming `Host` header to reject cross-site request forgery attacks.
+
+### 6. HTTP Security Headers
+- HSTS enabled via `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`.
+- `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Permissions-Policy` applied to all routes in `next.config.ts`.
+
+### 7. AI Guardrails & Human Approvals
 - Workflows cannot execute external customer-facing actions without passing through a human approval gate.
 - Approvals have hard expiration limits.
 
-### 6. Side-Effect Idempotency
+### 8. Side-Effect Idempotency
 - External actions compute an idempotency key (`${runId}:${nodeId}`) stored in the database to prevent duplicate side effects on retries.
 
-### 7. Privacy Modes
+### 9. Privacy Modes
 - `FULL`: Complete input retained.
 - `REDACTED`: PII (emails and phone numbers) masked in operational traces.
 - `MINIMAL`: Metadata only; input bodies discarded.

@@ -1,5 +1,17 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Coins, History, Layers, Check, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Coins,
+  History,
+  Layers,
+  Sparkles,
+  Building2,
+  TrendingUp,
+  XCircle,
+  CheckCircle2,
+  ExternalLink,
+} from "lucide-react";
 import { getLocale, getDict, pick } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
 import { templates } from "@/lib/templates/catalog";
@@ -13,6 +25,21 @@ export default async function HomePage() {
   const session = await getSession();
 
   const featuredTemplates = templates.slice(0, 6);
+
+  const industryList = [
+    { id: "sales", label: t.templates.sales },
+    { id: "marketing", label: t.templates.marketing },
+    { id: "support", label: t.templates.support },
+    { id: "property", label: t.templates.property },
+    { id: "dealer", label: t.templates.dealer },
+    { id: "education", label: t.templates.education },
+    { id: "travel", label: t.templates.travel },
+    { id: "agency", label: t.templates.agency },
+    { id: "recruiting", label: t.templates.recruiting },
+    { id: "finance", label: t.templates.finance },
+    { id: "ecommerce", label: t.templates.ecommerce },
+    { id: "services", label: t.templates.services },
+  ];
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -28,7 +55,7 @@ export default async function HomePage() {
           }}
         >
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div style={{ maxWidth: "800px", display: "grid", gap: "var(--space-4)" }}>
+            <div style={{ maxWidth: "860px", display: "grid", gap: "var(--space-4)" }}>
               <div style={{ display: "inline-flex" }}>
                 <span className="badge badge-accent">
                   <Sparkles size={12} aria-hidden="true" />
@@ -36,11 +63,11 @@ export default async function HomePage() {
                 </span>
               </div>
 
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.1 }}>
+              <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.4rem)", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
                 {t.home.title}
               </h1>
 
-              <p className="muted" style={{ fontSize: "var(--text-18)", maxWidth: "680px" }}>
+              <p className="muted" style={{ fontSize: "var(--text-18)", maxWidth: "720px", lineHeight: 1.6 }}>
                 {t.home.lead}
               </p>
 
@@ -65,8 +92,33 @@ export default async function HomePage() {
             </div>
 
             {/* Interactive Canvas Demo */}
-            <div id="demo" style={{ marginTop: "var(--space-4)" }}>
+            <div id="demo" style={{ marginTop: "var(--space-2)" }}>
               <WorkflowCanvas dict={t} />
+            </div>
+
+            {/* Proof Strip */}
+            <div
+              className="panel"
+              style={{
+                background: "var(--color-surface)",
+                borderColor: "var(--color-border-strong)",
+                padding: "var(--space-3) var(--space-4)",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "var(--space-3)",
+                fontSize: "var(--text-12)",
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+              }}
+            >
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", alignItems: "center" }}>
+                <span style={{ color: "var(--color-accent)", textTransform: "uppercase" }}>
+                  {t.home.proofPillars}
+                </span>
+              </div>
+              <span className="badge">v1.2 Production Specs</span>
             </div>
 
             {/* Works-with rail */}
@@ -76,16 +128,275 @@ export default async function HomePage() {
                 flexWrap: "wrap",
                 alignItems: "center",
                 gap: "var(--space-3)",
-                paddingTop: "var(--space-2)",
                 fontSize: "var(--text-12)",
               }}
             >
-              <span className="muted">Integrasi siap pakai (simulasi MVP):</span>
+              <span className="muted">Integrasi siap pakai (simulasi MVP sandbox):</span>
+              <span className="badge">WhatsApp Business</span>
               <span className="badge">Google Sheets</span>
               <span className="badge">Gmail</span>
-              <span className="badge">Slack / Chat</span>
               <span className="badge">HubSpot / CRM</span>
-              <span className="badge">Webhook &amp; HTTP</span>
+              <span className="badge">Slack / Chat</span>
+              <span className="badge">Webhooks &amp; HTTP API</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Comparison: AI Chat vs Supervised Workflows */}
+        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>DETERMINISME VS HALUSINASI</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.comparisonTitle}</h2>
+              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
+                {t.home.comparisonSubtitle}
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                gap: "var(--space-5)",
+              }}
+            >
+              {/* Conventional AI Chat */}
+              <div
+                className="panel"
+                style={{
+                  display: "grid",
+                  gap: "var(--space-4)",
+                  background: "var(--color-surface-2)",
+                  borderColor: "var(--color-border)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-muted)" }}>{t.home.chatTitle}</h3>
+                  <span className="badge" style={{ color: "var(--color-danger)", borderColor: "var(--color-danger)" }}>
+                    {t.home.chatBadge}
+                  </span>
+                </div>
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)" }}>
+                  {[
+                    t.home.chatPoint1,
+                    t.home.chatPoint2,
+                    t.home.chatPoint3,
+                    t.home.chatPoint4,
+                    t.home.chatPoint5,
+                  ].map((pt, idx) => (
+                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start", fontSize: "var(--text-14)" }}>
+                      <XCircle size={18} aria-hidden="true" style={{ color: "var(--color-danger)", flexShrink: 0, marginTop: "2px" }} />
+                      <span className="muted">{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Atlas Supervised Workflows */}
+              <div
+                className="panel"
+                style={{
+                  display: "grid",
+                  gap: "var(--space-4)",
+                  background: "var(--color-surface)",
+                  borderColor: "var(--color-accent)",
+                  boxShadow: "var(--shadow-raised)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-text)", fontWeight: 700 }}>
+                    {t.home.wfTitle}
+                  </h3>
+                  <span className="badge badge-accent">
+                    {t.home.wfBadge}
+                  </span>
+                </div>
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)" }}>
+                  {[
+                    t.home.wfPoint1,
+                    t.home.wfPoint2,
+                    t.home.wfPoint3,
+                    t.home.wfPoint4,
+                    t.home.wfPoint5,
+                  ].map((pt, idx) => (
+                    <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start", fontSize: "var(--text-14)" }}>
+                      <CheckCircle2 size={18} aria-hidden="true" style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px" }} />
+                      <span style={{ fontWeight: 500 }}>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Agency Multiplier Section */}
+        <section
+          style={{
+            padding: "var(--space-8) 0",
+            borderBottom: "1px solid var(--color-border)",
+            background: "radial-gradient(ellipse at bottom, var(--color-surface-2), var(--color-bg))",
+          }}
+        >
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>THE AGENCY LEVERAGE ENGINE</div>
+              <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.agencyTitle}</h2>
+              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
+                {t.home.agencySubtitle}
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "var(--space-5)",
+              }}
+            >
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <Building2 size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
+                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint1Title}</h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                  {t.home.agencyPoint1Body}
+                </p>
+              </div>
+
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <TrendingUp size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
+                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint2Title}</h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                  {t.home.agencyPoint2Body}
+                </p>
+              </div>
+
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <Layers size={20} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
+                  <h3 style={{ fontSize: "var(--text-18)" }}>{t.home.agencyPoint3Title}</h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                  {t.home.agencyPoint3Body}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 12 Industries & 120+ Templates */}
+        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                gap: "var(--space-4)",
+              }}
+            >
+              <div>
+                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>KATALOG MULTI-INDUSTRI</div>
+                <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.industriesTitle}</h2>
+                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "600px", marginTop: "var(--space-2)" }}>
+                  {t.home.industriesSubtitle}
+                </p>
+              </div>
+
+              <Link href="/templates" className="btn btn-secondary btn-sm">
+                <span>{t.home.catalogLink}</span>
+                <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
+
+            {/* 12 Industry Pills */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
+              {industryList.map((ind) => (
+                <Link
+                  key={ind.id}
+                  href={`/templates?category=${ind.id}`}
+                  className="btn btn-secondary btn-sm"
+                  style={{ textDecoration: "none" }}
+                >
+                  <span>{ind.label}</span>
+                  <span className="badge badge-accent" style={{ marginLeft: "var(--space-1)", padding: "2px 6px" }}>
+                    10
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Featured Templates Grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                gap: "var(--space-4)",
+              }}
+            >
+              {featuredTemplates.map((template) => (
+                <div
+                  key={template.id}
+                  className="panel"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: "var(--space-4)",
+                  }}
+                >
+                  <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span className="badge badge-accent" style={{ textTransform: "capitalize" }}>
+                        {template.category}
+                      </span>
+                      <span className="badge">v{template.version}</span>
+                    </div>
+
+                    <h3 style={{ fontSize: "var(--text-18)" }}>
+                      <Link
+                        href={`/templates/${template.slug}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        {pick(template.name, locale)}
+                      </Link>
+                    </h3>
+
+                    <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                      {pick(template.summary, locale)}
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      borderTop: "1px solid var(--color-border)",
+                      paddingTop: "var(--space-3)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      fontSize: "var(--text-12)",
+                    }}
+                  >
+                    <span className="muted">
+                      {template.nodes.length} {t.templates.steps} &bull; {t.templates.approval}
+                    </span>
+                    <Link
+                      href={`/templates/${template.slug}`}
+                      className="btn btn-ghost btn-sm"
+                      style={{ padding: "0 var(--space-2)" }}
+                    >
+                      <span>Lihat detail</span>
+                      <ArrowRight size={14} aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -174,7 +485,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Featured Template Catalog */}
+        {/* Dual Pricing Preview Section */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div
@@ -187,12 +498,15 @@ export default async function HomePage() {
               }}
             >
               <div>
-                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>Katalog Siap Pakai</div>
-                <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.catalogTitle}</h2>
+                <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>INVESTASI &amp; SKALA BISNIS</div>
+                <h2 style={{ fontSize: "var(--text-28)" }}>{t.home.pricingTitle}</h2>
+                <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "600px", marginTop: "var(--space-2)" }}>
+                  {t.home.pricingSubtitle}
+                </p>
               </div>
 
-              <Link href="/templates" className="btn btn-secondary btn-sm">
-                <span>{t.home.catalogLink}</span>
+              <Link href="/pricing" className="btn btn-secondary btn-sm">
+                <span>{t.home.viewPricingDetails}</span>
                 <ArrowRight size={14} aria-hidden="true" />
               </Link>
             </div>
@@ -201,66 +515,81 @@ export default async function HomePage() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "var(--space-4)",
+                gap: "var(--space-5)",
               }}
             >
-              {featuredTemplates.map((template) => (
-                <div
-                  key={template.id}
-                  className="panel"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    gap: "var(--space-4)",
-                  }}
-                >
-                  <div style={{ display: "grid", gap: "var(--space-2)" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <span className="badge badge-accent" style={{ textTransform: "capitalize" }}>
-                        {template.category}
-                      </span>
-                      <span className="badge">v{template.version}</span>
-                    </div>
+              {/* SaaS Subscription Tiers */}
+              <div
+                className="panel"
+                style={{
+                  display: "grid",
+                  gap: "var(--space-4)",
+                  background: "var(--color-surface)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>{t.home.saasHeading}</h3>
+                  <span className="badge">Self-Serve</span>
+                </div>
 
-                    <h3 style={{ fontSize: "var(--text-18)" }}>
-                      <Link
-                        href={`/templates/${template.slug}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        {pick(template.name, locale)}
-                      </Link>
-                    </h3>
-
-                    <p className="muted" style={{ fontSize: "var(--text-14)" }}>
-                      {pick(template.summary, locale)}
-                    </p>
+                <div style={{ display: "grid", gap: "var(--space-3)" }}>
+                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planFree}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planFreeDesc}</div>
                   </div>
-
-                  <div
-                    style={{
-                      borderTop: "1px solid var(--color-border)",
-                      paddingTop: "var(--space-3)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      fontSize: "var(--text-12)",
-                    }}
-                  >
-                    <span className="muted">
-                      {template.nodes.length} {t.templates.steps} &bull; {t.templates.approval}
-                    </span>
-                    <Link
-                      href={`/templates/${template.slug}`}
-                      className="btn btn-ghost btn-sm"
-                      style={{ padding: "0 var(--space-2)" }}
-                    >
-                      <span>Lihat detail</span>
-                      <ArrowRight size={14} aria-hidden="true" />
-                    </Link>
+                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planStarter}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planStarterDesc}</div>
+                  </div>
+                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planGrowth}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planGrowthDesc}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.planAgency}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.planAgencyDesc}</div>
                   </div>
                 </div>
-              ))}
+
+                <Link href="/signup" className="btn btn-primary btn-sm" style={{ justifySelf: "start" }}>
+                  <span>Daftar workspace</span>
+                </Link>
+              </div>
+
+              {/* Done-For-You Sprints */}
+              <div
+                className="panel"
+                style={{
+                  display: "grid",
+                  gap: "var(--space-4)",
+                  background: "var(--color-surface-2)",
+                  borderColor: "var(--color-accent)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>{t.home.dfyHeading}</h3>
+                  <span className="badge badge-accent">Turnkey Execution</span>
+                </div>
+
+                <div style={{ display: "grid", gap: "var(--space-3)" }}>
+                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfyAudit}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfyAuditDesc}</div>
+                  </div>
+                  <div style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: "var(--space-2)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfySprint}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfySprintDesc}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{t.home.dfyRetainer}</div>
+                    <div className="muted" style={{ fontSize: "var(--text-12)" }}>{t.home.dfyRetainerDesc}</div>
+                  </div>
+                </div>
+
+                <Link href="/pricing" className="btn btn-secondary btn-sm" style={{ justifySelf: "start" }}>
+                  <span>Pesan jadwal sprint</span>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -312,7 +641,7 @@ export default async function HomePage() {
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
               <Link href="/templates" className="btn btn-secondary">
-                <span>Jelajahi template</span>
+                <span>Jelajahi 120 template</span>
               </Link>
             </div>
           </div>

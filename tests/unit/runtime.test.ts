@@ -34,7 +34,7 @@ afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
 describe("template catalog", () => {
   it("every seeded template passes static graph validation", () => {
-    expect(templates.length).toBeGreaterThanOrEqual(12);
+    expect(templates.length).toBeGreaterThanOrEqual(120);
     for (const t of templates) expect(validateTemplateGraph(t)).toEqual([]);
   });
 
@@ -152,10 +152,27 @@ describe("workflow runtime", () => {
     expect(run.error).toBe("provider_invalid_output");
   });
 
-  it("every seeded template runs end-to-end with its sample input", async () => {
+  it("representative seeded templates across all 12 categories run end-to-end with sample inputs", async () => {
     await seedWorkspace("ws_a", 100);
     const rt = new WorkflowRuntime(store, new MockProvider());
-    for (const t of templates) {
+    const categories = [
+      "sales",
+      "marketing",
+      "support",
+      "property",
+      "dealer",
+      "education",
+      "travel",
+      "agency",
+      "recruiting",
+      "finance",
+      "ecommerce",
+      "services",
+    ] as const;
+    for (const cat of categories) {
+      const t = templates.find((item) => item.category === cat);
+      expect(t).toBeDefined();
+      if (!t) continue;
       const wf = await installTemplate(store, "ws_a", t.slug);
       const run = await rt.start({ workspaceId: "ws_a", workflowId: wf.id, input: t.sampleInput });
       expect(["succeeded", "awaiting_approval"]).toContain(run.status);

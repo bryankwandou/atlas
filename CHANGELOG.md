@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0] - 2026-10-09
+### Added
+- Expanded template catalog to 120 production-grade business workflow specifications across 12 distinct industries (Sales, Marketing, Support, Property, Dealer, Education, Travel, Agency, Recruiting, Finance, E-Commerce, Services).
+- PostgreSQL and Supabase DDL schema definition (`lib/db/schema.sql`) covering users, workspaces, memberships, workflows, runs, events, approvals, usage, and side effects.
+- Repository abstraction interface `IAtlasStore` with storage type reporting in `/api/health`.
+- Cross-site Request Forgery (CSRF) origin verification on all server action mutations.
+- Server-side rate limiting on test execution runs.
+- HTTP security headers including Strict-Transport-Security (HSTS), XSS protection, and frame denial.
+- Landing page overhaul with interactive execution canvas, proof strip, AI Chat vs AI Workflows comparison, agency leverage multiplier, 12-category catalog filter, and dual pricing (SaaS + Done-for-you).
+
 ## [0.1.0] - 2026-10-09
 ### Added
 - Core application setup with Next.js 16, TypeScript, Vanilla CSS design tokens.
