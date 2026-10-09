@@ -90,8 +90,8 @@ export default async function AutomationAuditPage() {
                 </h3>
                 <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
                   {isEn
-                    ? "A clear DAG diagram mapping Triggers, AI Evaluation criteria, Human Approval thresholds, and Outbound dispatch actions."
-                    : "Diagram alur lengkap memetakan Trigger, kriteria Evaluasi AI, batas ambang Persetujuan Manusia, dan tindakan dispatch keluar."}
+                    ? "A comprehensive operational architecture mapping Inbound Triggers, Qualification Rules, Team Approval Gates, and Outbound Actions."
+                    : "Rancangan arsitektur alur kerja bisnis memetakan Trigger Masuk, Kriteria Kualifikasi, Gerbang Persetujuan Tim, dan Aksi Keluar."}
                 </p>
               </div>
 

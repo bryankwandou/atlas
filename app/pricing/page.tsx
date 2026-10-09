@@ -77,7 +77,7 @@ export default async function PricingPage() {
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Estimasi ROI dan biaya token model</span>
+                    <span>Estimasi penghematan waktu &amp; kalkulasi ROI</span>
                   </li>
                 </ul>
               </div>
@@ -116,15 +116,15 @@ export default async function PricingPage() {
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Uji coba end-to-end data sintetis</span>
+                    <span>Simulasi menyeluruh &amp; verifikasi skenario batas</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Gerbang persetujuan manusia &amp; integrasi saluran</span>
+                    <span>Gerbang persetujuan tim &amp; integrasi kanal resmi</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pelatihan tim 1 sesi &amp; 14 hari SLA monitoring</span>
+                    <span>Pelatihan tim 1 sesi &amp; 14 hari pemantauan SLA aktif</span>
                   </li>
                 </ul>
               </div>
@@ -154,15 +154,15 @@ export default async function PricingPage() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-2)", fontSize: "var(--text-14)" }}>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pemantauan kesehatan &amp; kegagalan run</span>
+                    <span>Pemantauan kesehatan &amp; kelancaran alur kerja</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Penyesuaian prompt &amp; ambang batas</span>
+                    <span>Penyelarasan kriteria &amp; optimasi berkala</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Laporan performa &amp; biaya token bulanan</span>
+                    <span>Laporan performa alur kerja &amp; pemantauan SLA bulanan</span>
                   </li>
                 </ul>
               </div>
@@ -173,27 +173,28 @@ export default async function PricingPage() {
             </div>
           </div>
 
-          {/* AI Token Economics & BYOK note */}
+          {/* Enterprise Governance, Confidentiality & NDA Guarantee */}
           <div
             className="panel"
             style={{
-              background: "var(--color-surface-2)",
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border-strong)",
               display: "grid",
               gap: "var(--space-3)",
               padding: "var(--space-6)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-              <Coins size={18} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-              <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>Kebijakan &amp; Biaya Model AI</h3>
+              <ShieldCheck size={18} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
+              <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>Komitmen Kerahasiaan &amp; Tata Kelola Enterprise</h3>
             </div>
             <p className="muted" style={{ fontSize: "var(--text-14)", maxWidth: "800px", lineHeight: 1.6 }}>
               {t.pricing.aiNote}
             </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", fontSize: "var(--text-12)", marginTop: "var(--space-2)" }}>
-              <span className="badge">Tier Low (Luna): ~$0.001 / run</span>
-              <span className="badge">Tier Balanced (Terra): ~$0.05 / run</span>
-              <span className="badge">Kredit Platform Tersedia di MVP</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", fontSize: "var(--text-12)", marginTop: "var(--space-2)" }}>
+              <span className="badge badge-accent">Non-Disclosure Agreement (NDA) Mengikat</span>
+              <span className="badge">100% Hak Milik Data Klien</span>
+              <span className="badge">Dukungan SLA Khusus</span>
             </div>
           </div>
         </div>
