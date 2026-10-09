@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Play, RotateCcw, CheckCircle2, ShieldAlert, Coins, Cpu, Send, Inbox, ArrowRight } from "lucide-react";
+import { Play, RotateCcw, CheckCircle2, ShieldAlert, Coins, Cpu, Send, Inbox, MessageSquare, ThumbsUp, ThumbsDown } from "lucide-react";
 import type { Dict } from "@/lib/i18n";
 
 interface Props {
@@ -13,15 +13,18 @@ type Step = "idle" | "trigger" | "agent" | "condition" | "approval" | "action" |
 export function WorkflowCanvas({ dict }: Props) {
   const [currentStep, setCurrentStep] = useState<Step>("approval");
   const [approved, setApproved] = useState(false);
+  const [rejected, setRejected] = useState(false);
 
   function reset() {
     setCurrentStep("idle");
     setApproved(false);
+    setRejected(false);
   }
 
   function runSimulation() {
     setCurrentStep("trigger");
     setApproved(false);
+    setRejected(false);
     setTimeout(() => setCurrentStep("agent"), 500);
     setTimeout(() => setCurrentStep("condition"), 1100);
     setTimeout(() => setCurrentStep("approval"), 1700);
@@ -29,8 +32,15 @@ export function WorkflowCanvas({ dict }: Props) {
 
   function handleApprove() {
     setApproved(true);
+    setRejected(false);
     setCurrentStep("action");
     setTimeout(() => setCurrentStep("done"), 700);
+  }
+
+  function handleReject() {
+    setRejected(true);
+    setApproved(false);
+    setCurrentStep("done");
   }
 
   return (
@@ -90,7 +100,7 @@ export function WorkflowCanvas({ dict }: Props) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
           gap: "var(--space-3)",
           alignItems: "stretch",
         }}
@@ -154,12 +164,16 @@ export function WorkflowCanvas({ dict }: Props) {
                 ? "var(--color-warning)"
                 : approved
                 ? "var(--color-success)"
+                : rejected
+                ? "var(--color-danger)"
                 : "var(--color-border)",
             background:
               currentStep === "approval"
                 ? "var(--color-warning-soft)"
                 : approved
                 ? "var(--color-success-soft)"
+                : rejected
+                ? "var(--color-danger-soft)"
                 : "var(--color-surface)",
             display: "grid",
             gap: "var(--space-2)",
@@ -173,15 +187,10 @@ export function WorkflowCanvas({ dict }: Props) {
           <div style={{ fontSize: "var(--text-12)" }}>
             {approved ? (
               <span className="badge badge-success">{dict.canvas.approvedBadge}</span>
+            ) : rejected ? (
+              <span className="badge badge-danger">Ditolak oleh Operator</span>
             ) : currentStep === "approval" ? (
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={handleApprove}
-                style={{ width: "100%", marginTop: "var(--space-1)" }}
-              >
-                Setujui sekarang
-              </button>
+              <span className="badge badge-warning">Menunggu Tinjauan</span>
             ) : (
               <span className="muted">{dict.canvas.awaitingQueue}</span>
             )}
@@ -194,8 +203,8 @@ export function WorkflowCanvas({ dict }: Props) {
             padding: "var(--space-3)",
             borderRadius: "var(--radius-md)",
             border: "1px solid",
-            borderColor: ["action", "done"].includes(currentStep) ? "var(--color-success)" : "var(--color-border)",
-            background: ["action", "done"].includes(currentStep) ? "var(--color-surface-2)" : "var(--color-surface)",
+            borderColor: ["action", "done"].includes(currentStep) && approved ? "var(--color-success)" : "var(--color-border)",
+            background: ["action", "done"].includes(currentStep) && approved ? "var(--color-surface-2)" : "var(--color-surface)",
             display: "grid",
             gap: "var(--space-2)",
           }}
@@ -206,9 +215,73 @@ export function WorkflowCanvas({ dict }: Props) {
           </div>
           <div style={{ fontWeight: 600, fontSize: "var(--text-14)" }}>{dict.canvas.action}</div>
           <div className="muted" style={{ fontSize: "var(--text-12)" }}>
-            {approved ? dict.canvas.actionDone : dict.canvas.actionLocked}
+            {approved ? dict.canvas.actionDone : rejected ? "Aksi Dibatalkan" : dict.canvas.actionLocked}
           </div>
         </div>
+      </div>
+
+      {/* Human Approval Review Drawer (Visible when in approval state or approved) */}
+      <div
+        style={{
+          border: "1px solid var(--color-border)",
+          borderRadius: "var(--radius-md)",
+          background: "var(--color-surface-2)",
+          padding: "var(--space-4)",
+          display: "grid",
+          gap: "var(--space-3)",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+            <MessageSquare size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+            <span style={{ fontWeight: 650, fontSize: "var(--text-14)" }}>
+              Draf Respon WhatsApp Otomatis (Menunggu Izin Operator)
+            </span>
+          </div>
+          <span className="badge badge-accent">Skor Kualifikasi: 85/100</span>
+        </div>
+
+        <div
+          style={{
+            background: "var(--color-surface)",
+            border: "1px solid var(--color-border-strong)",
+            borderRadius: "var(--radius-sm)",
+            padding: "var(--space-3)",
+            fontSize: "var(--text-14)",
+            lineHeight: 1.5,
+            fontFamily: "var(--font-sans)",
+          }}
+        >
+          &quot;Halo Bu Rina, salam kenal dari tim agensi. Terkait kebutuhan kampanye lead generation dengan alokasi budget Rp150.000.000, kami telah menyiapkan blueprint awal dan portofolio industri serupa. Apakah ada waktu luang 15 menit besok siang untuk sinkronisasi singkat?&quot;
+        </div>
+
+        {currentStep === "approval" && !approved && !rejected && (
+          <div style={{ display: "flex", gap: "var(--space-3)", justifyContent: "flex-end" }}>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={handleReject}
+            >
+              <ThumbsDown size={14} aria-hidden="true" />
+              <span>Tolak Draf</span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={handleApprove}
+            >
+              <ThumbsUp size={14} aria-hidden="true" />
+              <span>Setujui &amp; Kirim (Sandbox)</span>
+            </button>
+          </div>
+        )}
+
+        {approved && (
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontSize: "var(--text-12)", color: "var(--color-success)" }}>
+            <CheckCircle2 size={14} aria-hidden="true" />
+            <span>Disetujui oleh operator pada {new Date().toLocaleTimeString()} &bull; Tercatat di audit log</span>
+          </div>
+        )}
       </div>
 
       {/* Metrics & Trace bar */}
@@ -232,18 +305,26 @@ export function WorkflowCanvas({ dict }: Props) {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             <Cpu size={14} aria-hidden="true" style={{ color: "var(--color-muted)" }} />
-            <span className="muted">Model:</span>
-            <code>mock-low (Luna tier)</code>
+            <span className="muted">Penyimpanan:</span>
+            <code>PostgreSQL (Neon Durable)</code>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             <CheckCircle2 size={14} aria-hidden="true" style={{ color: "var(--color-success)" }} />
             <span className="muted">Status:</span>
-            <span>{currentStep === "done" ? "Selesai &amp; Tercatat" : currentStep === "approval" ? "Menunggu persetujuan" : "Diproses"}</span>
+            <span>
+              {currentStep === "done" && approved
+                ? "Selesai & Tercatat di Log"
+                : currentStep === "done" && rejected
+                ? "Dibatalkan & Diarsipkan"
+                : currentStep === "approval"
+                ? "Menunggu persetujuan manusia"
+                : "Diproses"}
+            </span>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-          <span className="badge">Idempotency Key: run_001:act</span>
+          <span className="badge">Idempotency Key: run_lead_qual_085</span>
         </div>
       </div>
     </div>

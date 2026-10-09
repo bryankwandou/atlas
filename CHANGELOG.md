@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] - 2026-10-09
+### Added
+- Complete website redesign transforming Atlas into an authoritative B2B Client Acquisition Showcase.
+- 5-Day Done-For-You Implementation Sprint (Rp7.500.000) commercial packaging, milestones, and scope boundaries (`/services/implementation-sprint`).
+- Free 30-Minute Business Workflow Audit conversion landing page (`/services/automation-audit`).
+- Dedicated high-intent SEO solution pages for Marketing Agencies (`/solutions/marketing-agencies`), Sales Operations (`/solutions/sales-operations`), and Customer Support (`/solutions/customer-support`).
+- Dynamic `robots.ts` and `sitemap.ts` generating full crawlability maps for all marketing surfaces and 120 template pages.
+- Reusable Schema.org JSON-LD component (`Organization`, `Service`, `SoftwareApplication`, `FAQPage`).
+- Interactive Agency ROI & Capacity Savings Calculator (`components/RoiCalculator.tsx`).
+- High-converting 4-field B2B lead capture form (`components/LeadCaptureForm.tsx`) with `/api/leads` validation.
+- Comprehensive 13-document research, positioning, design system, and SEO strategy suite in `docs/website-redesign/`.
+- Unit test suite for technical SEO crawlability and sitemap coverage (`tests/unit/seo.test.ts`).
+
 ## [0.2.2] - 2026-10-09
 ### Added
 - Exhaustive end-to-end execution test for all 120 seeded templates (`tests/unit/runtime.test.ts`).

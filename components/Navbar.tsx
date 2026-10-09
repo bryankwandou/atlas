@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleToggle } from "./LocaleToggle";
 import type { Locale, Dict } from "@/lib/i18n";
@@ -15,6 +15,7 @@ interface Props {
 
 export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isEn = locale === "en";
 
   return (
     <header
@@ -25,6 +26,7 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
         position: "sticky",
         top: 0,
         zIndex: 40,
+        backdropFilter: "blur(12px)",
       }}
     >
       <div
@@ -45,20 +47,60 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
               display: "inline-flex",
               alignItems: "center",
               gap: "var(--space-2)",
-              fontWeight: 700,
+              fontWeight: 750,
               fontSize: "var(--text-20)",
               letterSpacing: "-0.03em",
+              color: "var(--color-text)",
             }}
           >
             <span>Atlas</span>
-            <span className="badge">MVP</span>
+            <span
+              className="badge badge-accent"
+              style={{ fontSize: "11px", fontWeight: 700, padding: "2px 6px" }}
+            >
+              Enterprise
+            </span>
           </Link>
 
           <nav
             role="navigation"
             aria-label="Navigasi utama"
             className="desktop-nav"
+            style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}
           >
+            <Link
+              href="/services/implementation-sprint"
+              style={{
+                fontSize: "var(--text-14)",
+                fontWeight: 600,
+                textDecoration: "none",
+                color: "var(--color-muted)",
+              }}
+            >
+              {isEn ? "5-Day Sprint (Rp7.5M)" : "5-Day Sprint (Rp7.5jt)"}
+            </Link>
+            <Link
+              href="/solutions/marketing-agencies"
+              style={{
+                fontSize: "var(--text-14)",
+                fontWeight: 600,
+                textDecoration: "none",
+                color: "var(--color-muted)",
+              }}
+            >
+              {isEn ? "Agencies" : "Agensi"}
+            </Link>
+            <Link
+              href="/solutions/sales-operations"
+              style={{
+                fontSize: "var(--text-14)",
+                fontWeight: 600,
+                textDecoration: "none",
+                color: "var(--color-muted)",
+              }}
+            >
+              {isEn ? "Sales Ops" : "Sales Ops"}
+            </Link>
             <Link
               href="/templates"
               style={{
@@ -68,7 +110,7 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
                 color: "var(--color-muted)",
               }}
             >
-              {dict.nav.templates}
+              {isEn ? "120 Templates" : "120 Template"}
             </Link>
             <Link
               href="/pricing"
@@ -96,22 +138,24 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-          <div className="desktop-controls">
+          <div className="desktop-controls" style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
             <LocaleToggle currentLocale={locale} />
-            <ThemeToggle />
+            <ThemeToggle ariaLabel={isEn ? "Toggle dark/light theme" : "Ganti tema tampilan"} />
 
             {isAuthenticated ? (
-              <Link href="/app" className="btn btn-primary btn-sm">
+              <Link href="/app" className="btn btn-secondary btn-sm">
                 <span>{dict.nav.dashboard}</span>
-                <ArrowRight size={16} aria-hidden="true" />
+                <ArrowRight size={14} aria-hidden="true" />
               </Link>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                <Link href="/login" className="btn btn-ghost btn-sm">
-                  {dict.nav.login}
-                </Link>
-                <Link href="/signup" className="btn btn-primary btn-sm">
-                  {dict.nav.signup}
+                <Link
+                  href="/services/automation-audit"
+                  className="btn btn-primary btn-sm"
+                  style={{ textDecoration: "none" }}
+                >
+                  <Sparkles size={14} aria-hidden="true" />
+                  <span>{isEn ? "Book Audit (30 Min)" : "Jadwalkan Audit"}</span>
                 </Link>
               </div>
             )}
@@ -120,94 +164,99 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
           <button
             type="button"
             className="icon-btn mobile-toggle"
-            onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
-            style={{ minWidth: "44px", minHeight: "44px" }}
+            aria-controls="mobile-menu"
+            aria-label={mobileOpen ? (isEn ? "Close menu" : "Tutup menu") : (isEn ? "Open menu" : "Buka menu")}
+            onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Drawer Menu */}
       {mobileOpen && (
         <div
-          role="dialog"
-          aria-label="Menu navigasi ponsel"
+          id="mobile-menu"
           style={{
             borderTop: "1px solid var(--color-border)",
             background: "var(--color-surface)",
             padding: "var(--space-5)",
             display: "grid",
-            gap: "var(--space-4)",
+            gap: "var(--space-3)",
           }}
         >
-          <nav
-            style={{ display: "grid", gap: "var(--space-3)" }}
-            aria-label="Tautan seluler"
+          <Link
+            href="/services/implementation-sprint"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
           >
-            <Link
-              href="/templates"
-              onClick={() => setMobileOpen(false)}
-              style={{
-                fontSize: "var(--text-16)",
-                fontWeight: 600,
-                textDecoration: "none",
-                padding: "var(--space-2) 0",
-              }}
-            >
-              {dict.nav.templates}
-            </Link>
-            <Link
-              href="/pricing"
-              onClick={() => setMobileOpen(false)}
-              style={{
-                fontSize: "var(--text-16)",
-                fontWeight: 600,
-                textDecoration: "none",
-                padding: "var(--space-2) 0",
-              }}
-            >
-              {dict.nav.pricing}
-            </Link>
-            <Link
-              href="/security"
-              onClick={() => setMobileOpen(false)}
-              style={{
-                fontSize: "var(--text-16)",
-                fontWeight: 600,
-                textDecoration: "none",
-                padding: "var(--space-2) 0",
-              }}
-            >
-              {dict.nav.security}
-            </Link>
-          </nav>
+            {isEn ? "5-Day Done-For-You Sprint (Rp7.5M)" : "5-Day Sprint Implementasi (Rp7.5jt)"}
+          </Link>
+          <Link
+            href="/solutions/marketing-agencies"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            {isEn ? "Solutions for Marketing Agencies" : "Solusi untuk Agensi Pemasaran"}
+          </Link>
+          <Link
+            href="/solutions/sales-operations"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            {isEn ? "Sales Operations & Inbound Triage" : "Operasi Penjualan & Kualifikasi Lead"}
+          </Link>
+          <Link
+            href="/templates"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            {isEn ? "120 Workflow Templates" : "Katalog 120 Template"}
+          </Link>
+          <Link
+            href="/pricing"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            {dict.nav.pricing}
+          </Link>
+          <Link
+            href="/security"
+            className="btn btn-ghost"
+            style={{ justifyContent: "flex-start" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            {dict.nav.security}
+          </Link>
 
-          <hr style={{ border: 0, borderTop: "1px solid var(--color-border)", margin: 0 }} />
-
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div
+            style={{
+              borderTop: "1px solid var(--color-border)",
+              paddingTop: "var(--space-3)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <LocaleToggle currentLocale={locale} />
-            <ThemeToggle />
+            <ThemeToggle ariaLabel={isEn ? "Toggle dark/light theme" : "Ganti tema tampilan"} />
           </div>
 
-          <div style={{ display: "grid", gap: "var(--space-2)", marginTop: "var(--space-2)" }}>
-            {isAuthenticated ? (
-              <Link href="/app" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
-                <span>{dict.nav.dashboard}</span>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
-                  {dict.nav.login}
-                </Link>
-                <Link href="/signup" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
-                  {dict.nav.signup}
-                </Link>
-              </>
-            )}
-          </div>
+          <Link
+            href="/services/automation-audit"
+            className="btn btn-primary"
+            style={{ marginTop: "var(--space-2)" }}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Sparkles size={16} aria-hidden="true" />
+            <span>{isEn ? "Book Free Audit (30 Min)" : "Jadwalkan Audit Gratis (30 Menit)"}</span>
+          </Link>
         </div>
       )}
     </header>
