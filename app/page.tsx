@@ -37,6 +37,9 @@ import { VideoWalkthrough } from "@/components/VideoWalkthrough";
 import { RoiCalculator } from "@/components/RoiCalculator";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 import { SchemaOrgJsonLd } from "@/components/SchemaOrgJsonLd";
+import { GovernanceDial } from "@/components/GovernanceDial";
+import { CaseRecordsSection } from "@/components/CaseRecordsSection";
+import { ArchitectureModuleDemo } from "@/components/ArchitectureModuleDemo";
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -147,50 +150,76 @@ export default async function HomePage() {
         {/* 01 — Hero Section: Client Acquisition Showcase */}
         <section
           style={{
-            padding: "var(--space-6) 0 var(--space-6) 0",
+            padding: "clamp(48px, 8vw, 84px) 0 clamp(40px, 6vw, 64px) 0",
             borderBottom: "1px solid var(--color-border)",
             background: "radial-gradient(ellipse at top, var(--color-surface-2), var(--color-bg))",
+            position: "relative",
           }}
         >
-          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div className="hero-grid">
+          <div className="container" style={{ display: "grid", gap: "var(--space-7)" }}>
+            <div className="hero-grid" style={{ alignItems: "center" }}>
               {/* Left Column: Commercial Pitch */}
-              <div style={{ display: "grid", gap: "var(--space-3)" }}>
+              <div style={{ display: "grid", gap: "var(--space-4)" }}>
                 <div style={{ display: "inline-flex" }}>
-                  <span className="badge badge-accent">
-                    <Sparkles size={12} aria-hidden="true" />
-                    <span>
-                      {isEn
-                        ? "SUPERVISED WORKFLOW AUTOMATION • 5-DAY TURNKEY SPRINT"
-                        : "AUTOMASI ALUR KERJA TERARAH • SPRINT TURNKEY 5 HARI"}
-                    </span>
+                  <span
+                    className="font-mono"
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: "var(--color-accent)",
+                      background: "var(--color-surface)",
+                      border: "1px solid var(--color-border)",
+                      padding: "4px 12px",
+                      borderRadius: "9999px",
+                    }}
+                  >
+                    {isEn
+                      ? "Bespoke Automation Atelier · 5-Day Turnkey Sprints"
+                      : "Atelier Otomasi Enterprise · Sprint Produksi 5 Hari"}
                   </span>
                 </div>
 
                 <h1
+                  className="font-display"
                   style={{
-                    fontSize: "clamp(2.1rem, 3.6vw, 3rem)",
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.025em",
-                    fontWeight: 750,
+                    fontSize: "clamp(2.5rem, 5vw, 4.2rem)",
+                    lineHeight: 1.04,
+                    letterSpacing: "-0.04em",
+                    fontWeight: 900,
                   }}
                 >
-                  {isEn
-                    ? "AI Workflows That Actually Finish the Work"
-                    : "Alur Kerja AI yang Menyelesaikan Pekerjaan Nyata"}
+                  {isEn ? (
+                    <>
+                      AI Workflows That Actually{" "}
+                      <span className="font-serif italic font-normal" style={{ letterSpacing: "-0.02em" }}>
+                        Finish the Work
+                      </span>
+                      .
+                    </>
+                  ) : (
+                    <>
+                      Alur Kerja AI yang Menyelesaikan{" "}
+                      <span className="font-serif italic font-normal">
+                        Pekerjaan Nyata
+                      </span>
+                      .
+                    </>
+                  )}
                 </h1>
 
                 <p
-                  className="muted"
                   style={{
-                    fontSize: "var(--text-16)",
+                    fontSize: "clamp(16px, 1.3vw, 18px)",
                     lineHeight: 1.6,
-                    maxWidth: "580px",
+                    maxWidth: "540px",
+                    color: "var(--color-muted)",
                   }}
                 >
                   {isEn
-                    ? "Start from a proven template, connect the tools you already use, and let supervised AI handle repetitive operational steps—with mandatory human review gates, strict NDAs, and live handover in 5 days."
-                    : "Mulai dari template teruji, hubungkan tools yang sudah Anda gunakan, dan biarkan AI terarah menangani tugas operasional berulang—dengan gerbang izin tim wajib, garansi NDA resmi, dan peluncuran siap pakai dalam 5 hari kerja."}
+                    ? "We engineer, calibrate, and deploy production-grade automation pipelines into your WhatsApp and CRM infrastructure in 5 days flat. Zero hallucinations, mandatory human approval gates, and 100% client code ownership."
+                    : "Kami merancang, menguji, dan meluncurkan alur kerja otomasi produksi ke infrastruktur WhatsApp dan CRM Anda dalam 5 hari kerja. Nol halusinasi, izin persetujuan tim wajib, dan 100% kepemilikan kode milik klien."}
                 </p>
 
                 <div
@@ -202,39 +231,65 @@ export default async function HomePage() {
                     paddingTop: "var(--space-2)",
                   }}
                 >
-                  <Link href="/templates" className="btn btn-primary">
-                    <span>{isEn ? "Start with a Template" : "Mulai dengan Template"}</span>
+                  <a
+                    href="#audit-form"
+                    className="btn btn-primary"
+                    style={{ borderRadius: "9999px", padding: "0 24px", fontWeight: 700 }}
+                  >
+                    <span>{isEn ? "Book Architecture Audit" : "Jadwalkan Audit Arsitektur"}</span>
                     <ArrowRight size={16} aria-hidden="true" />
-                  </Link>
-
-                  <a href="#demo" className="btn btn-secondary">
-                    <span>{isEn ? "Watch a Live Workflow" : "Lihat Demo Alur Kerja"}</span>
                   </a>
+
+                  <Link
+                    href="/services/implementation-sprint"
+                    className="btn btn-secondary"
+                    style={{ borderRadius: "9999px", padding: "0 20px", fontWeight: 600 }}
+                  >
+                    <span>{isEn ? "5-Day Sprint (Rp7.5M)" : "Sprint 5 Hari (Rp7.5jt)"}</span>
+                  </Link>
                 </div>
 
-                {/* Trust Micro-Copy */}
+                {/* Meta Stats Row (Inspired by Splicecraft / Augmenta) */}
                 <div
                   style={{
                     display: "flex",
                     flexWrap: "wrap",
-                    alignItems: "center",
-                    gap: "var(--space-4)",
-                    fontSize: "var(--text-12)",
-                    color: "var(--color-muted)",
-                    paddingTop: "var(--space-2)",
+                    gap: "var(--space-5)",
+                    paddingTop: "var(--space-3)",
+                    borderTop: "1px solid var(--color-border)",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                    <ShieldCheck size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Human sign-off mandatory" : "Izin tim sebelum eksekusi"}</span>
+                  <div>
+                    <span className="font-display" style={{ display: "block", fontSize: "24px", fontWeight: 900 }}>
+                      5 Days
+                    </span>
+                    <span className="font-mono text-12" style={{ color: "var(--color-muted)", textTransform: "uppercase" }}>
+                      {isEn ? "Turnkey Delivery" : "Serah Terima"}
+                    </span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                    <Lock size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
-                    <span>{isEn ? "Protected by mutual NDA" : "Kerahasiaan terikat NDA"}</span>
+                  <div>
+                    <span className="font-display" style={{ display: "block", fontSize: "24px", fontWeight: 900, color: "var(--color-success)" }}>
+                      100%
+                    </span>
+                    <span className="font-mono text-12" style={{ color: "var(--color-muted)", textTransform: "uppercase" }}>
+                      {isEn ? "Human Gatekeeper" : "Persetujuan Tim"}
+                    </span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
-                    <Database size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Zero AI training on client data" : "Data tidak melatih AI"}</span>
+                  <div>
+                    <span className="font-display" style={{ display: "block", fontSize: "24px", fontWeight: 900 }}>
+                      120
+                    </span>
+                    <span className="font-mono text-12" style={{ color: "var(--color-muted)", textTransform: "uppercase" }}>
+                      {isEn ? "Proven Blueprints" : "Blueprint Teruji"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-display" style={{ display: "block", fontSize: "24px", fontWeight: 900, color: "var(--color-accent)" }}>
+                      0
+                    </span>
+                    <span className="font-mono text-12" style={{ color: "var(--color-muted)", textTransform: "uppercase" }}>
+                      {isEn ? "Outbound Leaks" : "Salah Kirim"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -244,51 +299,34 @@ export default async function HomePage() {
                 <WorkflowCanvas dict={t} locale={locale} />
               </div>
             </div>
-
-            {/* Proof Strip: Three Pillars */}
-            <div className="trust-strip">
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "PILLAR 01: GOVERNANCE" : "PILAR 01: KONTROL"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "Human-in-the-Loop Control" : "Kendali Persetujuan Manusia"}
-                </span>
-                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Zero unvetted outbound messages" : "Nol pesan keluar tanpa izin tim"}
-                </span>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "PILLAR 02: ECONOMICS" : "PILAR 02: BIAYA"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "Predictable Cost Visibility" : "Transparansi Biaya Nyata"}
-                </span>
-                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Sub-$0.001 per scored run" : "Biaya terukur di bawah Rp15/run"}
-                </span>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "PILLAR 03: INTEGRITY" : "PILAR 03: AUDIT"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "Replayable Run Traces" : "Jejak Audit Permanen"}
-                </span>
-                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Complete cryptographic audit trail" : "Catatan kepatuhan tak terhapuskan"}
-                </span>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "PILLAR 04: SPEED" : "PILAR 04: KECEPATAN"}</span>
-                <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "5-Day Turnkey Delivery" : "Serah Terima 5 Hari Kerja"}
-                </span>
-                <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Backed by 14-day SLA monitoring" : "Didukung pemantauan SLA 14 hari"}
-                </span>
-              </div>
-            </div>
           </div>
         </section>
+
+        {/* 02 — Marquee Ticker Strip (Splicecraft capability tape) */}
+        <div className="ticker-container" aria-hidden="true">
+          <div className="ticker-track">
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>DETERMINISTIC GUARDRAILS</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>SUB-SECOND INGESTION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>AIRGAPPED TENANT ISOLATION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>MANDATORY HUMAN APPROVAL GATES</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>CRYPTOGRAPHIC AUDIT TRAILS</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>OFFICIAL WHATSAPP CLOUD API</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>TWO-WAY CRM SYNCHRONIZATION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>ZERO-HALLUCINATION GUARANTEE</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>100% CLIENT CODE OWNERSHIP</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>5-DAY PRODUCTION SPRINT</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>DETERMINISTIC GUARDRAILS</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>SUB-SECOND INGESTION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>AIRGAPPED TENANT ISOLATION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>MANDATORY HUMAN APPROVAL GATES</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>CRYPTOGRAPHIC AUDIT TRAILS</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>OFFICIAL WHATSAPP CLOUD API</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>TWO-WAY CRM SYNCHRONIZATION</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>ZERO-HALLUCINATION GUARANTEE</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>100% CLIENT CODE OWNERSHIP</span>
+            <span className="ticker-item"><span className="ticker-diamond">◆</span>5-DAY PRODUCTION SPRINT</span>
+          </div>
+        </div>
 
         {/* 02 — Product Tour & Interactive Video Walkthrough */}
         <section id="walkthrough" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
@@ -309,7 +347,20 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 03 — The Difference: AI Chat vs AI Workflow */}
+        {/* 03 — Interactive Architecture Governance Dial Simulator */}
+        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+          <div className="container">
+            <GovernanceDial isEn={isEn} />
+          </div>
+        </section>
+
+        {/* 04 — High-Impact Field Case Records */}
+        <CaseRecordsSection isEn={isEn} />
+
+        {/* 05 — Live Architecture Telemetry & Module Specifications */}
+        <ArchitectureModuleDemo isEn={isEn} />
+
+        {/* 06 — The Difference: AI Chat vs AI Workflow */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
