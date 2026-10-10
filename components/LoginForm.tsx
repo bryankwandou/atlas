@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { loginAction, type FormState } from "@/app/actions";
-import type { Dict } from "@/lib/i18n";
+import type { Dict } from "@/lib/i18n/locales";
 
 interface Props {
   dict: Dict;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShieldCheck, Database, Layers } from "lucide-react";
-import type { Dict } from "@/lib/i18n";
+import type { Dict } from "@/lib/i18n/locales";
 
 interface Props {
   dict: Dict;

@@ -1,9 +1,9 @@
 "use client";
 
 import { useTransition } from "react";
-import { Languages } from "lucide-react";
+import { Languages, ChevronDown } from "lucide-react";
 import { setLocaleAction } from "@/app/actions";
-import type { Locale } from "@/lib/i18n";
+import { supportedLocales, type Locale } from "@/lib/i18n/locales";
 
 interface Props {
   currentLocale: Locale;
@@ -25,33 +25,54 @@ export function LocaleToggle({ currentLocale, ariaLabel = "Pilih bahasa" }: Prop
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: "var(--space-2)",
+        gap: "6px",
         position: "relative",
       }}
     >
-      <Languages size={18} aria-hidden="true" style={{ color: "var(--color-muted)" }} />
+      <Languages size={16} aria-hidden="true" style={{ color: "var(--color-muted)", flexShrink: 0 }} />
       <label htmlFor="locale-select" className="visually-hidden">
         {ariaLabel}
       </label>
-      <select
-        id="locale-select"
-        value={currentLocale}
-        onChange={onSelect}
-        disabled={isPending}
-        className="select"
-        style={{
-          minHeight: "44px",
-          padding: "var(--space-1) var(--space-3)",
-          fontSize: "var(--text-14)",
-          fontWeight: 600,
-          borderRadius: "var(--radius-md)",
-          width: "auto",
-          cursor: "pointer",
-        }}
-      >
-        <option value="id">Bahasa Indonesia</option>
-        <option value="en">English</option>
-      </select>
+      <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+        <select
+          id="locale-select"
+          value={currentLocale}
+          onChange={onSelect}
+          disabled={isPending}
+          className="select"
+          style={{
+            minHeight: "36px",
+            padding: "4px 26px 4px 10px",
+            fontSize: "12px",
+            fontWeight: 650,
+            borderRadius: "9999px",
+            background: "color-mix(in srgb, var(--color-surface) 90%, transparent)",
+            color: "var(--color-text)",
+            border: "1px solid var(--color-border)",
+            cursor: "pointer",
+            appearance: "none",
+            WebkitAppearance: "none",
+            outline: "none",
+            maxWidth: "140px",
+          }}
+        >
+          {supportedLocales.map((loc) => (
+            <option key={loc.code} value={loc.code} style={{ background: "var(--color-surface)", color: "var(--color-text)" }}>
+              {loc.native} ({loc.region})
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          size={12}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            right: "8px",
+            pointerEvents: "none",
+            color: "var(--color-muted)",
+          }}
+        />
+      </div>
     </div>
   );
 }

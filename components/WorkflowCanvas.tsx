@@ -17,7 +17,7 @@ import {
   XCircle,
   ShieldCheck,
 } from "lucide-react";
-import type { Dict, Locale } from "@/lib/i18n";
+import type { Dict, Locale } from "@/lib/i18n/locales";
 
 interface Props {
   dict: Dict;
