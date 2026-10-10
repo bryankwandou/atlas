@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { Check, AlertCircle } from "lucide-react";
 import { updateSettingsAction, type FormState } from "@/app/actions";
 import type { Workspace, Membership } from "@/lib/db/store";
-import type { Dict } from "@/lib/i18n";
+import type { Dict } from "@/lib/i18n/locales";
 
 interface Props {
   workspace: Workspace;

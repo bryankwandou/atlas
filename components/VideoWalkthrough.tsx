@@ -18,7 +18,7 @@ import {
   Send,
   Cpu,
 } from "lucide-react";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n/locales";
 
 interface Props {
   locale?: Locale;

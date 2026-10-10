@@ -4,7 +4,7 @@ import { useState, useActionState } from "react";
 import { Play, Sparkles } from "lucide-react";
 import { runTestAction, type FormState } from "@/app/actions";
 import type { TemplateField } from "@/lib/templates/schema";
-import type { Dict, Locale } from "@/lib/i18n";
+import { type Dict, type Locale, pick } from "@/lib/i18n/locales";
 
 interface Props {
   workflowId: string;
@@ -79,7 +79,7 @@ export function WorkflowRunner({ workflowId, inputs, sampleInput, enabled, dict,
           return (
             <div key={inp.key} className="field">
               <label htmlFor={`field-${inp.key}`}>
-                {inp.label[locale]}
+                {pick(inp.label, locale)}
                 {inp.required && <span style={{ color: "var(--color-accent)", marginLeft: "4px" }}>*</span>}
               </label>
 

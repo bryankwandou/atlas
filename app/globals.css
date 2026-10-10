@@ -857,7 +857,7 @@ code,
   }
 }
 
-/* Atelier Dark Showcase Skin (Augmenta-Inspired) */
+/* Atelier Showcase Skin (Dark by default, switches cleanly to Light) */
 .atelier-dark-page {
   --color-bg: #09090b;
   --color-surface: #0f1015;
@@ -871,11 +871,12 @@ code,
   --color-on-accent: #09090b;
   --color-success: #10b981;
   --color-success-soft: rgba(16, 185, 129, 0.12);
-  background: #09090b !important;
-  color: #f4efe6 !important;
+  background: #09090b;
+  color: #f4efe6;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .atelier-dark-page .muted {
@@ -905,4 +906,62 @@ code,
   border-color: rgba(255, 255, 255, 0.22);
   transform: translateY(-3px);
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+/* Light Mode Overrides (Splicecraft Editorial Paper Luxury) */
+[data-theme="light"] body {
+  background: #f8f6f0 !important;
+  color: #171614 !important;
+}
+
+[data-theme="light"] .atelier-dark-page {
+  --color-bg: #f8f6f0;
+  --color-surface: #ffffff;
+  --color-surface-2: #efebe2;
+  --color-border: rgba(27, 26, 23, 0.12);
+  --color-border-strong: rgba(27, 26, 23, 0.22);
+  --color-text: #171614;
+  --color-muted: #5e594f;
+  --color-accent: #c2410c;
+  --color-accent-soft: rgba(194, 65, 12, 0.1);
+  --color-on-accent: #ffffff;
+  --color-success: #15803d;
+  --color-success-soft: rgba(21, 128, 61, 0.1);
+  background: #f8f6f0 !important;
+  color: #171614 !important;
+}
+
+[data-theme="light"] .atelier-dark-page .muted {
+  color: #5e594f !important;
+}
+
+[data-theme="light"] .atelier-glow-hero {
+  background: radial-gradient(circle at 50% -10%, rgba(194, 65, 12, 0.08) 0%, rgba(248, 246, 240, 0.95) 70%) !important;
+  border-bottom: 1px solid rgba(27, 26, 23, 0.12) !important;
+}
+
+[data-theme="light"] .atelier-dossier-card {
+  background: #ffffff !important;
+  border-color: rgba(27, 26, 23, 0.12) !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .atelier-dossier-card:hover {
+  border-color: rgba(27, 26, 23, 0.3) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .nav-pill {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(27, 26, 23, 0.14) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .ticker-container {
+  background: #171614 !important;
+  border-color: #272522 !important;
+}
+
+[data-theme="light"] .ticker-track {
+  color: #ded9cf !important;
 }

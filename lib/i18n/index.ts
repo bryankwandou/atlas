@@ -1,23 +1,23 @@
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import id from "@/locales/id.json";
 import en from "@/locales/en.json";
+import { supportedLocales, LOCALE_COOKIE, type LocaleCode, type Locale } from "./locales";
 
-export type Locale = "id" | "en";
+export * from "./locales";
+
 export type Dict = typeof id;
-export const LOCALE_COOKIE = "atlas_locale";
-
-const dictionaries: Record<Locale, Dict> = { id, en };
 
 /** Explicit preference cookie wins; otherwise default to English (en) for international showcase and SEO. */
 export async function getLocale(): Promise<Locale> {
-  const fromCookie = (await cookies()).get(LOCALE_COOKIE)?.value;
-  if (fromCookie === "id" || fromCookie === "en") return fromCookie;
+  const fromCookie = (await cookies()).get(LOCALE_COOKIE)?.value as LocaleCode | undefined;
+  if (fromCookie && supportedLocales.some((l) => l.code === fromCookie)) {
+    return fromCookie;
+  }
   return "en";
 }
 
 export async function getDict(): Promise<{ locale: Locale; t: Dict }> {
   const locale = await getLocale();
-  return { locale, t: dictionaries[locale] };
+  const t = locale === "id" ? id : en;
+  return { locale, t };
 }
-
-export const pick = (value: { id: string; en: string }, locale: Locale) => value[locale];

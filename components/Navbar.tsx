@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleToggle } from "./LocaleToggle";
-import type { Locale, Dict } from "@/lib/i18n";
+import type { Locale, Dict } from "@/lib/i18n/locales";
 
 interface Props {
   locale: Locale;

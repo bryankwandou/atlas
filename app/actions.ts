@@ -10,7 +10,7 @@ import { endSession, requireSession, startSession } from "@/lib/auth/session";
 import { getProvider } from "@/lib/ai/providers";
 import { WorkflowRuntime, RuntimeError } from "@/lib/workflows/runtime";
 import { installTemplate, ServiceError, setWorkflowEnabled } from "@/lib/workflows/service";
-import { LOCALE_COOKIE } from "@/lib/i18n";
+import { LOCALE_COOKIE, supportedLocales } from "@/lib/i18n";
 import { allowAttempt } from "@/lib/security/rate-limit";
 
 export interface FormState {
@@ -180,7 +180,8 @@ export async function updateSettingsAction(_prev: FormState, form: FormData): Pr
 }
 
 export async function setLocaleAction(locale: string) {
-  if (locale !== "id" && locale !== "en") return;
+  const valid = supportedLocales.some((l) => l.code === locale);
+  if (!valid) return;
   (await cookies()).set(LOCALE_COOKIE, locale, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
   revalidatePath("/", "layout");
 }
