@@ -40,6 +40,8 @@ import { SchemaOrgJsonLd } from "@/components/SchemaOrgJsonLd";
 import { GovernanceDial } from "@/components/GovernanceDial";
 import { CaseRecordsSection } from "@/components/CaseRecordsSection";
 import { ArchitectureModuleDemo } from "@/components/ArchitectureModuleDemo";
+import { OperatorConsoleMockup } from "@/components/OperatorConsoleMockup";
+import { OrbitalRings } from "@/components/OrbitalRings";
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -294,9 +296,26 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              {/* Right Column: Interactive Workflow Demo */}
-              <div id="demo">
-                <WorkflowCanvas dict={t} locale={locale} />
+              {/* Right Column: Interactive Airgapped Operator Console */}
+              <div id="demo" style={{ position: "relative" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-12%",
+                    right: "-12%",
+                    width: "124%",
+                    height: "124%",
+                    pointerEvents: "none",
+                    zIndex: 0,
+                    opacity: 0.45,
+                    color: "var(--color-accent)",
+                  }}
+                >
+                  <OrbitalRings size={560} />
+                </div>
+                <div style={{ position: "relative", zIndex: 1 }}>
+                  <OperatorConsoleMockup isEn={isEn} />
+                </div>
               </div>
             </div>
           </div>

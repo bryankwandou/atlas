@@ -220,7 +220,7 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
               )}
               {activeChapter === 1 && (
                 <code>
-                  [AI_RUBRIC_EVALUATION] prompt_tier=&quot;deterministic&quot; intent_score=85 routing=&quot;HIGH_PRIORITY_REVIEW&quot; cost=&quot;$0.00045&quot;
+                  [AI_RUBRIC_EVALUATION] prompt_tier=&quot;deterministic&quot; intent_score=85 routing=&quot;HIGH_PRIORITY_REVIEW&quot; governance=&quot;AIRGAPPED&quot; pii_sanitized=true
                 </code>
               )}
               {activeChapter === 2 && (
