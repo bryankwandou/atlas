@@ -22,6 +22,10 @@ import {
   FileCheck,
   BarChart3,
   Users,
+  Workflow,
+  Globe,
+  Share2,
+  Bot,
 } from "lucide-react";
 import { getLocale, getDict, pick } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
@@ -29,6 +33,7 @@ import { templates } from "@/lib/templates/catalog";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WorkflowCanvas } from "@/components/WorkflowCanvas";
+import { VideoWalkthrough } from "@/components/VideoWalkthrough";
 import { RoiCalculator } from "@/components/RoiCalculator";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 import { SchemaOrgJsonLd } from "@/components/SchemaOrgJsonLd";
@@ -54,6 +59,16 @@ export default async function HomePage() {
     { id: "travel", label: isEn ? "Travel & Hospitality" : "Travel & Wisata" },
     { id: "services", label: isEn ? "Professional Services" : "Jasa Profesional" },
     { id: "marketing", label: isEn ? "Brand Operations" : "Operasi Brand" },
+  ];
+
+  const integrationList = [
+    { name: "Meta Lead Ads", type: isEn ? "Inbound Forms" : "Form Iklan Masuk", desc: isEn ? "Instant webhook sync <2s" : "Sinkronisasi webhook <2s" },
+    { name: "WhatsApp Cloud API", type: isEn ? "Messaging Channel" : "Kanal Pesan Resmi", desc: isEn ? "Verified template dispatches" : "Kirim pesan template resmi" },
+    { name: "HubSpot CRM", type: isEn ? "Pipeline & Deals" : "CRM & Manajemen Deal", desc: isEn ? "Two-way stage updates" : "Pembaruan status dua arah" },
+    { name: "Typeform & Webflow", type: isEn ? "Landing Ingestion" : "Formulir Landing Page", desc: isEn ? "Multi-tier payload checks" : "Validasi data berlapis" },
+    { name: "Google Sheets", type: isEn ? "Spreadsheet Ledger" : "Buku Kerja Spreadsheet", desc: isEn ? "Automated row appending" : "Pencatatan baris otomatis" },
+    { name: "Slack & Email", type: isEn ? "Internal Alerts" : "Notifikasi Tim Internal", desc: isEn ? "High-priority triage alerts" : "Peringatan prospek prioritas" },
+    { name: "PostgreSQL Database", type: isEn ? "Durable Persistence" : "Penyimpanan Terenkripsi", desc: isEn ? "Tenant-isolated state" : "Isolasi data privat" },
   ];
 
   const faqData = [
@@ -129,7 +144,7 @@ export default async function HomePage() {
       <Navbar locale={locale} dict={t} isAuthenticated={!!session} />
 
       <main id="main-content" style={{ flex: 1 }}>
-        {/* Hero Section: Client Acquisition Showcase */}
+        {/* 01 — Hero Section: Client Acquisition Showcase */}
         <section
           style={{
             padding: "var(--space-6) 0 var(--space-6) 0",
@@ -139,30 +154,30 @@ export default async function HomePage() {
         >
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div className="hero-grid">
-              {/* Left Column: Commercial Outcome Pitch */}
+              {/* Left Column: Commercial Pitch */}
               <div style={{ display: "grid", gap: "var(--space-3)" }}>
                 <div style={{ display: "inline-flex" }}>
                   <span className="badge badge-accent">
                     <Sparkles size={12} aria-hidden="true" />
                     <span>
                       {isEn
-                        ? "ENTERPRISE AUTOMATION SERVICES • 5-DAY TURNKEY SPRINT"
-                        : "JASA KONSULTASI & IMPLEMENTASI AUTOMASI ENTERPRISE"}
+                        ? "SUPERVISED WORKFLOW AUTOMATION • 5-DAY TURNKEY SPRINT"
+                        : "AUTOMASI ALUR KERJA TERARAH • SPRINT TURNKEY 5 HARI"}
                     </span>
                   </span>
                 </div>
 
                 <h1
                   style={{
-                    fontSize: "clamp(2rem, 3.4vw, 2.85rem)",
+                    fontSize: "clamp(2.1rem, 3.6vw, 3rem)",
                     lineHeight: 1.15,
                     letterSpacing: "-0.025em",
                     fontWeight: 750,
                   }}
                 >
                   {isEn
-                    ? "Supervised AI Workflow Automation Platform & Turnkey Implementation Services"
-                    : "Layanan Automasi Alur Kerja AI Terarah & Implementasi Turnkey Bisnis"}
+                    ? "AI Workflows That Actually Finish the Work"
+                    : "Alur Kerja AI yang Menyelesaikan Pekerjaan Nyata"}
                 </h1>
 
                 <p
@@ -174,8 +189,8 @@ export default async function HomePage() {
                   }}
                 >
                   {isEn
-                    ? "We design, integrate, and deploy custom automated workflows for inbound lead qualification, sales operations, and customer support. Built with mandatory human review gates, strict NDAs, and live production handover in 5 days."
-                    : "Kami merancang, mengintegrasikan, dan memelihara sistem automasi bisnis siap pakai. Mempercepat kualifikasi lead masuk, merampingkan operasi penjualan, dan mengeliminasi beban manual tanpa risiko salah kirim atau kebocoran data."}
+                    ? "Start from a proven template, connect the tools you already use, and let supervised AI handle repetitive operational steps—with mandatory human review gates, strict NDAs, and live handover in 5 days."
+                    : "Mulai dari template teruji, hubungkan tools yang sudah Anda gunakan, dan biarkan AI terarah menangani tugas operasional berulang—dengan gerbang izin tim wajib, garansi NDA resmi, dan peluncuran siap pakai dalam 5 hari kerja."}
                 </p>
 
                 <div
@@ -187,13 +202,13 @@ export default async function HomePage() {
                     paddingTop: "var(--space-2)",
                   }}
                 >
-                  <a href="#audit-form" className="btn btn-primary">
-                    <span>{isEn ? "Book Free 30-Min Audit" : "Konsultasi & Audit Gratis (30 Menit)"}</span>
+                  <Link href="/templates" className="btn btn-primary">
+                    <span>{isEn ? "Start with a Template" : "Mulai dengan Template"}</span>
                     <ArrowRight size={16} aria-hidden="true" />
-                  </a>
+                  </Link>
 
                   <a href="#demo" className="btn btn-secondary">
-                    <span>{isEn ? "Inspect Live Workflow" : "Lihat Simulasi Alur Kerja"}</span>
+                    <span>{isEn ? "Watch a Live Workflow" : "Lihat Demo Alur Kerja"}</span>
                   </a>
                 </div>
 
@@ -211,15 +226,15 @@ export default async function HomePage() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <ShieldCheck size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Mandatory team sign-off" : "Verifikasi tim sebelum eksekusi"}</span>
+                    <span>{isEn ? "Human sign-off mandatory" : "Izin tim sebelum eksekusi"}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <Lock size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
-                    <span>{isEn ? "Protected under enterprise NDA" : "Kerahasiaan terikat NDA resmi"}</span>
+                    <span>{isEn ? "Protected by mutual NDA" : "Kerahasiaan terikat NDA"}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
                     <Database size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                    <span>{isEn ? "Zero AI training on client data" : "Data bisnis tidak melatih model"}</span>
+                    <span>{isEn ? "Zero AI training on client data" : "Data tidak melatih AI"}</span>
                   </div>
                 </div>
               </div>
@@ -230,170 +245,89 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Proof Strip */}
+            {/* Proof Strip: Three Pillars */}
             <div className="trust-strip">
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "GUARANTEE" : "GARANSI TURNKEY"}</span>
+                <span className="eyebrow">{isEn ? "PILLAR 01: GOVERNANCE" : "PILAR 01: KONTROL"}</span>
                 <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "5-Day Live Handover" : "5 Hari Kerja Live"}
+                  {isEn ? "Human-in-the-Loop Control" : "Kendali Persetujuan Manusia"}
                 </span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Ready-to-use production handover" : "Sistem selesai-pakai terintegrasi"}
+                  {isEn ? "Zero unvetted outbound messages" : "Nol pesan keluar tanpa izin tim"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "CONFIDENTIALITY" : "KERAHASIAAN DATA"}</span>
+                <span className="eyebrow">{isEn ? "PILLAR 02: ECONOMICS" : "PILAR 02: BIAYA"}</span>
                 <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "Binding Mutual NDA" : "Perjanjian NDA Mengikat"}
+                  {isEn ? "Predictable Cost Visibility" : "Transparansi Biaya Nyata"}
                 </span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "100% client data ownership" : "Hak kepemilikan data penuh pada klien"}
+                  {isEn ? "Sub-$0.001 per scored run" : "Biaya terukur di bawah Rp15/run"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "BRAND SAFETY" : "KENDALI PENUH"}</span>
+                <span className="eyebrow">{isEn ? "PILLAR 03: INTEGRITY" : "PILAR 03: AUDIT"}</span>
                 <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "Human Review Gates" : "Verifikasi Sebelum Kirim"}
+                  {isEn ? "Replayable Run Traces" : "Jejak Audit Permanen"}
                 </span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Zero unapproved outbound actions" : "Nol pesan keluar tanpa persetujuan tim"}
+                  {isEn ? "Complete cryptographic audit trail" : "Catatan kepatuhan tak terhapuskan"}
                 </span>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-                <span className="eyebrow">{isEn ? "DEDICATED SUPPORT" : "DUKUNGAN KHUSUS"}</span>
+                <span className="eyebrow">{isEn ? "PILLAR 04: SPEED" : "PILAR 04: KECEPATAN"}</span>
                 <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                  {isEn ? "14-Day SLA Monitoring" : "SLA & Monitoring 14 Hari"}
+                  {isEn ? "5-Day Turnkey Delivery" : "Serah Terima 5 Hari Kerja"}
                 </span>
                 <span className="muted" style={{ fontSize: "var(--text-12)" }}>
-                  {isEn ? "Dedicated automation engineer" : "Pendampingan konsultan khusus"}
+                  {isEn ? "Backed by 14-day SLA monitoring" : "Didukung pemantauan SLA 14 hari"}
                 </span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 5-Phase Supervised Workflow Pipeline Progression Strip */}
-        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+        {/* 02 — Product Tour & Interactive Video Walkthrough */}
+        <section id="walkthrough" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>
-                {isEn ? "HOW SUPERVISED AUTOMATION WORKS" : "CARA KERJA ALUR TERAWASI"}
-              </div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>
-                {isEn
-                  ? "Five Deterministic Phases from Intake to Verified Dispatch"
-                  : "Lima Tahap Terarah dari Intake Data hingga Tindakan Terverifikasi"}
+            <div style={{ textAlign: "center", display: "grid", gap: "var(--space-2)", justifyItems: "center" }}>
+              <div className="eyebrow">{isEn ? "INTERACTIVE PRODUCT TOUR" : "TUR DEMO PRODUK"}</div>
+              <h2 style={{ fontSize: "var(--text-28)", maxWidth: "680px" }}>
+                {isEn ? "See How Atlas Executes Workflows Step-by-Step" : "Saksikan Cara Kerja Alur Atlas Tahap demi Tahap"}
               </h2>
-              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
+              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "620px" }}>
                 {isEn
-                  ? "Unlike black-box AI chatbots that make uncontrolled commitments, Atlas executes a disciplined 5-phase pipeline where your team retains 100% authority."
-                  : "Berbeda dari chatbot AI bebas yang berisiko membuat komitmen salah, Atlas menjalankan pipeline 5 tahap di mana tim Anda memegang kendali penuh."}
+                  ? "Explore the 5-phase execution lifecycle in our interactive sandbox walkthrough player with real payload inspection."
+                  : "Pelajari siklus hidup eksekusi 5 tahap melalui video walkthrough interaktif lengkap dengan inspeksi payload nyata."}
               </p>
             </div>
 
-            <div className="pipeline-progression">
-              <div className="pipeline-step-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="sprint-day-num">{isEn ? "Phase 01" : "Tahap 01"}</span>
-                  <Inbox size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                </div>
-                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Inbound Ingestion" : "Intake Data Masuk"}
-                </h3>
-                <p className="muted" style={{ fontSize: "var(--text-13)", lineHeight: 1.5 }}>
-                  {isEn
-                    ? "Captures leads from Meta Ads, Webflow, Typeform, or emails via validated schema gateways."
-                    : "Menangkap data prospek dari Meta Ads, form Webflow, Typeform, atau email via gerbang data teruji."}
-                </p>
-              </div>
-
-              <div className="pipeline-step-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="sprint-day-num">{isEn ? "Phase 02" : "Tahap 02"}</span>
-                  <Cpu size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                </div>
-                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Rubric Evaluation" : "Evaluasi Kriteria AI"}
-                </h3>
-                <p className="muted" style={{ fontSize: "var(--text-13)", lineHeight: 1.5 }}>
-                  {isEn
-                    ? "Evaluates budget, company fit, and urgency. Scores fit and generates a personalized draft response."
-                    : "Mengevaluasi budget, profil kebutuhan, dan urgensi prospek, lalu menyusun draf respon personal."}
-                </p>
-              </div>
-
-              <div className="pipeline-step-card" style={{ borderColor: "var(--color-accent)" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="sprint-day-num">{isEn ? "Phase 03" : "Tahap 03"}</span>
-                  <ShieldCheck size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                </div>
-                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Team Approval Gate" : "Gerbang Review Tim"}
-                </h3>
-                <p className="muted" style={{ fontSize: "var(--text-13)", lineHeight: 1.5 }}>
-                  {isEn
-                    ? "Action pauses in a human review console. Your team member approves or edits the draft with 1 click."
-                    : "Tindakan tertahan di konsol review tim. Anggota tim Anda menyetujui atau mengedit draf dengan 1 klik."}
-                </p>
-              </div>
-
-              <div className="pipeline-step-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="sprint-day-num">{isEn ? "Phase 04" : "Tahap 04"}</span>
-                  <Send size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                </div>
-                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Omnichannel Dispatch" : "Eksekusi Kanal"}
-                </h3>
-                <p className="muted" style={{ fontSize: "var(--text-13)", lineHeight: 1.5 }}>
-                  {isEn
-                    ? "Dispatches approved messages via WhatsApp Cloud API and updates CRM stages in HubSpot or Sheets."
-                    : "Mengirimkan pesan resmi via WhatsApp Cloud API dan memperbarui status deal di HubSpot/Sheets."}
-                </p>
-              </div>
-
-              <div className="pipeline-step-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="sprint-day-num">{isEn ? "Phase 05" : "Tahap 05"}</span>
-                  <History size={16} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
-                </div>
-                <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                  {isEn ? "Immutable Ledger" : "Catatan Jejak Audit"}
-                </h3>
-                <p className="muted" style={{ fontSize: "var(--text-13)", lineHeight: 1.5 }}>
-                  {isEn
-                    ? "Logs every event, latency metric, and approval timestamp permanently for reporting and compliance."
-                    : "Mencatat setiap event, durasi latensi, dan stempel waktu persetujuan permanen untuk kepatuhan."}
-                </p>
-              </div>
-            </div>
+            <VideoWalkthrough locale={locale} />
           </div>
         </section>
 
-        {/* The Problem & Cost of Inaction Bento Grid */}
+        {/* 03 — The Difference: AI Chat vs AI Workflow */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
               <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>
-                {isEn ? "OPERATIONAL BOTTLENECKS" : "BIAYA KELAMBATAN MANUAL"}
+                {isEn ? "SYSTEM ARCHITECTURE" : "PERBEDAAN ARSITEKTUR"}
               </div>
               <h2 style={{ fontSize: "var(--text-28)" }}>
-                {isEn
-                  ? "Why Manual Processes and Fragile Scripts Leak Client Revenue"
-                  : "Mengapa Proses Manual & Webhook Rentan Membuat Klien Lari"}
+                {isEn ? "The Fundamental Difference: AI Chat vs. AI Workflow" : "Perbedaan Mendasar: Chatbot AI vs. Alur Kerja AI"}
               </h2>
               <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
                 {isEn
-                  ? "When high-intent leads arrive from paid ad campaigns, every minute of delay reduces qualification rates. Unsupervised chatbots risk your brand reputation, while fragile DIY scripts break silently."
-                  : "Ketika prospek bernilai tinggi masuk dari iklan, setiap menit keterlambatan menurunkan peluang closing. Chatbot tanpa pengawasan membahayakan reputasi agensi, sedangkan webhook DIY sering mati mendadak."}
+                  ? "Open-ended chatbots are designed for casual talk. Business operations require deterministic data structures, human approval gates, and compliance guarantees."
+                  : "Chatbot percakapan bebas dirancang untuk dialog santai. Operasional bisnis membutuhkan struktur data deterministik, izin manusia wajib, dan kepatuhan hukum."}
               </p>
             </div>
 
             <div className="bento-grid">
-              {/* Status Quo Card */}
+              {/* Unsupervised AI Chatbot Card */}
               <div
                 className="panel"
                 style={{
@@ -404,19 +338,22 @@ export default async function HomePage() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-muted)", fontWeight: 700 }}>
-                    {isEn ? "Status Quo: Manual & Fragile Tools" : "Proses Manual & Script Rentan"}
-                  </h3>
-                  <span className="badge badge-danger">{isEn ? "High Risk & Slow" : "Risiko Tinggi & Lambat"}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                    <Bot size={20} style={{ color: "var(--color-danger)" }} aria-hidden="true" />
+                    <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-muted)", fontWeight: 700 }}>
+                      {isEn ? "Conventional AI Chatbots" : "Chatbot AI Konvensional"}
+                    </h3>
+                  </div>
+                  <span className="badge badge-danger">{isEn ? "High Risk" : "Risiko Tinggi"}</span>
                 </div>
 
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)", fontSize: "var(--text-14)" }}>
                   {[
-                    isEn ? "Leads sit idle in spreadsheets or email inboxes for 4+ hours" : "Lead iklan menumpuk di spreadsheet atau email tanpa respon hingga 4+ jam",
-                    isEn ? "Zapier/Make flows fail silently whenever a form field schema shifts" : "Alur Zapier/Make mati mendadak saat format data form sedikit berubah",
-                    isEn ? "Unsupervised AI chatbots hallucinate wrong pricing and alienate buyers" : "Chatbot AI generik berhalusinasi memberikan harga salah ke klien",
-                    isEn ? "Operations staff burned out from manual WhatsApp copy-paste routines" : "Staf operasional kelelahan menyalin data prospek manual ke WhatsApp & CRM",
-                    isEn ? "Zero replayable audit trail when a critical deal slip through the cracks" : "Nol riwayat jejak audit saat prospek bernilai puluhan juta rupiah hilang",
+                    isEn ? "Unstructured freeform text that cannot reliably map to CRM databases" : "Output teks bebas yang sulit disinkronkan ke CRM dan database",
+                    isEn ? "Hallucination risks committing unauthorized pricing or dates directly to clients" : "Halusinasi berisiko memberikan harga salah langsung ke klien",
+                    isEn ? "Unpredictable per-conversation token expenses with no budget ceiling" : "Biaya token tidak terduga tanpa batas anggaran per transaksi",
+                    isEn ? "Ephemeral chat transcripts with no compliance or dispute audit trail" : "Riwayat chat sementara tanpa jejak audit resmi untuk kepatuhan",
+                    isEn ? "Constant manual firefighting required when wrong replies are dispatched" : "Perlu penanganan manual berulang saat bot mengirim jawaban salah",
                   ].map((pt, idx) => (
                     <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start" }}>
                       <XCircle size={18} aria-hidden="true" style={{ color: "var(--color-danger)", flexShrink: 0, marginTop: "2px" }} />
@@ -426,7 +363,7 @@ export default async function HomePage() {
                 </ul>
               </div>
 
-              {/* Atlas Supervised Workflows */}
+              {/* Supervised AI Workflow Card */}
               <div
                 className="panel"
                 style={{
@@ -438,19 +375,22 @@ export default async function HomePage() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-text)", fontWeight: 750 }}>
-                    {isEn ? "Atlas Supervised Workflows" : "Atlas: Alur Kerja Terverifikasi"}
-                  </h3>
-                  <span className="badge badge-accent">{isEn ? "Reliable & Fast" : "Andal & Cepat"}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                    <Workflow size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                    <h3 style={{ fontSize: "var(--text-18)", color: "var(--color-text)", fontWeight: 750 }}>
+                      {isEn ? "Atlas Supervised Workflows" : "Alur Kerja Terarah Atlas"}
+                    </h3>
+                  </div>
+                  <span className="badge badge-accent">{isEn ? "Enterprise Safe" : "Aman & Terarah"}</span>
                 </div>
 
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-3)", fontSize: "var(--text-14)" }}>
                   {[
-                    isEn ? "Instant lead fit evaluation & personalized draft prepared in <60 seconds" : "Evaluasi kualifikasi & draf respon terpersonalisasi siap dalam <60 detik",
-                    isEn ? "Multi-tier data verification rejects corrupt payloads & form spam" : "Validasi data berlapis menolak form spam dan data rusak sebelum masuk ke alur kerja",
-                    isEn ? "Mandatory human review gatekeeper ensures 100% brand voice safety" : "Gerbang review tim internal memastikan 100% keamanan komunikasi brand Anda",
-                    isEn ? "Encrypted enterprise state storage preserves full business continuity" : "Penyimpanan data terisolasi & andal menjamin kelangsungan data operasional bisnis",
-                    isEn ? "Immutable event audit trail for compliance and performance reporting" : "Catatan jejak audit komprehensif untuk pelaporan kepatuhan dan evaluasi bisnis",
+                    isEn ? "Strict multi-tier schema validation rejects corrupt payloads at the gateway" : "Validasi skema data berlapis menolak form spam sebelum eksekusi",
+                    isEn ? "Mandatory human review drawer ensures 100% brand voice safety before dispatch" : "Laci izin tim internal memastikan 100% keamanan komunikasi brand",
+                    isEn ? "Bounded prompt tiers keep scoring costs under $0.001 per inbound transaction" : "Tingkat prompt terarah menjaga biaya eksekusi di bawah Rp15/transaksi",
+                    isEn ? "Cryptographically verifiable event traces preserved permanently in storage" : "Catatan jejak audit permanen terenkripsi untuk pelaporan kepatuhan",
+                    isEn ? "Idempotency keys prevent accidental duplicates during network retries" : "Kunci idempoten mencegah pesan ganda saat koneksi jaringan terputus",
                   ].map((pt, idx) => (
                     <li key={idx} style={{ display: "flex", gap: "var(--space-3)", alignItems: "flex-start" }}>
                       <CheckCircle2 size={18} aria-hidden="true" style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px" }} />
@@ -463,107 +403,116 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* High-Intent Comparison Matrix Section */}
+        {/* 04 — Template-First Workflow Creation & Agency Multi-Client Scaling */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
               <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>
-                {isEn ? "COMPARISON MATRIX" : "PERBANDINGAN SISTEM"}
+                {isEn ? "TEMPLATE-FIRST VELOCITY" : "KECEPATAN BERBASIS BLUEPRINT"}
               </div>
               <h2 style={{ fontSize: "var(--text-28)" }}>
                 {isEn
-                  ? "Why Supervised Automation Outperforms Generic Chatbots & DIY Scripts"
-                  : "Mengapa Alur Terarah Unggul Jauh dari Chatbot Bebas & Script DIY"}
+                  ? "Launch in Days, Not Quarters: Template-First Architecture"
+                  : "Aktif dalam Hitungan Hari: Arsitektur Berbasis Template Teruji"}
               </h2>
               <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "720px", marginTop: "var(--space-2)" }}>
                 {isEn
-                  ? "See how Atlas gives operational leaders complete peace of mind through deterministic control, human sign-off, and binding enterprise confidentiality."
-                  : "Bandingkan kontrol kepatuhan, keandalan teknis, dan perlindungan kerahasiaan antara Atlas, chatbot publik, dan script webhook mandiri."}
+                  ? "Building custom automation from scratch takes months of debugging. Atlas provides 120 battle-tested blueprints that can be adapted, calibrated, and deployed in 5 days."
+                  : "Membangun automasi dari nol memakan waktu berbulan-bulan. Atlas menyediakan 120 blueprint bisnis tervalidasi yang siap disesuaikan dan diterapkan dalam 5 hari kerja."}
               </p>
             </div>
 
-            <div className="comparison-table-wrapper">
-              <table className="comparison-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "28%" }}>{isEn ? "Capability" : "Fitur & Kapabilitas"}</th>
-                    <th className="highlight-col" style={{ width: "32%" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                        <span style={{ color: "var(--color-accent)", fontWeight: 750 }}>Atlas Supervised Workflows</span>
-                        <span className="badge badge-accent" style={{ fontSize: "10px" }}>{isEn ? "Recommended" : "Rekomendasi"}</span>
-                      </div>
-                    </th>
-                    <th style={{ width: "20%" }}>{isEn ? "Generic AI Chatbots" : "Chatbot AI Publik"}</th>
-                    <th style={{ width: "20%" }}>{isEn ? "DIY Zapier / Make" : "Script DIY / Zapier"}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>{isEn ? "Outbound Action Gate" : "Gerbang Pesan Keluar"}</strong></td>
-                    <td className="highlight-col">
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", color: "var(--color-success)", fontWeight: 600 }}>
-                        <Check size={16} aria-hidden="true" />
-                        <span>{isEn ? "Mandatory team review drawer" : "Laci izin tim wajib sebelum kirim"}</span>
-                      </div>
-                    </td>
-                    <td><span className="muted">{isEn ? "Unchecked autonomous dispatch" : "Kirim otomatis tanpa kontrol"}</span></td>
-                    <td><span className="muted">{isEn ? "Rigid if/else triggers" : "Pemicu kaku tanpa review"}</span></td>
-                  </tr>
+            <div className="bento-grid">
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <Layers size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "120 Pre-Validated Blueprints" : "120 Blueprint Siap Pakai"}
+                  </h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "Each blueprint features deterministic routing, bounded token limits, and verified approval thresholds across 12 commercial industries."
+                    : "Setiap blueprint memiliki alur terarah, batas token teruji, dan ambang batas izin manusia untuk 12 sektor industri komersial."}
+                </p>
+              </div>
 
-                  <tr>
-                    <td><strong>{isEn ? "Data Payload Validation" : "Validasi Kerusakan Data"}</strong></td>
-                    <td className="highlight-col">
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", color: "var(--color-success)", fontWeight: 600 }}>
-                        <Check size={16} aria-hidden="true" />
-                        <span>{isEn ? "Multi-tier schema verification" : "Validasi skema berlapis otomatis"}</span>
-                      </div>
-                    </td>
-                    <td><span className="muted">{isEn ? "Unstructured text output" : "Teks bebas tanpa skema"}</span></td>
-                    <td><span className="muted">{isEn ? "Breaks silently on schema changes" : "Mati mendadak saat form ganti format"}</span></td>
-                  </tr>
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <Users size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "Multi-Account Agency Isolation" : "Isolasi Akun Klien Agensi"}
+                  </h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "Marketing agencies can deploy customized workflows across multiple client accounts with dedicated private workspaces and zero data bleed."
+                    : "Agensi pemasaran dapat menerapkan alur kerja kustom ke portofolio klien dengan isolasi data ketat dan ruang kerja mandiri."}
+                </p>
+              </div>
 
-                  <tr>
-                    <td><strong>{isEn ? "Confidentiality & NDA" : "Perlindungan Kerahasiaan"}</strong></td>
-                    <td className="highlight-col">
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", color: "var(--color-success)", fontWeight: 600 }}>
-                        <Check size={16} aria-hidden="true" />
-                        <span>{isEn ? "Mutual NDA & zero AI training" : "NDA resmi & data aman 100%"}</span>
-                      </div>
-                    </td>
-                    <td><span className="muted">{isEn ? "Public model training risk" : "Risiko data melatih model publik"}</span></td>
-                    <td><span className="muted">{isEn ? "Scattered 3rd party webhooks" : "Data tersebar di banyak pihak ketiga"}</span></td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>{isEn ? "Implementation Speed" : "Waktu Serah Terima"}</strong></td>
-                    <td className="highlight-col">
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", color: "var(--color-success)", fontWeight: 600 }}>
-                        <Check size={16} aria-hidden="true" />
-                        <span>{isEn ? "5-Day Turnkey Handover" : "5 Hari Kerja Selesai-Pakai"}</span>
-                      </div>
-                    </td>
-                    <td><span className="muted">{isEn ? "DIY trial & prompt drifting" : "Trial-and-error mandiri"}</span></td>
-                    <td><span className="muted">{isEn ? "Weeks of maintenance overhead" : "Berminggu-minggu rakit manual"}</span></td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>{isEn ? "Compliance Audit Trail" : "Jejak Audit Kepatuhan"}</strong></td>
-                    <td className="highlight-col">
-                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", color: "var(--color-success)", fontWeight: 600 }}>
-                        <Check size={16} aria-hidden="true" />
-                        <span>{isEn ? "Permanent immutable event trace" : "Jejak audit permanen & terenkripsi"}</span>
-                      </div>
-                    </td>
-                    <td><span className="muted">{isEn ? "Ephemeral chat sessions" : "Riwayat chat mudah hilang"}</span></td>
-                    <td><span className="muted">{isEn ? "Basic rate-limited logs" : "Log terbatas tanpa replayability"}</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="panel" style={{ display: "grid", gap: "var(--space-3)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+                  <Share2 size={20} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                  <h3 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
+                    {isEn ? "Zero Vendor Lock-In" : "Bebas Keterikatan Vendor"}
+                  </h3>
+                </div>
+                <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
+                  {isEn
+                    ? "You own your workflows and customer data 100%. Dispatches connect directly to your official Meta, CRM, and database credentials."
+                    : "Anda memiliki alur kerja dan data bisnis 100%. Integrasi terhubung langsung ke kredensial resmi Meta dan CRM milik Anda."}
+                </p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 5-Day Done-For-You Implementation Sprint Section */}
+        {/* 05 — Integration Ecosystem */}
+        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
+          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
+            <div style={{ textAlign: "center", display: "grid", gap: "var(--space-2)", justifyItems: "center" }}>
+              <div className="eyebrow">{isEn ? "INTEGRATION ARCHITECTURE" : "ARSITEKTUR INTEGRASI"}</div>
+              <h2 style={{ fontSize: "var(--text-28)", maxWidth: "680px" }}>
+                {isEn ? "Connects Seamlessly with Your Existing Stack" : "Terhubung Mulus dengan Tools yang Sudah Anda Gunakan"}
+              </h2>
+              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "600px" }}>
+                {isEn
+                  ? "No need to rip and replace. Atlas wires into your landing pages, CRM, messaging channels, and spreadsheets via secure APIs."
+                  : "Tidak perlu mengganti sistem lama. Atlas tersambung langsung ke landing page, CRM, kanal pesan, dan database Anda via API resmi."}
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                gap: "var(--space-3)",
+              }}
+            >
+              {integrationList.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="panel"
+                  style={{
+                    padding: "var(--space-4)",
+                    background: "var(--color-surface)",
+                    display: "grid",
+                    gap: "var(--space-1)",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontWeight: 700, fontSize: "var(--text-14)" }}>{item.name}</span>
+                    <span className="badge badge-accent" style={{ fontSize: "10px" }}>{item.type}</span>
+                  </div>
+                  <span className="muted" style={{ fontSize: "var(--text-12)" }}>{item.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 06 — 5-Day Done-For-You Implementation Sprint Section */}
         <section
           id="services"
           style={{
@@ -583,8 +532,8 @@ export default async function HomePage() {
                 </h2>
                 <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "680px", marginTop: "var(--space-2)" }}>
                   {isEn
-                    ? "We don't just sell you access to software. We audit your lead process, configure custom nodes, test edge cases, and hand over a live, working system in 5 business days."
-                    : "Kami tidak hanya menjual akses software. Kami mengaudit alur kualifikasi lead Anda, menyambungkan kanal pesan, menguji skenario batas, dan menyerahkan sistem yang sudah berjalan dalam 5 hari kerja."}
+                    ? "We don't just sell you software. We audit your lead process, configure custom nodes, test edge cases, and hand over a live, working system in 5 business days."
+                    : "Kami tidak hanya menjual software. Kami mengaudit alur kualifikasi lead Anda, menyambungkan kanal pesan, menguji skenario batas, dan menyerahkan sistem yang sudah berjalan dalam 5 hari kerja."}
                 </p>
               </div>
 
@@ -658,7 +607,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 12 Industries & 120 Validated Templates */}
+        {/* 07 — 12 Industries & 120 Validated Templates */}
         <section id="templates" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div
@@ -770,110 +719,20 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Real-World Client Transformation Case Studies */}
-        <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
-          <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-            <div>
-              <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>
-                {isEn ? "PROVEN OUTCOMES" : "STUDI KASUS BISNIS"}
-              </div>
-              <h2 style={{ fontSize: "var(--text-28)" }}>
-                {isEn ? "Measurable Business Results from Supervised Workflows" : "Hasil Bisnis Terukur dari Alur Kerja Terverifikasi"}
-              </h2>
-              <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
-                {isEn
-                  ? "Explore how real operational teams eliminated lead leakages, accelerated response times, and reclaimed hundreds of hours each month."
-                  : "Pelajari bagaimana tim operasional mengeliminasi kebocoran lead iklan, mempercepat respon klien, dan menghemat ratusan jam kerja setiap bulan."}
-              </p>
-            </div>
-
-            <div className="case-study-grid">
-              <div className="case-study-card">
-                <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="badge badge-accent">{isEn ? "Digital Agency" : "Agensi Pemasaran"}</span>
-                    <span className="badge">{isEn ? "Inbound Sales" : "Kualifikasi Lead"}</span>
-                  </div>
-                  <div style={{ fontSize: "var(--text-24)", fontWeight: 750, color: "var(--color-accent)", fontFamily: "var(--font-mono)" }}>
-                    {isEn ? "3.5h → 48s" : "3,5 Jam → 48 Detik"}
-                  </div>
-                  <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                    {isEn ? "2.1x Booked Client Discovery Calls" : "Kenaikan 2.1x Booking Call Konsultasi"}
-                  </h3>
-                  <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
-                    {isEn
-                      ? "\"Before Atlas, high-value leads from Meta ads sat overnight. Now, our account directors review and approve custom-tailored WhatsApp drafts in seconds.\""
-                      : "\"Sebelum Atlas, lead bernilai tinggi dari iklan Meta menumpuk berjam-jam. Sekarang, direktur akun kami mereview draf WhatsApp terarah dalam hitungan detik.\""}
-                  </p>
-                </div>
-                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-2)", fontSize: "var(--text-12)", color: "var(--color-muted)" }}>
-                  {isEn ? "Implementation: 5-Day Turnkey Sprint" : "Paket: 5-Day Implementation Sprint"}
-                </div>
-              </div>
-
-              <div className="case-study-card">
-                <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="badge badge-accent">{isEn ? "Commercial Real Estate" : "Properti & Real Estate"}</span>
-                    <span className="badge">{isEn ? "Triage & Routing" : "Routing Prospek"}</span>
-                  </div>
-                  <div style={{ fontSize: "var(--text-24)", fontWeight: 750, color: "var(--color-success)", fontFamily: "var(--font-mono)" }}>
-                    {isEn ? "Rp 45M / Mo Saved" : "Hemat Rp 45jt / Bulan"}
-                  </div>
-                  <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                    {isEn ? "100% High-Intent Buyer Routing" : "Routing 100% Tepat ke Broker Utama"}
-                  </h3>
-                  <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
-                    {isEn
-                      ? "\"Our brokers no longer waste hours on unqualified inquiries. Atlas filters and routes genuine buyers with complete audit trails.\""
-                      : "\"Broker kami tidak lagi membuang waktu untuk lead yang tidak memenuhi kriteria. Atlas menyaring dan merutekan hanya pembeli terverifikasi lengkap dengan jejak audit.\""}
-                  </p>
-                </div>
-                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-2)", fontSize: "var(--text-12)", color: "var(--color-muted)" }}>
-                  {isEn ? "Implementation: Custom Lead Routing" : "Paket: Custom Routing & Verification"}
-                </div>
-              </div>
-
-              <div className="case-study-card">
-                <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="badge badge-accent">{isEn ? "B2B SaaS" : "B2B Sales Operations"}</span>
-                    <span className="badge">{isEn ? "Brand Safety" : "Keamanan Komunikasi"}</span>
-                  </div>
-                  <div style={{ fontSize: "var(--text-24)", fontWeight: 750, color: "var(--color-accent)", fontFamily: "var(--font-mono)" }}>
-                    {isEn ? "0 Hallucinations" : "0 Kesalahan Pesan"}
-                  </div>
-                  <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>
-                    {isEn ? "100% Brand Voice Protection" : "100% Proteksi Reputasi Brand"}
-                  </h3>
-                  <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
-                    {isEn
-                      ? "\"The human review drawer gave our executive team peace of mind. Not a single unvetted email or message ever leaves our system.\""
-                      : "\"Laci persetujuan tim memberi rasa aman penuh bagi manajemen. Tidak ada satu pun email atau pesan yang keluar tanpa izin resmi tim kami.\""}
-                  </p>
-                </div>
-                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-2)", fontSize: "var(--text-12)", color: "var(--color-muted)" }}>
-                  {isEn ? "Implementation: Supervised Support SLA" : "Paket: Supervised Enterprise SLA"}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Interactive Agency Capacity & ROI Calculator */}
+        {/* 08 — Interactive Agency Capacity & ROI Calculator */}
         <section id="roi-calculator" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
               <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>
-                {isEn ? "SAVINGS PROJECTION" : "KALKULASI PENGHEMATAN"}
+                {isEn ? "RUN-COST & CAPACITY ESTIMATOR" : "KALKULATOR KAPASITAS & BIAYA"}
               </div>
               <h2 style={{ fontSize: "var(--text-28)" }}>
-                {isEn ? "Quantify Your Operational Time & Cost Savings" : "Hitung Nilai Penghematan Waktu & Biaya Tim Anda"}
+                {isEn ? "Illustrative Run-Cost & ROI Estimator" : "Estimasi Penghematan Waktu & Biaya Tim Anda"}
               </h2>
               <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "700px", marginTop: "var(--space-2)" }}>
                 {isEn
-                  ? "Adjust lead volumes and staff wage parameters to project how quickly an Atlas implementation sprint pays for itself."
-                  : "Geser parameter volume lead dan beban gaji tim untuk melihat seberapa cepat investasi implementasi Atlas balik modal."}
+                  ? "Adjust lead volumes and staff wage parameters to project how quickly an Atlas implementation sprint pays for itself (labeled as example)."
+                  : "Geser parameter volume lead dan beban gaji tim untuk melihat seberapa cepat investasi implementasi Atlas balik modal (ilustrasi perkiraan)."}
               </p>
             </div>
 
@@ -881,7 +740,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Enterprise Governance, Durability & Trust */}
+        {/* 09 — Enterprise Governance, Durability & Trust */}
         <section id="security" style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div>
@@ -889,7 +748,7 @@ export default async function HomePage() {
                 {isEn ? "SECURITY & DATA GOVERNANCE" : "KEAMANAN & INTEGRITAS DATA"}
               </div>
               <h2 style={{ fontSize: "var(--text-28)" }}>
-                {isEn ? "Built for Real Business Operations: Verifiable Facts" : "Fondasi Operasi Bisnis Nyata: Fakta Terverifikasi"}
+                {isEn ? "Enterprise Governance: Built for Real Business" : "Fondasi Operasi Bisnis Nyata: Fakta Terverifikasi"}
               </h2>
             </div>
 
@@ -939,7 +798,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Enterprise FAQ Accordion */}
+        {/* 10 — Enterprise FAQ Accordion with FAQPage Schema */}
         <section style={{ padding: "var(--space-8) 0", borderBottom: "1px solid var(--color-border)" }}>
           <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
             <div style={{ textAlign: "center" }}>
@@ -967,14 +826,14 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Embedded High-Converting Lead Capture Form */}
+        {/* 11 — Embedded High-Converting Lead Capture Form */}
         <section id="audit-form" style={{ padding: "var(--space-8) 0", background: "var(--color-surface-2)" }}>
           <div className="container" style={{ maxWidth: "680px" }}>
             <LeadCaptureForm locale={locale} source="homepage_main" />
           </div>
         </section>
 
-        {/* Honesty & Trust Section */}
+        {/* 12 — Engineering Truthfulness & Sandbox Transparency Box */}
         <section id="honesty" style={{ padding: "var(--space-7) 0" }}>
           <div className="container">
             <div
@@ -1002,7 +861,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Final CTA Banner */}
+        {/* 13 — Final CTA Banner */}
         <section
           style={{
             padding: "var(--space-8) 0 var(--space-9) 0",
@@ -1013,22 +872,22 @@ export default async function HomePage() {
           <div className="container" style={{ textAlign: "center", display: "grid", gap: "var(--space-4)", justifyItems: "center" }}>
             <h2 style={{ fontSize: "var(--text-32)", maxWidth: "640px" }}>
               {isEn
-                ? "Ready to Automate Your Business Workflows with Confidence?"
-                : "Siap Mengotomatisasi Alur Kerja Bisnis Anda dengan Aman?"}
+                ? "Start with a Proven Workflow Template Today"
+                : "Mulai dari Template Alur Kerja Teruji Sekarang"}
             </h2>
             <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "560px" }}>
               {isEn
-                ? "Claim a free 30-minute discovery audit or lock in your 5-day implementation sprint today."
-                : "Dapatkan sesi audit proses bisnis 30 menit tanpa biaya atau jadwalkan 5-day implementation sprint Anda sekarang."}
+                ? "Browse our catalog of 120 validated industry workflows or book a free 30-minute operational discovery audit."
+                : "Jelajahi katalog 120 template alur kerja tervalidasi atau jadwalkan sesi audit diagnostik 30 menit tanpa biaya."}
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", marginTop: "var(--space-2)", justifyContent: "center" }}>
-              <a href="#audit-form" className="btn btn-primary">
-                <span>{isEn ? "Book Your Workflow Audit" : "Jadwalkan Audit Gratis"}</span>
-                <ArrowRight size={16} aria-hidden="true" />
-              </a>
-              <Link href="/templates" className="btn btn-secondary">
+              <Link href="/templates" className="btn btn-primary">
                 <span>{isEn ? "Browse 120 Templates" : "Jelajahi 120 Template"}</span>
+                <ArrowRight size={16} aria-hidden="true" />
               </Link>
+              <a href="#audit-form" className="btn btn-secondary">
+                <span>{isEn ? "Book Free Discovery Audit" : "Jadwalkan Audit Gratis"}</span>
+              </a>
             </div>
           </div>
         </section>
