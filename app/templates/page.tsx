@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, Sparkles, ShieldCheck, Lock, Clock, Calendar } from "lucide-react";
 import { getLocale, getDict, pick } from "@/lib/i18n";
 import { getSession } from "@/lib/auth/session";
 import { templates } from "@/lib/templates/catalog";
@@ -9,9 +9,9 @@ import { Footer } from "@/components/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Katalog 120+ Blueprint Workflow AI Teruji | Atlas",
+    title: "120 Validated Enterprise Workflow Solutions | Atlas",
     description:
-      "Jelajahi 120 template alur kerja AI teruji di 12 kategori industri: penjualan, pemasaran, agensi, properti, dealer, support, dan rekrutmen.",
+      "Explore 120 battle-tested business automation solutions across 12 commercial industries: sales, marketing, customer support, real estate, automotive, finance, and recruitment. 5-day turnkey deployment under strict NDA.",
     alternates: {
       canonical: "https://atlas-automation.vercel.app/templates",
     },
@@ -27,6 +27,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
+  const isEn = locale === "en";
 
   const query = (q || "").trim().toLowerCase();
   const selectedCat = category || "all";
@@ -62,15 +63,59 @@ export default async function TemplatesPage({ searchParams }: Props) {
 
       <main id="main-content" style={{ flex: 1, padding: "var(--space-8) 0" }}>
         <div className="container" style={{ display: "grid", gap: "var(--space-6)" }}>
-          <div>
-            <div className="eyebrow" style={{ marginBottom: "var(--space-2)" }}>Katalog Produksi</div>
-            <h1 style={{ fontSize: "var(--text-32)" }}>{t.templates.title}</h1>
-            <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "640px", marginTop: "var(--space-2)" }}>
-              {t.templates.lead}
+          {/* Commercial Header & Proposition */}
+          <div style={{ display: "grid", gap: "var(--space-3)" }}>
+            <div style={{ display: "inline-flex" }}>
+              <span className="badge badge-accent">
+                <Sparkles size={12} aria-hidden="true" />
+                <span>
+                  {isEn
+                    ? "TURNKEY ENTERPRISE CATALOG • 5-DAY IMPLEMENTATION SPRINT"
+                    : "KATALOG SOLUSI ENTERPRISE • SPRINT TURNKEY 5 HARI"}
+                </span>
+              </span>
+            </div>
+
+            <h1 style={{ fontSize: "clamp(2rem, 3.4vw, 2.75rem)", fontWeight: 750, letterSpacing: "-0.025em" }}>
+              {isEn
+                ? "120 Validated Business Workflow Solutions"
+                : "120 Solusi Alur Kerja Bisnis Siap Implementasi"}
+            </h1>
+
+            <p className="muted" style={{ fontSize: "var(--text-16)", maxWidth: "780px", lineHeight: 1.6 }}>
+              {isEn
+                ? "Every blueprint below is fully production-verified. We adapt each workflow to your exact qualification rubrics, connect your existing tools (WhatsApp, CRM, Sheets), and hand over a live supervised system in 5 business days for a fixed fee of Rp7.500.000."
+                : "Seluruh blueprint di bawah ini siap kami terapkan secara turnkey ke sistem operasional perusahaan Anda. Kami mengaudit alur Anda, menyambungkan kanal resmi (WhatsApp, CRM, Sheets), dan menyerahkan sistem yang sudah berjalan dalam 5 hari kerja (Rp7.500.000 flat) di bawah jaminan NDA resmi."}
             </p>
+
+            {/* Commercial Trust Strip */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: "var(--space-4)",
+                fontSize: "var(--text-12)",
+                color: "var(--color-muted)",
+                paddingTop: "var(--space-2)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                <Clock size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                <span>{isEn ? "5-Day Handover Guaranteed" : "Garansi Serah Terima 5 Hari"}</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                <ShieldCheck size={14} style={{ color: "var(--color-success)" }} aria-hidden="true" />
+                <span>{isEn ? "Mandatory Human Review Gate" : "Gerbang Persetujuan Tim Wajib"}</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
+                <Lock size={14} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
+                <span>{isEn ? "Mutual NDA & 100% Data Ownership" : "NDA Resmi & Data Milik Klien 100%"}</span>
+              </div>
+            </div>
           </div>
 
-          {/* Search & Filter Bar */}
+          {/* Search & Industry Filter Bar */}
           <div
             style={{
               display: "flex",
@@ -107,7 +152,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
                   type="search"
                   name="q"
                   defaultValue={query}
-                  placeholder={t.templates.search}
+                  placeholder={isEn ? "Search by keyword or vertical..." : "Cari berdasarkan kata kunci atau industri..."}
                   aria-label={t.templates.search}
                   className="input"
                   style={{ paddingLeft: "36px", minHeight: "44px" }}
@@ -121,7 +166,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
             <div className="empty">
               <p>{t.templates.empty}</p>
               <Link href="/templates" className="btn btn-secondary btn-sm">
-                Tampilkan semua template
+                {isEn ? "Show all solutions" : "Tampilkan semua solusi"}
               </Link>
             </div>
           ) : (
@@ -135,7 +180,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
               {filtered.map((template) => (
                 <div
                   key={template.id}
-                  className="panel"
+                  className="bento-card"
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -148,10 +193,12 @@ export default async function TemplatesPage({ searchParams }: Props) {
                       <span className="badge badge-accent" style={{ textTransform: "capitalize" }}>
                         {template.category}
                       </span>
-                      <span className="badge">v{template.version}</span>
+                      <span className="badge" style={{ fontSize: "11px" }}>
+                        {isEn ? "5-Day Sprint" : "Sprint 5 Hari"}
+                      </span>
                     </div>
 
-                    <h2 style={{ fontSize: "var(--text-18)" }}>
+                    <h2 style={{ fontSize: "var(--text-18)", fontWeight: 700 }}>
                       <Link
                         href={`/templates/${template.slug}`}
                         style={{ textDecoration: "none" }}
@@ -160,17 +207,9 @@ export default async function TemplatesPage({ searchParams }: Props) {
                       </Link>
                     </h2>
 
-                    <p className="muted" style={{ fontSize: "var(--text-14)" }}>
+                    <p className="muted" style={{ fontSize: "var(--text-14)", lineHeight: 1.5 }}>
                       {pick(template.summary, locale)}
                     </p>
-
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-1)", marginTop: "var(--space-1)" }}>
-                      {template.tags.map((tag) => (
-                        <span key={tag} className="badge" style={{ fontSize: "11px" }}>
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
                   <div
@@ -183,14 +222,16 @@ export default async function TemplatesPage({ searchParams }: Props) {
                       fontSize: "var(--text-12)",
                     }}
                   >
-                    <span className="muted">
-                      {template.nodes.length} {t.templates.steps} &bull; {t.templates.approval}
+                    <span className="muted" style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                      <ShieldCheck size={13} style={{ color: "var(--color-success)" }} aria-hidden="true" />
+                      <span>{isEn ? "Human Review Gate" : "Izin Tim Wajib"}</span>
                     </span>
+
                     <Link
                       href={`/templates/${template.slug}`}
                       className="btn btn-primary btn-sm"
                     >
-                      <span>Lihat detail</span>
+                      <span>{isEn ? "View Solution Specs" : "Lihat Spesifikasi Layanan"}</span>
                       <ArrowRight size={14} aria-hidden="true" />
                     </Link>
                   </div>
