@@ -17,15 +17,17 @@ import {
   XCircle,
   ShieldCheck,
 } from "lucide-react";
-import type { Dict } from "@/lib/i18n";
+import type { Dict, Locale } from "@/lib/i18n";
 
 interface Props {
   dict: Dict;
+  locale?: Locale;
 }
 
 type Step = "idle" | "trigger" | "agent" | "condition" | "approval" | "action" | "done";
 
-export function WorkflowCanvas({ dict }: Props) {
+export function WorkflowCanvas({ dict, locale = "en" }: Props) {
+  const isEn = locale === "en";
   const [currentStep, setCurrentStep] = useState<Step>("approval");
   const [approved, setApproved] = useState(false);
   const [rejected, setRejected] = useState(false);
@@ -83,9 +85,9 @@ export function WorkflowCanvas({ dict }: Props) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-          <span className="badge badge-accent">Demo Alur Kerja</span>
+          <span className="badge badge-accent">{isEn ? "Live Workflow Demo" : "Demo Alur Kerja"}</span>
           <span style={{ fontWeight: 650, fontSize: "var(--text-14)" }}>
-            Kualifikasi Inbound Lead &amp; Draf Respon
+            {isEn ? "Inbound Lead Qualification & Draft Response" : "Kualifikasi Inbound Lead & Draf Respon"}
           </span>
         </div>
 
@@ -93,20 +95,20 @@ export function WorkflowCanvas({ dict }: Props) {
           {approved ? (
             <span className="badge badge-success">
               <CheckCircle2 size={12} aria-hidden="true" />
-              <span>Disetujui di Sandbox</span>
+              <span>{isEn ? "Approved in Sandbox" : "Disetujui di Sandbox"}</span>
             </span>
           ) : rejected ? (
             <span className="badge badge-danger">
               <XCircle size={12} aria-hidden="true" />
-              <span>Ditolak Operator</span>
+              <span>{isEn ? "Rejected by Operator" : "Ditolak Operator"}</span>
             </span>
           ) : currentStep === "approval" ? (
             <span className="badge badge-warning">
               <Clock size={12} aria-hidden="true" />
-              <span>Menunggu Tinjauan</span>
+              <span>{isEn ? "Pending Review" : "Menunggu Tinjauan"}</span>
             </span>
           ) : (
-            <span className="badge">Simulasi Berjalan</span>
+            <span className="badge">{isEn ? "Simulation Running" : "Simulasi Berjalan"}</span>
           )}
 
           {currentStep === "idle" ? (
@@ -116,7 +118,7 @@ export function WorkflowCanvas({ dict }: Props) {
               onClick={runSimulation}
             >
               <Play size={13} aria-hidden="true" />
-              <span>Jalankan Simulasi</span>
+              <span>{isEn ? "Run Simulation" : "Jalankan Simulasi"}</span>
             </button>
           ) : (
             <button
@@ -125,7 +127,7 @@ export function WorkflowCanvas({ dict }: Props) {
               onClick={reset}
             >
               <RotateCcw size={13} aria-hidden="true" />
-              <span>Mulai Ulang</span>
+              <span>{isEn ? "Reset Flow" : "Mulai Ulang"}</span>
             </button>
           )}
         </div>
@@ -152,12 +154,14 @@ export function WorkflowCanvas({ dict }: Props) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span className="eyebrow" style={{ fontSize: "10px" }}>01. Input</span>
+            <span className="eyebrow" style={{ fontSize: "10px" }}>01. {isEn ? "Input" : "Input"}</span>
             <Inbox size={13} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
           </div>
-          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>Lead Masuk</div>
+          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>
+            {isEn ? "Inbound Lead" : "Lead Masuk"}
+          </div>
           <div className="muted" style={{ fontSize: "11px", lineHeight: 1.3 }}>
-            Rina (Budget 150jt)
+            {isEn ? "Sarah ($15k Budget)" : "Rina (Budget 150jt)"}
           </div>
         </div>
 
@@ -178,12 +182,14 @@ export function WorkflowCanvas({ dict }: Props) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span className="eyebrow" style={{ fontSize: "10px" }}>02. AI Evaluasi</span>
+            <span className="eyebrow" style={{ fontSize: "10px" }}>02. {isEn ? "AI Scoring" : "AI Evaluasi"}</span>
             <Cpu size={13} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
           </div>
-          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>Skor Kualifikasi</div>
+          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>
+            {isEn ? "Fit Evaluation" : "Skor Kualifikasi"}
+          </div>
           <div style={{ fontSize: "11px", color: "var(--color-accent)", fontWeight: 700 }}>
-            85/100 (Prioritas)
+            {isEn ? "85/100 (High Fit)" : "85/100 (Prioritas)"}
           </div>
         </div>
 
@@ -214,7 +220,7 @@ export function WorkflowCanvas({ dict }: Props) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span className="eyebrow" style={{ fontSize: "10px" }}>03. Kontrol</span>
+            <span className="eyebrow" style={{ fontSize: "10px" }}>03. {isEn ? "Control" : "Kontrol"}</span>
             <ShieldAlert
               size={13}
               aria-hidden="true"
@@ -227,16 +233,24 @@ export function WorkflowCanvas({ dict }: Props) {
               }}
             />
           </div>
-          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>Izin Operator</div>
+          <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>
+            {isEn ? "Team Sign-Off" : "Izin Operator"}
+          </div>
           <div style={{ fontSize: "11px" }}>
             {approved ? (
-              <span style={{ color: "var(--color-success)", fontWeight: 600 }}>Disetujui</span>
+              <span style={{ color: "var(--color-success)", fontWeight: 600 }}>
+                {isEn ? "Approved" : "Disetujui"}
+              </span>
             ) : rejected ? (
-              <span style={{ color: "var(--color-danger)", fontWeight: 600 }}>Ditolak</span>
+              <span style={{ color: "var(--color-danger)", fontWeight: 600 }}>
+                {isEn ? "Rejected" : "Ditolak"}
+              </span>
             ) : currentStep === "approval" ? (
-              <span style={{ color: "var(--color-warning)", fontWeight: 600 }}>Menunggu Izin</span>
+              <span style={{ color: "var(--color-warning)", fontWeight: 600 }}>
+                {isEn ? "Awaiting Sign-Off" : "Menunggu Izin"}
+              </span>
             ) : (
-              <span className="muted">Antrean</span>
+              <span className="muted">{isEn ? "Queued" : "Antrean"}</span>
             )}
           </div>
         </div>
@@ -262,7 +276,7 @@ export function WorkflowCanvas({ dict }: Props) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span className="eyebrow" style={{ fontSize: "10px" }}>04. Aksi</span>
+            <span className="eyebrow" style={{ fontSize: "10px" }}>04. {isEn ? "Dispatch" : "Aksi"}</span>
             <Send
               size={13}
               aria-hidden="true"
@@ -273,7 +287,11 @@ export function WorkflowCanvas({ dict }: Props) {
           </div>
           <div style={{ fontWeight: 650, fontSize: "var(--text-12)" }}>WhatsApp &amp; CRM</div>
           <div className="muted" style={{ fontSize: "11px", lineHeight: 1.3 }}>
-            {approved ? "Terkirim di Sandbox" : rejected ? "Aksi Dibatalkan" : "Tertahan Izin"}
+            {approved
+              ? (isEn ? "Dispatched in Sandbox" : "Terkirim di Sandbox")
+              : rejected
+              ? (isEn ? "Action Cancelled" : "Aksi Dibatalkan")
+              : (isEn ? "Gate Paused" : "Tertahan Izin")}
           </div>
         </div>
       </div>
@@ -293,11 +311,13 @@ export function WorkflowCanvas({ dict }: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
             <MessageSquare size={15} style={{ color: "var(--color-accent)" }} aria-hidden="true" />
             <span style={{ fontWeight: 650, fontSize: "var(--text-13)" }}>
-              Draf Respon WhatsApp (Hanya Dikirim Setelah Izin Manusia)
+              {isEn
+                ? "WhatsApp Draft (Dispatched Only After Team Approval)"
+                : "Draf Respon WhatsApp (Hanya Dikirim Setelah Izin Manusia)"}
             </span>
           </div>
           <span className="badge" style={{ fontSize: "11px" }}>
-            Data Demo • Prospek Panas
+            {isEn ? "Demo Payload • Qualified Lead" : "Data Demo • Prospek Panas"}
           </span>
         </div>
 
@@ -312,7 +332,9 @@ export function WorkflowCanvas({ dict }: Props) {
             color: "var(--color-text)",
           }}
         >
-          &quot;Halo Bu Rina, salam kenal dari tim agensi. Terkait kebutuhan kampanye lead generation dengan alokasi budget Rp150.000.000, kami telah menyiapkan blueprint awal dan portofolio industri serupa. Apakah ada waktu luang 15 menit besok siang untuk sinkronisasi singkat?&quot;
+          {isEn
+            ? "\"Hello Sarah, thank you for reaching out to our agency. Regarding your inbound lead generation campaign with a $15,000 monthly allocation, our solutions team has prepared a tailored workflow blueprint and benchmark portfolio. Do you have 15 minutes tomorrow afternoon for a brief alignment?\""
+            : "\"Halo Bu Rina, salam kenal dari tim agensi. Terkait kebutuhan kampanye lead generation dengan alokasi budget Rp150.000.000, kami telah menyiapkan blueprint awal dan portofolio industri serupa. Apakah ada waktu luang 15 menit besok siang untuk sinkronisasi singkat?\""}
         </div>
 
         {currentStep === "approval" && !approved && !rejected && (
@@ -323,7 +345,7 @@ export function WorkflowCanvas({ dict }: Props) {
               onClick={handleReject}
             >
               <ThumbsDown size={13} aria-hidden="true" />
-              <span>Tolak Draf</span>
+              <span>{isEn ? "Reject Draft" : "Tolak Draf"}</span>
             </button>
             <button
               type="button"
@@ -331,7 +353,7 @@ export function WorkflowCanvas({ dict }: Props) {
               onClick={handleApprove}
             >
               <ThumbsUp size={13} aria-hidden="true" />
-              <span>Setujui &amp; Jalankan (Sandbox)</span>
+              <span>{isEn ? "Approve & Dispatch (Sandbox)" : "Setujui & Jalankan (Sandbox)"}</span>
             </button>
           </div>
         )}
@@ -348,7 +370,11 @@ export function WorkflowCanvas({ dict }: Props) {
             }}
           >
             <CheckCircle2 size={14} aria-hidden="true" />
-            <span>Disetujui oleh operator &bull; Dicatat permanen di audit log</span>
+            <span>
+              {isEn
+                ? "Approved by operator • Immutably stored in audit log"
+                : "Disetujui oleh operator • Dicatat permanen di audit log"}
+            </span>
           </div>
         )}
 
@@ -364,7 +390,11 @@ export function WorkflowCanvas({ dict }: Props) {
             }}
           >
             <XCircle size={14} aria-hidden="true" />
-            <span>Draf ditolak oleh operator &bull; Nol aksi keluar dilakukan</span>
+            <span>
+              {isEn
+                ? "Draft rejected by operator • Zero outbound action taken"
+                : "Draf ditolak oleh operator • Nol aksi keluar dilakukan"}
+            </span>
           </div>
         )}
       </div>
@@ -385,13 +415,13 @@ export function WorkflowCanvas({ dict }: Props) {
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             <Clock size={13} aria-hidden="true" style={{ color: "var(--color-muted)" }} />
-            <span className="muted">Waktu Respon:</span>
-            <strong>&lt; 60 Detik</strong>
+            <span className="muted">{isEn ? "Response Time:" : "Waktu Respon:"}</span>
+            <strong>&lt; 60 {isEn ? "Seconds" : "Detik"}</strong>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             <ShieldCheck size={13} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-            <span className="muted">Kontrol:</span>
-            <span>Verifikasi Tim Wajib</span>
+            <span className="muted">{isEn ? "Governance:" : "Kontrol:"}</span>
+            <span>{isEn ? "Mandatory Sign-Off" : "Verifikasi Tim Wajib"}</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-1)" }}>
             {approved ? (
@@ -401,7 +431,7 @@ export function WorkflowCanvas({ dict }: Props) {
             ) : (
               <ShieldAlert size={13} aria-hidden="true" style={{ color: "var(--color-warning)" }} />
             )}
-            <span className="muted">Status:</span>
+            <span className="muted">{isEn ? "Status:" : "Status:"}</span>
             <span
               style={{
                 color: approved
@@ -413,17 +443,17 @@ export function WorkflowCanvas({ dict }: Props) {
               }}
             >
               {approved
-                ? "Selesai & Dicatat di Log"
+                ? (isEn ? "Completed & Logged" : "Selesai & Dicatat di Log")
                 : rejected
-                ? "Dibatalkan & Diarsipkan"
-                : "Menunggu Keputusan Tim"}
+                ? (isEn ? "Cancelled & Archived" : "Dibatalkan & Diarsipkan")
+                : (isEn ? "Awaiting Team Decision" : "Menunggu Keputusan Tim")}
             </span>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <span className="badge badge-accent" style={{ fontSize: "10px" }}>
-            Proteksi Anti-Duplikasi Aktif
+            {isEn ? "Active Deduplication Protection" : "Proteksi Anti-Duplikasi Aktif"}
           </span>
         </div>
       </div>
@@ -438,7 +468,9 @@ export function WorkflowCanvas({ dict }: Props) {
           paddingTop: "var(--space-2)",
         }}
       >
-        Simulasi interaktif menggunakan data demo. Tidak ada pesan riil yang dikirim tanpa otorisasi sistem produksi.
+        {isEn
+          ? "Interactive simulation using synthetic test data. Zero external messages are transmitted without authorized production credentials."
+          : "Simulasi interaktif menggunakan data demo. Tidak ada pesan riil yang dikirim tanpa otorisasi sistem produksi."}
       </div>
     </div>
   );
