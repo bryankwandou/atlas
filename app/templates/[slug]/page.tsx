@@ -120,7 +120,7 @@ export default async function TemplateDetailPage({ params }: Props) {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="atelier-dark-page" style={{ display: "flex", flexDirection: "column" }}>
       <SchemaOrgJsonLd type="service" />
       <Navbar locale={locale} dict={t} isAuthenticated={!!session} />
 

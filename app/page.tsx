@@ -126,7 +126,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="atelier-dark-page" style={{ display: "flex", flexDirection: "column" }}>
       <SchemaOrgJsonLd type="organization" />
       <SchemaOrgJsonLd type="service" />
       <SchemaOrgJsonLd type="software" />
