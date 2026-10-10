@@ -8,11 +8,11 @@ export const LOCALE_COOKIE = "atlas_locale";
 
 const dictionaries: Record<Locale, Dict> = { id, en };
 
-/** Explicit preference cookie wins; otherwise default to Indonesian (id) for Indonesian B2B market. */
+/** Explicit preference cookie wins; otherwise default to English (en) for international showcase and SEO. */
 export async function getLocale(): Promise<Locale> {
   const fromCookie = (await cookies()).get(LOCALE_COOKIE)?.value;
   if (fromCookie === "id" || fromCookie === "en") return fromCookie;
-  return "id";
+  return "en";
 }
 
 export async function getDict(): Promise<{ locale: Locale; t: Dict }> {
