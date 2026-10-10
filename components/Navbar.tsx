@@ -18,45 +18,27 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
   const isEn = locale === "en";
 
   return (
-    <header
-      role="banner"
-      style={{
-        borderBottom: "1px solid var(--color-border)",
-        background: "var(--color-surface)",
-        position: "sticky",
-        top: 0,
-        zIndex: 40,
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "64px",
-          gap: "var(--space-4)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-6)" }}>
+    <header role="banner" className="nav-pill-wrapper">
+      <div className="nav-pill">
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
           <Link
             href="/"
             style={{
               textDecoration: "none",
               display: "inline-flex",
               alignItems: "center",
-              gap: "var(--space-2)",
-              fontWeight: 750,
-              fontSize: "var(--text-20)",
+              gap: "8px",
+              fontWeight: 800,
+              fontSize: "17px",
               letterSpacing: "-0.03em",
               color: "var(--color-text)",
             }}
           >
-            <span>Atlas</span>
+            <span style={{ display: "inline-block", width: "9px", height: "9px", borderRadius: "50%", background: "var(--color-accent)" }}></span>
+            <span className="font-display">Atlas</span>
             <span
               className="badge badge-accent"
-              style={{ fontSize: "11px", fontWeight: 700, padding: "2px 6px" }}
+              style={{ fontSize: "10px", fontWeight: 700, padding: "1px 6px", textTransform: "uppercase", letterSpacing: "0.06em" }}
             >
               Enterprise
             </span>
@@ -71,51 +53,52 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
             <Link
               href="/services/implementation-sprint"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
+                transition: "color 150ms var(--ease)",
               }}
             >
-              {isEn ? "5-Day Sprint (Rp7.5M)" : "5-Day Sprint (Rp7.5jt)"}
+              {isEn ? "5-Day Sprint" : "5-Day Sprint"}
             </Link>
             <Link
-              href="/solutions/marketing-agencies"
+              href="/#cases"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
               }}
             >
-              {isEn ? "Agencies" : "Agensi"}
+              {isEn ? "Case Records" : "Catatan Kasus"}
             </Link>
             <Link
-              href="/solutions/sales-operations"
+              href="/#simulator"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
               }}
             >
-              {isEn ? "Sales Ops" : "Sales Ops"}
+              {isEn ? "Governance Dial" : "Simulator Kendali"}
             </Link>
             <Link
               href="/templates"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
               }}
             >
-              {isEn ? "120 Templates" : "120 Template"}
+              {isEn ? "120 Templates" : "120 Solusi"}
             </Link>
             <Link
               href="/pricing"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
@@ -126,7 +109,7 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
             <Link
               href="/security"
               style={{
-                fontSize: "var(--text-14)",
+                fontSize: "13px",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "var(--color-muted)",
@@ -137,27 +120,25 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
           </nav>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <div className="desktop-controls" style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
             <LocaleToggle currentLocale={locale} />
             <ThemeToggle ariaLabel={isEn ? "Toggle dark/light theme" : "Ganti tema tampilan"} />
 
             {isAuthenticated ? (
-              <Link href="/app" className="btn btn-secondary btn-sm">
+              <Link href="/app" className="btn btn-secondary btn-sm" style={{ borderRadius: "9999px", padding: "0 14px" }}>
                 <span>{dict.nav.dashboard}</span>
                 <ArrowRight size={14} aria-hidden="true" />
               </Link>
             ) : (
-              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-                <Link
-                  href="/services/automation-audit"
-                  className="btn btn-primary btn-sm"
-                  style={{ textDecoration: "none" }}
-                >
-                  <Sparkles size={14} aria-hidden="true" />
-                  <span>{isEn ? "Book Audit (30 Min)" : "Jadwalkan Audit"}</span>
-                </Link>
-              </div>
+              <Link
+                href="/services/automation-audit"
+                className="btn btn-primary btn-sm"
+                style={{ borderRadius: "9999px", padding: "0 14px", textDecoration: "none", fontWeight: 700, fontSize: "13px" }}
+              >
+                <Sparkles size={13} aria-hidden="true" />
+                <span>{isEn ? "Book Audit" : "Audit Arsitektur"}</span>
+              </Link>
             )}
           </div>
 
@@ -168,8 +149,9 @@ export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
             aria-controls="mobile-menu"
             aria-label={mobileOpen ? (isEn ? "Close menu" : "Tutup menu") : (isEn ? "Open menu" : "Buka menu")}
             onClick={() => setMobileOpen(!mobileOpen)}
+            style={{ width: "38px", height: "38px", borderRadius: "9999px" }}
           >
-            {mobileOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
           </button>
         </div>
       </div>
