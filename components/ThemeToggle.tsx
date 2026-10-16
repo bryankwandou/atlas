@@ -7,10 +7,15 @@ interface Props {
   ariaLabel?: string;
 }
 
-export function ThemeToggle({ ariaLabel = "Ganti tema tampilan" }: Props) {
+export function ThemeToggle({ ariaLabel }: Props) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isId, setIsId] = useState(false);
+  const label = ariaLabel ?? (isId ? "Ganti tema tampilan" : "Change color theme");
+  const toLight = isId ? "Beralih ke mode terang" : "Switch to light mode";
+  const toDark = isId ? "Beralih ke mode gelap" : "Switch to dark mode";
 
   useEffect(() => {
+    setIsId(document.documentElement.lang === "id");
     const current = document.documentElement.getAttribute("data-theme") as "light" | "dark" | null;
     if (current) {
       setTheme(current);
@@ -34,8 +39,8 @@ export function ThemeToggle({ ariaLabel = "Ganti tema tampilan" }: Props) {
       type="button"
       onClick={toggle}
       className="icon-btn"
-      aria-label={`${ariaLabel} (${theme === "dark" ? "Mode gelap" : "Mode terang"})`}
-      title={theme === "dark" ? "Mode terang" : "Mode gelap"}
+      aria-label={`${label}: ${theme === "dark" ? toLight : toDark}`}
+      title={theme === "dark" ? toLight : toDark}
       style={{ minWidth: "44px", minHeight: "44px" }}
     >
       {theme === "dark" ? (
@@ -44,7 +49,7 @@ export function ThemeToggle({ ariaLabel = "Ganti tema tampilan" }: Props) {
         <Moon size={18} aria-hidden="true" />
       )}
       <span className="visually-hidden">
-        {theme === "dark" ? "Beralih ke mode terang" : "Beralih ke mode gelap"}
+        {theme === "dark" ? toLight : toDark}
       </span>
     </button>
   );

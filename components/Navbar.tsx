@@ -15,7 +15,7 @@ interface Props {
 
 export function Navbar({ locale, dict, isAuthenticated = false }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   return (
     <header role="banner" className="nav-pill-wrapper">

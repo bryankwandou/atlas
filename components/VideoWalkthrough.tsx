@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Play,
   Pause,
@@ -25,10 +25,22 @@ interface Props {
 }
 
 export function VideoWalkthrough({ locale = "en" }: Props) {
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [activeChapter, setActiveChapter] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const TOTAL = 80;
+  const starts = [0, 18, 35, 52, 68];
+  const activeChapter = starts.reduce((acc, s, i) => (elapsed >= s ? i : acc), 0);
+  const setActiveChapter = (i: number) => setElapsed(starts[i]);
+  const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => setElapsed((e) => (e + 1 >= TOTAL ? 0 : e + 1)), 1000);
+    return () => window.clearInterval(id);
+  }, [isPlaying]);
 
   const chapters = [
     {
@@ -142,10 +154,10 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <span className="badge badge-accent" style={{ fontSize: "11px" }}>
-            HD 60FPS • Sandbox Demo
+            {isEn ? "Interactive simulation" : "Simulasi interaktif"}
           </span>
           <span className="badge" style={{ fontSize: "11px" }}>
-            {chapters[activeChapter].time} / 01:20
+            {fmt(elapsed)} / {fmt(TOTAL)}
           </span>
         </div>
       </div>
@@ -278,7 +290,7 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
           </button>
 
           <span style={{ fontSize: "var(--text-12)", fontFamily: "var(--font-mono)" }}>
-            {chapters[activeChapter].time}
+            {fmt(elapsed)}
           </span>
 
           <button

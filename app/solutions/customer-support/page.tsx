@@ -25,7 +25,7 @@ export default async function CustomerSupportSolutionPage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   return (
     <div className="atelier-dark-page" style={{ display: "flex", flexDirection: "column" }}>

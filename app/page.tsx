@@ -47,7 +47,7 @@ export default async function HomePage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   const featuredTemplates = templates.slice(0, 8);
 
