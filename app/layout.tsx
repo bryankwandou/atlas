@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { t } = await getDict();
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang={locale} dir={locale === "ar" || locale === "he" ? "rtl" : "ltr"} className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

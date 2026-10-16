@@ -3,11 +3,26 @@ import id from "@/locales/id.json";
 import en from "@/locales/en.json";
 import es from "@/locales/es.json";
 import zh from "@/locales/zh.json";
+import zhTW from "@/locales/zh-TW.json";
 import ja from "@/locales/ja.json";
 import ko from "@/locales/ko.json";
 import de from "@/locales/de.json";
 import fr from "@/locales/fr.json";
 import ar from "@/locales/ar.json";
+import pt from "@/locales/pt.json";
+import it from "@/locales/it.json";
+import nl from "@/locales/nl.json";
+import ru from "@/locales/ru.json";
+import tr from "@/locales/tr.json";
+import vi from "@/locales/vi.json";
+import th from "@/locales/th.json";
+import ms from "@/locales/ms.json";
+import hi from "@/locales/hi.json";
+import sv from "@/locales/sv.json";
+import pl from "@/locales/pl.json";
+import uk from "@/locales/uk.json";
+import he from "@/locales/he.json";
+import da from "@/locales/da.json";
 import { supportedLocales, LOCALE_COOKIE, type LocaleCode, type Locale } from "./locales";
 
 export * from "./locales";
@@ -24,7 +39,30 @@ export async function getLocale(): Promise<Locale> {
 }
 
 type Partial2<T> = { [K in keyof T]?: Partial<T[K]> };
-const extra: Record<string, Partial2<Dict>> = { es, zh, ja, ko, de, fr, ar };
+const extra: Record<string, Partial2<Dict>> = {
+  es,
+  zh,
+  "zh-TW": zhTW,
+  ja,
+  ko,
+  de,
+  fr,
+  ar,
+  pt,
+  it,
+  nl,
+  ru,
+  tr,
+  vi,
+  th,
+  ms,
+  hi,
+  sv,
+  pl,
+  uk,
+  he,
+  da,
+};
 
 function merge(base: Dict, over: Partial2<Dict>): Dict {
   const out = { ...base } as Record<string, unknown>;
