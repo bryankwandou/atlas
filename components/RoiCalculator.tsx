@@ -13,7 +13,7 @@ interface RoiCalculatorProps {
 }
 
 export function RoiCalculator({ locale = "id" }: RoiCalculatorProps) {
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   // Sliders state
   const [leadsPerMonth, setLeadsPerMonth] = useState<number>(250);

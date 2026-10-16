@@ -30,7 +30,7 @@ export default async function ImplementationSprintPage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   const milestones = [
     {

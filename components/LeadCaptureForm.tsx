@@ -9,7 +9,7 @@ interface LeadCaptureFormProps {
 }
 
 export function LeadCaptureForm({ locale = "id", source = "homepage" }: LeadCaptureFormProps) {
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   const [fullName, setFullName] = useState("");
   const [businessEmail, setBusinessEmail] = useState("");

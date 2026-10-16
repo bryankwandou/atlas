@@ -7,10 +7,14 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const isEn = (await getLocale()) !== "id";
   return {
-    title: "Paket & Harga Jasa Implementasi Automasi Alur Kerja | Atlas",
-    description:
-      "Transparansi biaya implementasi alur kerja AI: 5-Day Implementation Sprint Rp7.500.000 flat dan sesi Workflow Discovery Audit 30 menit gratis.",
+    title: isEn
+      ? "Pricing: 5-Day Workflow Implementation Sprint | Atlas"
+      : "Paket & Harga Jasa Implementasi Automasi Alur Kerja | Atlas",
+    description: isEn
+      ? "Fixed-scope pricing for supervised AI workflow implementation: a free 30-minute discovery audit and a 5-day turnkey sprint at Rp7,500,000."
+      : "Transparansi biaya implementasi alur kerja AI: 5-Day Implementation Sprint Rp7.500.000 flat dan sesi Workflow Discovery Audit 30 menit gratis.",
     alternates: {
       canonical: "https://atlas-automation.vercel.app/pricing",
     },
@@ -21,6 +25,7 @@ export default async function PricingPage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
+  const isEn = locale !== "id";
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -32,7 +37,7 @@ export default async function PricingPage() {
             <div style={{ display: "inline-flex", justifyContent: "center" }}>
               <span className="badge badge-accent">
                 <Coins size={12} aria-hidden="true" />
-                <span>Transparansi Biaya &amp; Investasi</span>
+                <span>{isEn ? "Fixed-Scope Investment" : "Transparansi Biaya & Investasi"}</span>
               </span>
             </div>
             <h1 style={{ fontSize: "var(--text-32)" }}>{t.pricing.title}</h1>
@@ -61,7 +66,7 @@ export default async function PricingPage() {
               }}
             >
               <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                <span className="eyebrow">Diagnostik Awal</span>
+                <span className="eyebrow">{isEn ? "Initial Diagnostic" : "Diagnostik Awal"}</span>
                 <h2 style={{ fontSize: "var(--text-20)" }}>{t.pricing.auditName}</h2>
                 <div style={{ fontSize: "var(--text-28)", fontWeight: 700 }}>{t.pricing.auditPrice}</div>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.pricing.auditBody}</p>
@@ -69,21 +74,21 @@ export default async function PricingPage() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-2)", fontSize: "var(--text-14)" }}>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pemetaan proses bisnis manual</span>
+                    <span>{isEn ? "Mapping of your manual business processes" : "Pemetaan proses bisnis manual"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Katalog template rekomendasi</span>
+                    <span>{isEn ? "Recommended blueprint shortlist" : "Katalog template rekomendasi"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Estimasi penghematan waktu &amp; kalkulasi ROI</span>
+                    <span>{isEn ? "Time-savings estimate and ROI calculation" : "Estimasi penghematan waktu & kalkulasi ROI"}</span>
                   </li>
                 </ul>
               </div>
 
               <Link href="/services/automation-audit" className="btn btn-secondary" style={{ width: "100%" }}>
-                <span>Jadwalkan Audit Gratis</span>
+                <span>{isEn ? "Book the Free Audit" : "Jadwalkan Audit Gratis"}</span>
               </Link>
             </div>
 
@@ -102,7 +107,7 @@ export default async function PricingPage() {
             >
               <div style={{ display: "grid", gap: "var(--space-3)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className="eyebrow">Layanan Utama</span>
+                  <span className="eyebrow">{isEn ? "Core Service" : "Layanan Utama"}</span>
                   <span className="badge badge-accent">5-Day Turnaround</span>
                 </div>
                 <h2 style={{ fontSize: "var(--text-20)" }}>{t.pricing.sprintName}</h2>
@@ -112,25 +117,25 @@ export default async function PricingPage() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-2)", fontSize: "var(--text-14)" }}>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pemasangan 1 workflow produksi kustom</span>
+                    <span>{isEn ? "One custom production workflow, installed" : "Pemasangan 1 workflow produksi kustom"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Simulasi menyeluruh &amp; verifikasi skenario batas</span>
+                    <span>{isEn ? "Full simulation and edge-case verification" : "Simulasi menyeluruh & verifikasi skenario batas"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Gerbang persetujuan tim &amp; integrasi kanal resmi</span>
+                    <span>{isEn ? "Team approval gate and official channel wiring" : "Gerbang persetujuan tim & integrasi kanal resmi"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pelatihan tim 1 sesi &amp; 14 hari pemantauan SLA aktif</span>
+                    <span>{isEn ? "One team training session and 14 days of monitored SLA" : "Pelatihan tim 1 sesi & 14 hari pemantauan SLA aktif"}</span>
                   </li>
                 </ul>
               </div>
 
               <Link href="/services/implementation-sprint" className="btn btn-primary" style={{ width: "100%" }}>
-                <span>Detail &amp; Daftar Sprint</span>
+                <span>{isEn ? "Sprint Details and Booking" : "Detail & Daftar Sprint"}</span>
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
@@ -146,7 +151,7 @@ export default async function PricingPage() {
               }}
             >
               <div style={{ display: "grid", gap: "var(--space-3)" }}>
-                <span className="eyebrow">Operasional Berkelanjutan</span>
+                <span className="eyebrow">{isEn ? "Ongoing Operations" : "Operasional Berkelanjutan"}</span>
                 <h2 style={{ fontSize: "var(--text-20)" }}>{t.pricing.careName}</h2>
                 <div style={{ fontSize: "var(--text-28)", fontWeight: 700 }}>{t.pricing.carePrice}</div>
                 <p className="muted" style={{ fontSize: "var(--text-14)" }}>{t.pricing.careBody}</p>
@@ -154,21 +159,21 @@ export default async function PricingPage() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "var(--space-2)", fontSize: "var(--text-14)" }}>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Pemantauan kesehatan &amp; kelancaran alur kerja</span>
+                    <span>{isEn ? "Workflow health and uptime monitoring" : "Pemantauan kesehatan & kelancaran alur kerja"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Penyelarasan kriteria &amp; optimasi berkala</span>
+                    <span>{isEn ? "Periodic rubric tuning and optimization" : "Penyelarasan kriteria & optimasi berkala"}</span>
                   </li>
                   <li style={{ display: "flex", gap: "var(--space-2)" }}>
                     <Check size={16} aria-hidden="true" style={{ color: "var(--color-success)" }} />
-                    <span>Laporan performa alur kerja &amp; pemantauan SLA bulanan</span>
+                    <span>{isEn ? "Monthly performance report and SLA review" : "Laporan performa alur kerja & pemantauan SLA bulanan"}</span>
                   </li>
                 </ul>
               </div>
 
               <Link href="/services/automation-audit" className="btn btn-secondary" style={{ width: "100%" }}>
-                <span>Konsultasi Retainer</span>
+                <span>{isEn ? "Discuss a Retainer" : "Konsultasi Retainer"}</span>
               </Link>
             </div>
           </div>
@@ -186,15 +191,15 @@ export default async function PricingPage() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
               <ShieldCheck size={18} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
-              <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>Komitmen Kerahasiaan &amp; Tata Kelola Enterprise</h3>
+              <h3 style={{ fontSize: "var(--text-16)", fontWeight: 700 }}>{isEn ? "Confidentiality and Enterprise Governance" : "Komitmen Kerahasiaan & Tata Kelola Enterprise"}</h3>
             </div>
             <p className="muted" style={{ fontSize: "var(--text-14)", maxWidth: "800px", lineHeight: 1.6 }}>
               {t.pricing.aiNote}
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", fontSize: "var(--text-12)", marginTop: "var(--space-2)" }}>
-              <span className="badge badge-accent">Non-Disclosure Agreement (NDA) Mengikat</span>
-              <span className="badge">100% Hak Milik Data Klien</span>
-              <span className="badge">Dukungan SLA Khusus</span>
+              <span className="badge badge-accent">{isEn ? "Binding Mutual NDA" : "Non-Disclosure Agreement (NDA) Mengikat"}</span>
+              <span className="badge">{isEn ? "You own 100% of your data" : "100% Hak Milik Data Klien"}</span>
+              <span className="badge">{isEn ? "Dedicated SLA support" : "Dukungan SLA Khusus"}</span>
             </div>
           </div>
         </div>

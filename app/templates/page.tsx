@@ -28,7 +28,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   const query = (q || "").trim().toLowerCase();
   const selectedCat = category || "all";

@@ -769,6 +769,11 @@ code,
   transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
 }
 
+.nav-pill a,
+.nav-pill button {
+  white-space: nowrap;
+}
+
 .nav-pill:hover {
   border-color: var(--color-border-strong);
 }

@@ -27,7 +27,7 @@ interface Props {
 type Step = "idle" | "trigger" | "agent" | "condition" | "approval" | "action" | "done";
 
 export function WorkflowCanvas({ dict, locale = "en" }: Props) {
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
   const [currentStep, setCurrentStep] = useState<Step>("approval");
   const [approved, setApproved] = useState(false);
   const [rejected, setRejected] = useState(false);

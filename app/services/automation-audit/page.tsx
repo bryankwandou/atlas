@@ -23,7 +23,7 @@ export default async function AutomationAuditPage() {
   const locale = await getLocale();
   const { t } = await getDict();
   const session = await getSession();
-  const isEn = locale === "en";
+  const isEn = locale !== "id";
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
