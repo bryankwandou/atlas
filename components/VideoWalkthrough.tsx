@@ -7,7 +7,6 @@ import {
   RotateCcw,
   Volume2,
   VolumeX,
-  Maximize2,
   CheckCircle2,
   ShieldCheck,
   Clock,
@@ -17,6 +16,12 @@ import {
   Activity,
   Send,
   Cpu,
+  Smartphone,
+  CheckCheck,
+  Lock,
+  ArrowRight,
+  Database,
+  FastForward,
 } from "lucide-react";
 import type { Locale } from "@/lib/i18n/locales";
 
@@ -27,10 +32,11 @@ interface Props {
 export function VideoWalkthrough({ locale = "en" }: Props) {
   const isEn = locale !== "id";
   const [isPlaying, setIsPlaying] = useState(true);
+  const [playbackSpeed, setPlaybackSpeed] = useState<1 | 1.5 | 2>(1);
   const [isMuted, setIsMuted] = useState(true);
   const [elapsed, setElapsed] = useState(0);
   const TOTAL = 80;
-  const starts = [0, 18, 35, 52, 68];
+  const starts = [0, 16, 32, 50, 66];
   const activeChapter = starts.reduce((acc, s, i) => (elapsed >= s ? i : acc), 0);
   const setActiveChapter = (i: number) => setElapsed(starts[i]);
   const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -38,55 +44,58 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
   useEffect(() => {
     if (!isPlaying) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setElapsed((e) => (e + 1 >= TOTAL ? 0 : e + 1)), 1000);
+    const intervalMs = Math.round(1000 / playbackSpeed);
+    const id = window.setInterval(() => {
+      setElapsed((e) => (e + 1 >= TOTAL ? 0 : e + 1));
+    }, intervalMs);
     return () => window.clearInterval(id);
-  }, [isPlaying]);
+  }, [isPlaying, playbackSpeed]);
 
   const chapters = [
     {
       time: "00:00",
-      title: isEn ? "Intake & Schema Validation" : "Intake & Validasi Skema",
-      desc: isEn
-        ? "Inbound lead payload captured from Meta Ads form and sanitized through strict schema gateways."
-        : "Payload lead masuk ditangkap dari form iklan Meta dan disanitasi via gerbang skema ketat.",
-      badge: isEn ? "Gateway Validated" : "Skema Terverifikasi",
       step: 1,
+      title: isEn ? "Intake & Schema Gateway" : "Intake & Gerbang Skema",
+      desc: isEn
+        ? "Inbound lead payload captured from Meta Ads webhook and sanitized through strict schema gateways in 142ms."
+        : "Payload prospek dari webhook iklan Meta disanitasi melalui gerbang skema ketat dalam 142ms.",
+      badge: isEn ? "Gateway Validated" : "Skema Terverifikasi",
     },
     {
-      time: "00:18",
+      time: "00:16",
+      step: 2,
       title: isEn ? "AI Rubric Fit Evaluation" : "Evaluasi Kriteria AI",
       desc: isEn
         ? "Deterministic scoring algorithm evaluates budget, urgency, and company size against business rules."
-        : "Algoritma skoring terarah mengevaluasi budget, urgensi, dan ukuran perusahaan sesuai aturan bisnis.",
+        : "Algoritma skoring terarah mengevaluasi anggaran, urgensi, dan profil perusahaan sesuai aturan bisnis.",
       badge: isEn ? "Fit Score: 85/100" : "Skor Kelayakan: 85/100",
-      step: 2,
     },
     {
-      time: "00:35",
+      time: "00:32",
+      step: 3,
       title: isEn ? "Human Review Drawer Gate" : "Gerbang Persetujuan Tim",
       desc: isEn
-        ? "Action pauses in the review console. Operator inspects AI-drafted WhatsApp message before dispatch."
-        : "Aksi tertahan di konsol review. Operator memeriksa draf pesan WhatsApp sebelum dikirim ke klien.",
+        ? "Outbound execution halts at the operator approval gate. Authorized team reviews AI-drafted reply before dispatch."
+        : "Eksekusi keluar berhenti di gerbang persetujuan. Tim memeriksa draf pesan AI sebelum diteruskan ke klien.",
       badge: isEn ? "Awaiting Operator Sign-off" : "Menunggu Izin Operator",
-      step: 3,
     },
     {
-      time: "00:52",
+      time: "00:50",
+      step: 4,
       title: isEn ? "Omnichannel Live Dispatch" : "Eksekusi Multi-Kanal",
       desc: isEn
-        ? "Approved response sent via WhatsApp Cloud API and lead stage updated synchronously in CRM."
-        : "Respon yang disetujui terkirim via WhatsApp Cloud API dan deal diperbarui langsung di CRM.",
+        ? "Approved response sent via official WhatsApp Cloud API and pipeline stage updated synchronously in HubSpot CRM."
+        : "Pesan yang disetujui terkirim melalui WhatsApp Cloud API resmi dan status diperbarui langsung di HubSpot CRM.",
       badge: isEn ? "WhatsApp & CRM Synced" : "WhatsApp & CRM Tersinkron",
-      step: 4,
     },
     {
-      time: "01:08",
+      time: "00:66",
+      step: 5,
       title: isEn ? "Immutable Event Ledger" : "Catatan Jejak Audit",
       desc: isEn
-        ? "Complete cryptographic audit record stored permanently for compliance, tracking latency and cost."
-        : "Catatan jejak audit lengkap disimpan permanen untuk kepatuhan, mencatat latensi dan biaya.",
-      badge: isEn ? "Audit Hash Verified" : "Hash Audit Terverifikasi",
-      step: 5,
+        ? "Cryptographic SHA-256 audit record stored permanently for regulatory compliance, latency, and cost accounting."
+        : "Catatan audit kriptografis SHA-256 disimpan permanen untuk kepatuhan hukum, latensi, dan transparansi biaya.",
+      badge: isEn ? "SHA-256 Committed" : "Audit Hash Terverifikasi",
     },
   ];
 
@@ -103,7 +112,7 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
         gap: 0,
       }}
     >
-      {/* Video Top Bar */}
+      {/* Video Player Top Chrome */}
       <div
         style={{
           display: "flex",
@@ -118,56 +127,59 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-            <span
-              style={{
-                width: "10px",
-                height: "10px",
-                borderRadius: "50%",
-                background: "var(--color-danger)",
-                display: "inline-block",
-              }}
-            />
-            <span
-              style={{
-                width: "10px",
-                height: "10px",
-                borderRadius: "50%",
-                background: "var(--color-warning)",
-                display: "inline-block",
-              }}
-            />
-            <span
-              style={{
-                width: "10px",
-                height: "10px",
-                borderRadius: "50%",
-                background: "var(--color-success)",
-                display: "inline-block",
-              }}
-            />
+            <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444", display: "inline-block" }} />
+            <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f59e0b", display: "inline-block" }} />
+            <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
           </div>
 
           <span style={{ fontSize: "var(--text-13)", fontWeight: 700, letterSpacing: "-0.01em" }}>
-            {isEn ? "Atlas Interactive Walkthrough & Product Tour" : "Tur Interaktif & Demonstrasi Produk Atlas"}
+            {isEn ? "Atlas Automated Workflow Engine Walkthrough" : "Tur Demonstrasi Mesin Alur Kerja Otomatis Atlas"}
+          </span>
+
+          <span
+            className="font-mono"
+            style={{
+              fontSize: "10px",
+              padding: "2px 8px",
+              borderRadius: "9999px",
+              background: "color-mix(in srgb, var(--color-success) 15%, transparent)",
+              color: "var(--color-success)",
+              border: "1px solid color-mix(in srgb, var(--color-success) 30%, transparent)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-success)" }} />
+            REC ● LIVE RUN
           </span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+          <button
+            type="button"
+            className="icon-btn"
+            style={{ fontSize: "11px", padding: "2px 8px", minHeight: "26px", borderRadius: "9999px" }}
+            onClick={() => setPlaybackSpeed(playbackSpeed === 1 ? 1.5 : playbackSpeed === 1.5 ? 2 : 1)}
+            title="Toggle playback speed"
+          >
+            {playbackSpeed}x
+          </button>
           <span className="badge badge-accent" style={{ fontSize: "11px" }}>
-            {isEn ? "Interactive simulation" : "Simulasi interaktif"}
+            {isEn ? "Automated Live Simulation" : "Simulasi Otomatis Berjalan"}
           </span>
-          <span className="badge" style={{ fontSize: "11px" }}>
+          <span className="badge" style={{ fontSize: "11px", fontFamily: "var(--font-mono)" }}>
             {fmt(elapsed)} / {fmt(TOTAL)}
           </span>
         </div>
       </div>
 
-      {/* Simulated Screen Playback Canvas */}
+      {/* Real-time Video Canvas Screen */}
       <div
         style={{
-          padding: "var(--space-6) var(--space-5)",
+          padding: "clamp(24px, 4vw, 40px) var(--space-5)",
           background: "radial-gradient(ellipse at center, var(--color-surface-2), var(--color-bg))",
-          minHeight: "320px",
+          minHeight: "380px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -175,10 +187,10 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
           position: "relative",
         }}
       >
-        {/* Dynamic Display Card */}
+        {/* Dynamic Interactive Stage Card */}
         <div
           style={{
-            maxWidth: "680px",
+            maxWidth: "760px",
             width: "100%",
             background: "var(--color-surface)",
             border: "1px solid var(--color-border-strong)",
@@ -187,18 +199,26 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
             boxShadow: "var(--shadow-raised)",
             display: "grid",
             gap: "var(--space-4)",
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Header row with step info & status */}
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "var(--space-2)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-              <span className="sprint-day-num">
+              <span className="sprint-day-num" style={{ minWidth: "80px", textAlign: "center" }}>
                 {isEn ? `Phase 0${chapters[activeChapter].step}` : `Tahap 0${chapters[activeChapter].step}`}
               </span>
-              <span style={{ fontWeight: 700, fontSize: "var(--text-16)" }}>
-                {chapters[activeChapter].title}
-              </span>
+              <div>
+                <span style={{ fontWeight: 800, fontSize: "var(--text-16)", display: "block" }}>
+                  {chapters[activeChapter].title}
+                </span>
+                <span className="muted" style={{ fontSize: "12px" }}>
+                  {isEn ? "Autonomous Pipeline Execution" : "Eksekusi Alur Kerja Terpandu"}
+                </span>
+              </div>
             </div>
-            <span className="badge badge-accent">
+            <span className="badge badge-accent" style={{ fontWeight: 700 }}>
               {chapters[activeChapter].badge}
             </span>
           </div>
@@ -207,54 +227,167 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
             {chapters[activeChapter].desc}
           </p>
 
-          {/* Interactive Simulation Frame */}
+          {/* Interactive Dynamic Display based on active chapter */}
           <div
             style={{
               background: "var(--color-surface-2)",
               border: "1px solid var(--color-border)",
               borderRadius: "var(--radius-sm)",
-              padding: "var(--space-3) var(--space-4)",
+              padding: "var(--space-4)",
               fontFamily: "var(--font-mono)",
               fontSize: "var(--text-12)",
               display: "grid",
-              gap: "var(--space-2)",
+              gap: "var(--space-3)",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-muted)" }}>
-              <span>PAYLOAD_INSPECTOR</span>
-              <span>STATE: {isPlaying ? "ACTIVE_EXECUTION" : "PAUSED"}</span>
-            </div>
-            <div style={{ color: "var(--color-text)", lineHeight: 1.4 }}>
-              {activeChapter === 0 && (
-                <code>
-                  [INBOUND_HTTP_POST] channel=&quot;meta_lead_ads&quot; lead_name=&quot;Sarah Jenkins&quot; budget=&quot;$15,000&quot; status=&quot;VALIDATED&quot;
-                </code>
-              )}
-              {activeChapter === 1 && (
-                <code>
-                  [AI_RUBRIC_EVALUATION] prompt_tier=&quot;deterministic&quot; intent_score=85 routing=&quot;HIGH_PRIORITY_REVIEW&quot; governance=&quot;AIRGAPPED&quot; pii_sanitized=true
-                </code>
-              )}
-              {activeChapter === 2 && (
-                <code>
-                  [APPROVAL_GATE_HELD] action_type=&quot;external_dispatch&quot; requires_human=true operator_review_drawer=&quot;OPEN&quot;
-                </code>
-              )}
-              {activeChapter === 3 && (
-                <code>
-                  [OMNICHANNEL_DISPATCH] whatsapp_status=&quot;SENT_200_OK&quot; crm_hubspot_stage=&quot;QUALIFIED_OPPORTUNITY&quot;
-                </code>
-              )}
-              {activeChapter === 4 && (
-                <code>
-                  [IMMUTABLE_LOG_COMMITTED] event_id=&quot;evt_lead_085&quot; sha256=&quot;e3b0c44298fc1c14...&quot; latency=482ms
-                </code>
-              )}
-            </div>
+            {/* Phase 01: Intake Webhook Payload */}
+            {activeChapter === 0 && (
+              <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-success)", fontWeight: 700 }}>
+                  <span>HTTP POST 200 OK · INBOUND_HOOK</span>
+                  <span>LATENCY: 142ms</span>
+                </div>
+                <div style={{ background: "var(--color-surface)", padding: "var(--space-3)", borderRadius: "4px", border: "1px solid var(--color-border)", color: "var(--color-text)", lineHeight: 1.5 }}>
+                  <div>&#123;</div>
+                  <div style={{ paddingLeft: "16px" }}>&quot;event&quot;: &quot;meta_lead_ads_inbound&quot;,</div>
+                  <div style={{ paddingLeft: "16px" }}>&quot;lead_name&quot;: &quot;Sarah Jenkins (Director of Ops)&quot;,</div>
+                  <div style={{ paddingLeft: "16px" }}>&quot;company&quot;: &quot;Apex Logistics Group&quot;,</div>
+                  <div style={{ paddingLeft: "16px" }}>&quot;monthly_budget&quot;: &quot;$25,000+&quot;,</div>
+                  <div style={{ paddingLeft: "16px" }}>&quot;schema_check&quot;: &quot;PASSED (0 injection vectors detected)&quot;</div>
+                  <div>&#125;</div>
+                </div>
+              </div>
+            )}
+
+            {/* Phase 02: AI Rubric Scoring */}
+            {activeChapter === 1 && (
+              <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-accent)", fontWeight: 700 }}>
+                  <span>RUBRIC_FIT_EVALUATOR · DETERMINISTIC AI</span>
+                  <span>SCORE: 85/100 (HIGH PRIORITY)</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "var(--space-2)" }}>
+                  <div style={{ background: "var(--color-surface)", padding: "8px 12px", borderRadius: "4px", border: "1px solid var(--color-border)" }}>
+                    <div className="muted" style={{ fontSize: "11px" }}>BUDGET FIT</div>
+                    <div style={{ fontWeight: 700, color: "var(--color-success)" }}>100% · $25k+ Validated</div>
+                  </div>
+                  <div style={{ background: "var(--color-surface)", padding: "8px 12px", borderRadius: "4px", border: "1px solid var(--color-border)" }}>
+                    <div className="muted" style={{ fontSize: "11px" }}>URGENCY LEVEL</div>
+                    <div style={{ fontWeight: 700, color: "var(--color-success)" }}>IMMEDIATE (&lt;5 Days)</div>
+                  </div>
+                  <div style={{ background: "var(--color-surface)", padding: "8px 12px", borderRadius: "4px", border: "1px solid var(--color-border)" }}>
+                    <div className="muted" style={{ fontSize: "11px" }}>ROUTING DESTINATION</div>
+                    <div style={{ fontWeight: 700, color: "var(--color-accent)" }}>Executive Review Queue</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Phase 03: Human Review Drawer Gate */}
+            {activeChapter === 2 && (
+              <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-warning)", fontWeight: 700 }}>
+                  <span>APPROVAL_GATE_HELD · ACTION PAUSED</span>
+                  <span>GATEKEEPER: OPERATOR REQUIRED</span>
+                </div>
+                <div style={{ background: "var(--color-surface)", padding: "var(--space-3)", borderRadius: "4px", border: "1px solid var(--color-warning)" }}>
+                  <div style={{ fontSize: "11px", color: "var(--color-warning)", fontWeight: 700, marginBottom: "4px" }}>
+                    PROPOSED OUTBOUND WHATSAPP DRAFT:
+                  </div>
+                  <div style={{ color: "var(--color-text)", fontStyle: "italic", lineHeight: 1.4, marginBottom: "8px" }}>
+                    &quot;Hi Sarah, thanks for inquiring about Atlas automation for Apex Logistics. We’ve matched your workflow to Blueprint #014. Shall we schedule your 30-min architecture review tomorrow at 2 PM?&quot;
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <span className="badge badge-accent" style={{ background: "var(--color-success)", color: "#fff", cursor: "pointer" }}>
+                      Approve & Dispatch
+                    </span>
+                    <span className="badge" style={{ cursor: "pointer" }}>
+                      Edit Draft
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Phase 04: Omnichannel Live Dispatch */}
+            {activeChapter === 3 && (
+              <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-success)", fontWeight: 700 }}>
+                  <span>DISPATCH_SUCCESS · 2-WAY SYNC</span>
+                  <span>WHATSAPP CLOUD API 200 OK</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)" }}>
+                  <div style={{ background: "var(--color-surface)", padding: "10px", borderRadius: "4px", border: "1px solid var(--color-border)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#22c55e", fontWeight: 700, fontSize: "11px", marginBottom: "4px" }}>
+                      <Smartphone size={12} /> WHATSAPP OUTBOUND
+                    </div>
+                    <div style={{ color: "var(--color-text)", fontSize: "11px" }}>Delivered & Read in 1.4s</div>
+                    <div style={{ color: "#3b82f6", display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", marginTop: "4px" }}>
+                      <CheckCheck size={12} /> Read receipt confirmed
+                    </div>
+                  </div>
+                  <div style={{ background: "var(--color-surface)", padding: "10px", borderRadius: "4px", border: "1px solid var(--color-border)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#f97316", fontWeight: 700, fontSize: "11px", marginBottom: "4px" }}>
+                      <Database size={12} /> HUBSPOT CRM SYNC
+                    </div>
+                    <div style={{ color: "var(--color-text)", fontSize: "11px" }}>Stage: Qualified Deal</div>
+                    <div style={{ color: "var(--color-success)", fontSize: "10px", marginTop: "4px" }}>
+                      Owner: Enterprise Sales Team
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Phase 05: Immutable Event Ledger */}
+            {activeChapter === 4 && (
+              <div style={{ display: "grid", gap: "var(--space-2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--color-accent)", fontWeight: 700 }}>
+                  <span>AUDIT_LEDGER_COMMITTED · ZERO LEAKS</span>
+                  <span>TAMPER_PROOF_HASH</span>
+                </div>
+                <div style={{ background: "var(--color-surface)", padding: "var(--space-3)", borderRadius: "4px", border: "1px solid var(--color-border)", color: "var(--color-text)" }}>
+                  <div>[BLOCK_ID] #run_00854_lead_triage</div>
+                  <div>[HASH] e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+                  <div>[SIGN_OFF] Operator @vincentius (ID: auth_usr_981)</div>
+                  <div style={{ color: "var(--color-success)", marginTop: "4px" }}>
+                    STATUS: 100% REGULATORY AUDIT COMPLIANT · SOC2 READY
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Video Overlay Control Bar */}
+        {/* Video Timeline Progress Scrubber Bar */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            height: "4px",
+            background: "var(--color-border)",
+            cursor: "pointer",
+          }}
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const pct = Math.max(0, Math.min(1, clickX / rect.width));
+            setElapsed(Math.round(pct * TOTAL));
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+              width: `${(elapsed / TOTAL) * 100}%`,
+              background: "var(--color-accent)",
+              transition: "width 200ms linear",
+            }}
+          />
+        </div>
+
+        {/* Overlay Floating Controls */}
         <div
           style={{
             position: "absolute",
@@ -262,11 +395,13 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
             display: "flex",
             alignItems: "center",
             gap: "var(--space-3)",
-            background: "rgba(0, 0, 0, 0.75)",
-            backdropFilter: "blur(8px)",
-            padding: "var(--space-2) var(--space-4)",
+            background: "rgba(0, 0, 0, 0.8)",
+            backdropFilter: "blur(12px)",
+            padding: "6px 16px",
             borderRadius: "var(--radius-full)",
             color: "#ffffff",
+            zIndex: 2,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
           }}
         >
           <button
@@ -284,7 +419,7 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
             className="icon-btn"
             style={{ color: "#ffffff", padding: "4px" }}
             aria-label="Restart walkthrough"
-            onClick={() => setActiveChapter(0)}
+            onClick={() => setElapsed(0)}
           >
             <RotateCcw size={14} aria-hidden="true" />
           </button>
@@ -309,7 +444,7 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))",
           borderTop: "1px solid var(--color-border)",
           background: "var(--color-surface-2)",
         }}
@@ -333,14 +468,15 @@ export function VideoWalkthrough({ locale = "en" }: Props) {
               transition: "background 140ms var(--ease)",
             }}
           >
-            <span style={{ fontSize: "10px", fontFamily: "var(--font-mono)", color: "var(--color-muted)" }}>
-              {ch.time}
+            <span style={{ fontSize: "10px", fontFamily: "var(--font-mono)", color: activeChapter === idx ? "var(--color-accent)" : "var(--color-muted)" }}>
+              {ch.time} · {isEn ? `Phase 0${ch.step}` : `Tahap 0${ch.step}`}
             </span>
             <span
               style={{
                 fontSize: "var(--text-12)",
-                fontWeight: activeChapter === idx ? 700 : 500,
+                fontWeight: activeChapter === idx ? 750 : 500,
                 color: activeChapter === idx ? "var(--color-accent)" : "var(--color-text)",
+                lineHeight: 1.3,
               }}
             >
               {ch.title}

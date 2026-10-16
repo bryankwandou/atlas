@@ -187,8 +187,8 @@ export default async function HomePage() {
                   className="font-display"
                   style={{
                     fontSize: "clamp(2.5rem, 5vw, 4.2rem)",
-                    lineHeight: 1.04,
-                    letterSpacing: "-0.04em",
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.015em",
                     fontWeight: 900,
                   }}
                 >
